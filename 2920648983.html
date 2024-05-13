@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文大部分内容翻译自：The Rust Programming Language 1. 新建Guessing Game项目12cargo new guessing_gamecd guessing_game  编辑Cargo为你创建的src&#x2F;main.rs： 123456789101112131415use std::io;fn main() &#123;    println!(&quot;Gue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust Guessing Game">
+<meta property="og:url" content="https://www.bazhizhua.top/2920648983.html">
+<meta property="og:site_name" content="八只爪">
+<meta property="og:description" content="本文大部分内容翻译自：The Rust Programming Language 1. 新建Guessing Game项目12cargo new guessing_gamecd guessing_game  编辑Cargo为你创建的src&#x2F;main.rs： 123456789101112131415use std::io;fn main() &#123;    println!(&quot;Gue">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0004-%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0005-%E8%BF%90%E8%A1%8Cguess%20game.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0006-%E8%BF%90%E8%A1%8Ccmp.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0007-%E8%A7%A3%E5%86%B3%E9%94%99%E8%AF%AF%E5%90%8E%E7%9A%84%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0008-%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E7%8C%9C%E6%95%B0.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0009-%E7%8C%9C%E6%95%B0%E6%88%90%E5%8A%9F%E5%90%8E%E9%80%80%E5%87%BA.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0010-%E6%B7%BB%E5%8A%A0%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png">
+<meta property="article:published_time" content="2022-07-25T16:02:32.000Z">
+<meta property="article:modified_time" content="2024-05-13T01:59:52.433Z">
+<meta property="article:author" content="八只爪">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/Rust-Guessing-Game/0004-%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A.png">
+
+
+<link rel="canonical" href="https://www.bazhizhua.top/2920648983.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/2920648983.html","path":"2920648983.html","title":"Rust Guessing Game"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Rust Guessing Game | 八只爪</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">八只爪</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%96%B0%E5%BB%BAGuessing-Game%E9%A1%B9%E7%9B%AE"><span class="nav-text">1. 新建Guessing Game项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-text">2. 代码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-use-std-io"><span class="nav-text">2.1. use std::io</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-fn"><span class="nav-text">2.2. fn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-println-macro"><span class="nav-text">2.3. println! macro</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%8F%98%E9%87%8F"><span class="nav-text">2.3. 变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E7%9A%84%E8%BE%93%E5%85%A5"><span class="nav-text">2.4. 获取用户的输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E5%A4%84%E7%90%86%E6%BD%9C%E5%9C%A8%E7%9A%84Failure"><span class="nav-text">2.5. 处理潜在的Failure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E4%BD%BF%E7%94%A8println-%E7%9A%84%E5%8D%A0%E4%BD%8D%E7%AC%A6%E6%89%93%E5%8D%B0"><span class="nav-text">2.6. 使用println!的占位符打印</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E8%BF%90%E8%A1%8C%E4%BB%A3%E7%A0%81"><span class="nav-text">2.7. 运行代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%B7%BB%E5%8A%A0%E5%8A%9F%E8%83%BD%EF%BC%9A%E7%94%9F%E6%88%90Secret-Number"><span class="nav-text">3. 添加功能：生成Secret Number</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E4%BD%BF%E7%94%A8Crate%E8%8E%B7%E5%8F%96%E6%9B%B4%E5%A4%9A%E5%8A%9F%E8%83%BD"><span class="nav-text">3.1. 使用Crate获取更多功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="nav-text">3.2. 生成随机数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%B7%BB%E5%8A%A0%E5%8A%9F%E8%83%BD%EF%BC%9A%E5%B0%86Guess%E4%B8%8ESecret-Number%E6%AF%94%E8%BE%83"><span class="nav-text">4. 添加功能：将Guess与Secret Number比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-cmp%E5%92%8COrdering"><span class="nav-text">4.1. cmp和Ordering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E2%80%9Cmismatched-types%E2%80%9D"><span class="nav-text">4.2. “mismatched types”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%B7%BB%E5%8A%A0%E5%8A%9F%E8%83%BD%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%9D%A5%E5%85%81%E8%AE%B8%E5%A4%9A%E8%BD%AE%E7%8C%9C%E6%95%B0"><span class="nav-text">5. 添加功能：使用循环来允许多轮猜数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-loop%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">5.1. loop关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E7%8C%9C%E6%95%B0%E6%88%90%E5%8A%9F%E5%90%8E%E9%80%80%E5%87%BA"><span class="nav-text">5.2. 猜数成功后退出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%B7%BB%E5%8A%A0%E5%8A%9F%E8%83%BD%EF%BC%9A%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%88%E6%B3%95%E7%9A%84%E8%BE%93%E5%85%A5"><span class="nav-text">6. 添加功能：处理不合法的输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E4%B8%8D%E5%86%8D%E6%89%93%E5%8D%B0Secret-Number"><span class="nav-text">7. 不再打印Secret Number</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="八只爪"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">八只爪</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/2920648983.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="八只爪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="八只爪">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Rust Guessing Game | 八只爪">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust Guessing Game
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-25 12:02:32" itemprop="dateCreated datePublished" datetime="2022-07-25T12:02:32-04:00">2022-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:59:52" itemprop="dateModified" datetime="2024-05-12T21:59:52-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">语言</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文大部分内容翻译自：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/stable/book/">The Rust Programming Language</a></strong></p>
+<h2 id="1-新建Guessing-Game项目"><a href="#1-新建Guessing-Game项目" class="headerlink" title="1. 新建Guessing Game项目"></a>1. 新建Guessing Game项目</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cargo new guessing_game</span><br><span class="line"><span class="built_in">cd</span> guessing_game</span><br></pre></td></tr></table></figure>
+
+<p>编辑Cargo为你创建的<code>src/main.rs</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">        .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">        .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-代码解析"><a href="#2-代码解析" class="headerlink" title="2. 代码解析"></a>2. 代码解析</h2><h3 id="2-1-use-std-io"><a href="#2-1-use-std-io" class="headerlink" title="2.1. use std::io"></a>2.1. use std::io</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::io;</span><br></pre></td></tr></table></figure>
+<p>为了得到用户的输入，然后将结果打印出来作为输出，我们需要将<code>io</code>这个输入&#x2F;输出库纳入作用域。<code>io</code>库来自一个名为<code>std</code>的标准库。Rust在它的标准库中附带了很多东西，如果必须手动导入所有需要的东西，那会非常冗长，但导入很多程序不会使用的东西也是不好的，所以需要取一个平衡。  </p>
+<p><code>prelude</code>是Rust自动导入每个Rust程序的内容列表，它尽可能地小，并且专注于几乎在每个Rust程序中都要使用的东西，尤其是traits。  </p>
+<p>如果你想要用的类型不在<code>prelude</code>中，就需要使用<code>use</code>语句将它明确地纳入程序的作用域。<code>std::io</code>库提供了很多有用的功能，包括接收用户输入的能力。  </p>
+<h3 id="2-2-fn"><a href="#2-2-fn" class="headerlink" title="2.2. fn"></a>2.2. fn</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>fn</code>语法声明了一个函数</li>
+<li>括号<code>()</code>中的内容为空，表示函数没有参数</li>
+<li>花括号<code>&#123;</code>是函数体的起点</li>
+</ul>
+<h3 id="2-3-println-macro"><a href="#2-3-println-macro" class="headerlink" title="2.3. println! macro"></a>2.3. <code>println!</code> macro</h3><p><code>println!</code>是一个macro（宏），用于向屏幕打印字符串。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这段代码打印出一个提示，告诉用户这个游戏是什么，并请求用户输入内容。</p>
+<h3 id="2-3-变量"><a href="#2-3-变量" class="headerlink" title="2.3. 变量"></a>2.3. 变量</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br></pre></td></tr></table></figure>
+<p>这段代码创建了一个变量，用于存储用户的输入。对比下面创建变量的语句：  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">apples</span> = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<p>这段代码创建了一个名为<code>apples</code>的变量，并将数值<code>5</code>与它绑定。在Rust中，<strong>变量默认是不可变的（immutable），这意味着一旦我们给变量赋值，这个值就不会再改变</strong>。</p>
+<p>想要创建一个可变的变量，需要在变量名前面加<code>mut</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">apples</span> = <span class="number">5</span>; <span class="comment">//immutable</span></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">bananas</span> = <span class="number">5</span>; <span class="comment">// mutable</span></span><br></pre></td></tr></table></figure>
+
+<p>回到guess game程序，<code>let mut guess</code>引入了一个可变的变量，名为<code>guess</code>。等号<code>=</code>告诉Rust，我们现在想把一个值跟这个变量绑定。<code>=</code>后面的值就是变量<code>guess</code>绑定的值，是调用<code>String::new</code>的结果。</p>
+<p><code>String::new</code>是一个返回<code>String</code>类型的新实例的函数。<code>String</code>是一个字符串类型，由标准库提供，可变长，用<code>UTF-8</code>编码。</p>
+<p><code>::</code>语法表示<code>new</code>是一个与<code>String</code>类型相关联（associated）的函数，这里，<code>new</code>函数创建了一个新的、空的字符串。很多类型都有<code>new</code>函数，因为这是一个创建某一类型新实例的常用名称。</p>
+<p>总结来说，<code>let mut guess = String::new();</code>创建了一个可变的变量<code>guess</code>，绑定到了一个新的、空的<code>String</code>类型的实例。</p>
+<h3 id="2-4-获取用户的输入"><a href="#2-4-获取用户的输入" class="headerlink" title="2.4. 获取用户的输入"></a>2.4. 获取用户的输入</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">    .<span class="title function_ invoke__">readline</span>(&amp;<span class="keyword">mut</span> guess)</span><br></pre></td></tr></table></figure>
+<p><code>use std::io</code>提供了输入输出功能，上面的代码调用了<code>io</code>模块的<code>stdin</code>函数，这个函数允许我们处理用户的输入。  </p>
+<p>如果在程序开始没有导入<code>io</code>库，这里可以通过<code>std::io::stdin</code>来调用这个函数。<code>stdin</code>函数返回一个<code>std::io::Stdin</code>类型的实例，是一种表示终端标准输入的句柄（handle）的类型。</p>
+<p><code>.read_line(&amp;mut guess)</code>调用了标准输入句柄的<code>read_line</code>函数来获取用户的输入。我们将<code>&amp;mut guess</code>作为参数传入<code>read_line</code>函数，告诉它要将用户的输入存储到什么字符串里。<code>read_line</code>函数的作用是从标准输入中将用户输入的所有内容拿过来，然后添加到字符串后面（不会覆盖字符串中原有的内容）。我们传入的字符串变量需要是可变的，这样<code>read_line</code>函数才能修改字符串中的内容。  </p>
+<p><code>&amp;</code>表示传入的参数是一个引用（reference）。引用能够让代码中多个地方去访问同一块数据，但不需要将那块数据多次复制到内存中。与变量类似，<strong>默认情况下引用也是不可变的</strong>，因此需要写<code>&amp;mut guess</code>而不是<code>&amp;guess</code>，这样才能让引用时可变的。</p>
+<h3 id="2-5-处理潜在的Failure"><a href="#2-5-处理潜在的Failure" class="headerlink" title="2.5. 处理潜在的Failure"></a>2.5. 处理潜在的Failure</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><code>read_line</code>函数除了将用户输入的内容存储到我们传入的字符串之外，还会返回一个<code>Result</code>类型的值。<code>Result</code>是枚举类型（enum），是一种拥有多种可能状态的类型，每一种可能的状态称为成员（variant）。  </p>
+<p><code>Result</code>类型的作用是对错误处理信息（error-handling message）进行编码，它的成员是<code>Ok</code>和<code>Err</code>。</p>
+<ul>
+<li><code>Ok</code>：表示操作成功，其内存放成功生成的值</li>
+<li><code>Err</code>：表示操作失败，其内存放操作失败的原因</li>
+</ul>
+<p><code>Result</code>类型定义了<code>expect</code>函数，所以可以在<code>Result</code>类型的实例上调用<code>expect</code>。如果<code>Result</code>的实例是<code>Err</code>，<code>expect</code>函数会导致程序崩溃，并显示你向<code>expect</code>传入的参数中的信息；如果<code>Result</code>的实例是<code>Ok</code>，<code>expect</code>会将<code>Ok</code>中存放的值取过来返回给你的程序，让你可以使用这个返回值。在本程序中，返回的值是用户输入的字节数。  </p>
+<p>如果不调用<code>expect</code>函数，程序依然可以编译，但会显示警告（warning）：<br><img src="/../imgs/Rust-Guessing-Game/0004-%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A.png" alt="不调用expect显示警告">  </p>
+<p>Rust发出警告，说你没有使用<code>read_line</code>函数返回的<code>Result</code>值，即，程序没有处理可能产生的错误。</p>
+<h3 id="2-6-使用println-的占位符打印"><a href="#2-6-使用println-的占位符打印" class="headerlink" title="2.6. 使用println!的占位符打印"></a>2.6. 使用println!的占位符打印</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这段代码打印出包含用户输入的字符串，花括号<code>&#123;&#125;</code>是占位符，第1对花括号保存格式字符串后面的第1个值，第2对花括号保存格式字符串后面的第2个值，以此类推。在一个<code>println!</code>语句中打印多个值，可以这样做：  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span> = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125; and y = &#123;&#125;&quot;</span>, x, y);</span><br></pre></td></tr></table></figure>
+<p>这段代码会打印出：<code>x = 5 and y = 10</code>。</p>
+<h3 id="2-7-运行代码"><a href="#2-7-运行代码" class="headerlink" title="2.7. 运行代码"></a>2.7. 运行代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo run</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/../imgs/Rust-Guessing-Game/0005-%E8%BF%90%E8%A1%8Cguess%20game.png" alt="运行guess game">  </p>
+<h2 id="3-添加功能：生成Secret-Number"><a href="#3-添加功能：生成Secret-Number" class="headerlink" title="3. 添加功能：生成Secret Number"></a>3. 添加功能：生成Secret Number</h2><p>下面，我们要生成一个secret number让用户来猜，这个secret number每次都会变化。目前，Rust的标准库没有提供随机数功能，但名为<code>rand</code>的crate提供了该功能。</p>
+<h3 id="3-1-使用Crate获取更多功能"><a href="#3-1-使用Crate获取更多功能" class="headerlink" title="3.1. 使用Crate获取更多功能"></a>3.1. 使用Crate获取更多功能</h3><p>Crate是许多Rust源文件的集合，guessing game这个工程是一个可执行文件，即binary crate；<code>rand</code> crate是一个library crate，包含可被其它程序使用的代码，但它自己是不能运行的。  </p>
+<p>在将<code>rand</code>使用到代码中之前，我们需要修改<code>Cargo.toml</code>文件，把<code>rand</code> crate作为依赖引入工程。  </p>
+<p>打开<code>Cargo.toml</code>，将下面一行代码添加到<code>[dependencies]</code>下面：  </p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">rand</span> = <span class="string">&quot;0.8.3&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意要使用一模一样的名称<code>rand</code>和版本号<code>0.8.3</code>，否则代码样例有可能出问题。  </p>
+<p>Cargo能够识别Semantic Versioning（一个写版本号的标准），<code>0.8.3</code>是<code>^0.8.3</code>的缩写，表示版本号至少是<code>0.8.3</code>，但低于<code>0.9.0</code>。</p>
+<p>下面，使用<code>cargo build</code>重新构建项目。</p>
+<h3 id="3-2-生成随机数"><a href="#3-2-生成随机数" class="headerlink" title="3.2. 生成随机数"></a>3.2. 生成随机数</h3><p>修改<code>main.rs</code>为如下内容：  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">secret_number</span> = rand::<span class="title function_ invoke__">thread_rng</span>().<span class="title function_ invoke__">gen_range</span>(<span class="number">1</span>..=<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The secret number is: &#123;secret_number&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">        .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">        .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先，我们添加<code>use rand::Rng</code>。<code>Rng</code>是一个trait，定义了随机数生成器实现的方法（methods）。</p>
+<hr>
+<p><strong>trait</strong><br>trait告诉Rust编译器某个特定类型拥有可能与其他类型共享的功能，可以通过trait以一种抽象的方式定义共享行为，类似于其他语言中的接口（interface）功能，但有一些不同。  </p>
+<p>trait可以被类型继承，它只能由3部分组成：</p>
+<ul>
+<li>functions（方法）</li>
+<li>types（类型）</li>
+<li>constants（常量）</li>
+</ul>
+<p>所有trait都定义了一个隐含类型<code>Self</code>，指向实现了该trait的类型，类型需要通过独立的implementations去实现不同的trait。  </p>
+<p>trait中可以提供与它关联的条目（类型别名的实际类型、函数的函数体、常数的值表达式）的实际定义，但不是必须的。</p>
+<ul>
+<li>如果trait提供了定义，该定义即为任何实现它的类型的默认行为（如果对应类型没有override的话）；</li>
+<li>如果trait未提供定义，任何实现它的类型都必须提供一个定义。</li>
+</ul>
+<hr>
+<p><code>rand::thread_rng</code>函数提供了可用的特定随机数生成器，它是一个当前执行线程的本地生成器，由操作系统提供种子（seed）。</p>
+<p>然后我们在随机数生成器上调用<code>gen_range</code>方法（method），这个方法由 <code>Rng</code> trait定义，我们使用<code>use rand::Rng</code>语句将它引入程序的作用域。</p>
+<p><code>gen_range</code>方法将范围表达式（range expression）作为参数来生成该范围内的随机数。这里使用的范围表达式的格式是<code>start..=end</code>，取左右边界闭区间，所以我们需要将它写成<code>1..=100</code>来请求生成一个1~100之间的随机数。</p>
+<p>使用<code>cargo run</code>来运行程序。  </p>
+<h2 id="4-添加功能：将Guess与Secret-Number比较"><a href="#4-添加功能：将Guess与Secret-Number比较" class="headerlink" title="4. 添加功能：将Guess与Secret Number比较"></a>4. 添加功能：将Guess与Secret Number比较</h2><h3 id="4-1-cmp和Ordering"><a href="#4-1-cmp和Ordering" class="headerlink" title="4.1. cmp和Ordering"></a>4.1. <code>cmp</code>和<code>Ordering</code></h3><p>将<code>main.rs</code>修改为：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"><span class="keyword">use</span> std::cmp::Ordering;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">secret_number</span> = rand::<span class="title function_ invoke__">thread_rng</span>().<span class="title function_ invoke__">gen_range</span>(<span class="number">1</span>..=<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The secret number is: &#123;secret_number&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">        .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">        .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> guess.<span class="title function_ invoke__">cmp</span>(&amp;secret_number) &#123;</span><br><span class="line">        Ordering::Less =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too small!&quot;</span>),</span><br><span class="line">        Ordering::Greater =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too big!&quot;</span>),</span><br><span class="line">        Ordering::Equal =&gt; <span class="built_in">println!</span>(<span class="string">&quot;You win!&quot;</span>),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先，我们添加了另一个<code>use</code>语句，将<code>std::cmp::Ordering</code>这个类型从标准库纳入程序的作用域。<code>Ordering</code>类型是一个<code>enum</code>，有3个成员：  </p>
+<ul>
+<li>Less</li>
+<li>Greater</li>
+<li>Equal</li>
+</ul>
+<p>这3种结果是在比较两个值之后可能得到的结果，然后我们添加了几行使用<code>Ordering</code>类型的代码。  </p>
+<p><code>cmp</code>方法比较两个值，可以被用在任何可比较的类型上。它会获取一个待比较的值的引用，这里是将<code>guess</code>与<code>secret_number</code>比较，然后返回一个<code>Ordering</code>枚举类型的成员。  </p>
+<p>我们使用<code>match</code>表达式和返回的<code>Ordering</code>的成员来决定如何处理结果。<code>match</code>表达式由<code>arms</code>组成，一个<code>arm</code>由下面几部分组成：</p>
+<ul>
+<li>一个用于匹配的pattern</li>
+<li>如果匹配成功，要执行的代码</li>
+</ul>
+<p><code>match</code>会将<code>Ordering</code>返回的结果依次与<code>arms</code>的pattern进行匹配，第1个匹配不成功就继续匹配下一个<code>arm</code>，若匹配成功则立刻执行该<code>arm</code>后的代码，不会再往下比较。  </p>
+<h3 id="4-2-“mismatched-types”"><a href="#4-2-“mismatched-types”" class="headerlink" title="4.2. “mismatched types”"></a>4.2. “mismatched types”</h3><p>但如果执行<code>cargo build</code>，会发现有编译错误：<br><img src="/../imgs/Rust-Guessing-Game/0006-%E8%BF%90%E8%A1%8Ccmp.png" alt="比较guess与secret number的结果"></p>
+<p>显示的错误原因是“mismatched types”，Rust不能将一个字符串跟一个数字进行比较。</p>
+<p>Rust会做类型推断。当我们写<code>let mut guess = String::new()</code>的时候，Rust能够推断出<code>guess</code>应该是一个<code>String</code>类型，而<code>secret_number</code>是一个数字类型。</p>
+<hr>
+<p><strong>Rust的一些数字类型：</strong></p>
+<ul>
+<li><code>i32</code>：32-bit数字</li>
+<li><code>u32</code>：无符号32-bit数字</li>
+<li><code>i64</code>：64-bit数字</li>
+</ul>
+<p>等等。</p>
+<hr>
+<p>除非具体说明，Rust默认的数字类型是<code>i32</code>，也正是这里<code>secret_number</code>的类型。  </p>
+<p>我们需要将<code>String</code>类型的<code>guess</code>转换成数字类型才能将它与<code>secret_number</code>比较：  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"><span class="keyword">use</span> std::cmp::Ordering;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">secret_number</span> = rand::<span class="title function_ invoke__">thread_rng</span>().<span class="title function_ invoke__">gen_range</span>(<span class="number">1</span>..=<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The secret number is: &#123;secret_number&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">        .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">        .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">guess</span>: <span class="type">u32</span> = guess.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">parse</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Please type a number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> guess.<span class="title function_ invoke__">cmp</span>(&amp;secret_number) &#123;</span><br><span class="line">        Ordering::Less =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too small!&quot;</span>),</span><br><span class="line">        Ordering::Greater =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too big!&quot;</span>),</span><br><span class="line">        Ordering::Equal =&gt; <span class="built_in">println!</span>(<span class="string">&quot;You win!&quot;</span>),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加的一行代码是：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">guess</span>: <span class="type">u32</span> = guess.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">parse</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Please type a number!&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>shadowing<br>  我们新建了一个变量<code>guess</code>，Rust允许我们用新的<code>guess</code>值来屏蔽（shadow）之前的旧值。Shadowing让我们可以重用<code>guess</code>变量，不需要去创建两个不同的变量（比如<code>guess_str</code>和<code>guess</code>）。<strong>这个特点在我们想把一个值从一种类型转换成另一种类型时经常用到</strong>。  </li>
+<li>trim<br>  新变量<code>guess</code>被绑定到了表达式<code>guess.trim().parse()</code>上。<code>guess.trim().parse()</code>中的<code>guess</code>指的是原先的<code>guess</code>变量，作为字符串来接收用户的输入。<code>trim</code>方法会将一个<code>String</code>类型的实例去掉首尾的whitespaces。想要将一个字符串转换成<code>u32</code>，这是必须要做的，因为被转换的字符串中只能有数字。</li>
+<li>parse  <ul>
+<li>字符串的<code>parse</code>方法将字符串转换成其它类型。这里，我们用<code>parse</code>将字符串转换成数字。  </li>
+<li><code>let guess: u32</code>告诉Rust我们想要转换成的类型是什么，<code>:</code>告诉Rust我们将在后面注明这个类型。这里我们使用的是无符号32-bit整数，即<code>u32</code>。将<code>u32</code>类型的数字与另一个数字<code>secret_number</code>作比较，会让Rust推断<code>secret_number</code>应该也是<code>u32</code>类型的。所以现在，comparison会发生在两个有同样类型的变量之间。  </li>
+<li>返回<code>Result</code>类型：由于被转换的字符串中可能含有非数字，就会造成错误，因此<code>parse</code>会返回<code>Result</code>类型。我们同样使用<code>expect</code>方法来处理这个<code>Result</code>类型的返回值。<ul>
+<li>如果<code>parse</code>返回的是<code>Err</code>，<code>expect</code>就会使程序崩溃，并打印出我们传入<code>expect</code>的信息；</li>
+<li>如果<code>parse</code>返回的是<code>Ok</code>，<code>expect</code>会从<code>Ok</code>中返回我们想要的数字。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>运行程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo run</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br><img src="/../imgs/Rust-Guessing-Game/0007-%E8%A7%A3%E5%86%B3%E9%94%99%E8%AF%AF%E5%90%8E%E7%9A%84%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="解决“mismatched types”错误之后的运行结果"></p>
+<h2 id="5-添加功能：使用循环来允许多轮猜数"><a href="#5-添加功能：使用循环来允许多轮猜数" class="headerlink" title="5. 添加功能：使用循环来允许多轮猜数"></a>5. 添加功能：使用循环来允许多轮猜数</h2><h3 id="5-1-loop关键字"><a href="#5-1-loop关键字" class="headerlink" title="5.1. loop关键字"></a>5.1. <code>loop</code>关键字</h3><p>将<code>main.rs</code>改为如下代码：  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"><span class="keyword">use</span> std::cmp::Ordering;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">secret_number</span> = rand::<span class="title function_ invoke__">thread_rng</span>().<span class="title function_ invoke__">gen_range</span>(<span class="number">1</span>..=<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The secret number is: &#123;secret_number&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">        io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">            .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">            .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">guess</span>: <span class="type">u32</span> = guess.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">parse</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Please type a number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">match</span> guess.<span class="title function_ invoke__">cmp</span>(&amp;secret_number) &#123;</span><br><span class="line">            Ordering::Less =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too small!&quot;</span>),</span><br><span class="line">            Ordering::Greater =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too big!&quot;</span>),</span><br><span class="line">            Ordering::Equal =&gt; <span class="built_in">println!</span>(<span class="string">&quot;You win!&quot;</span>),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>loop</code>关键字创建了一个无限循环。用户可以不停地猜数，只有通过<code>ctrl + c</code>才能退出程序，或者通过输入一个非数字，造成程序崩溃，进而退出程序。<br><img src="/../imgs/Rust-Guessing-Game/0008-%E6%97%A0%E9%99%90%E5%BE%AA%E7%8E%AF%E7%8C%9C%E6%95%B0.png" alt="无限循环猜数">  </p>
+<h3 id="5-2-猜数成功后退出"><a href="#5-2-猜数成功后退出" class="headerlink" title="5.2. 猜数成功后退出"></a>5.2. 猜数成功后退出</h3><p>使用下面代码，在用户成功猜数后退出程序：  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"><span class="keyword">use</span> std::cmp::Ordering;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">secret_number</span> = rand::<span class="title function_ invoke__">thread_rng</span>().<span class="title function_ invoke__">gen_range</span>(<span class="number">1</span>..=<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The secret number is: &#123;secret_number&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">        io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">            .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">            .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">guess</span>: <span class="type">u32</span> = guess.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">parse</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Please type a number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">match</span> guess.<span class="title function_ invoke__">cmp</span>(&amp;secret_number) &#123;</span><br><span class="line">            Ordering::Less =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too small!&quot;</span>),</span><br><span class="line">            Ordering::Greater =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too big!&quot;</span>),</span><br><span class="line">            Ordering::Equal =&gt; &#123;</span><br><span class="line">                <span class="built_in">println!</span>(<span class="string">&quot;You win!&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">在打印出“You win!”之后，添加`<span class="keyword">break</span>`，可以让程序跳出循环。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/../imgs/Rust-Guessing-Game/0009-%E7%8C%9C%E6%95%B0%E6%88%90%E5%8A%9F%E5%90%8E%E9%80%80%E5%87%BA.png" alt="猜数成功后退出">  </p>
+<h2 id="6-添加功能：处理不合法的输入"><a href="#6-添加功能：处理不合法的输入" class="headerlink" title="6. 添加功能：处理不合法的输入"></a>6. 添加功能：处理不合法的输入</h2><p>当用户输入非数字的字符时，忽略这个输入，让用户继续猜数，而不是崩掉程序：  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"><span class="keyword">use</span> std::cmp::Ordering;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">secret_number</span> = rand::<span class="title function_ invoke__">thread_rng</span>().<span class="title function_ invoke__">gen_range</span>(<span class="number">1</span>..=<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The secret number is: &#123;secret_number&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">        io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">            .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">            .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">guess</span>: <span class="type">u32</span> = <span class="keyword">match</span> guess.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">parse</span>() &#123;</span><br><span class="line">            <span class="title function_ invoke__">Ok</span>(num) =&gt; num,</span><br><span class="line">            <span class="title function_ invoke__">Err</span>(_) =&gt; <span class="keyword">continue</span>,</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">match</span> guess.<span class="title function_ invoke__">cmp</span>(&amp;secret_number) &#123;</span><br><span class="line">            Ordering::Less =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too small!&quot;</span>),</span><br><span class="line">            Ordering::Greater =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too big!&quot;</span>),</span><br><span class="line">            Ordering::Equal =&gt; &#123;</span><br><span class="line">                <span class="built_in">println!</span>(<span class="string">&quot;You win!&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里，我们从调用<code>expect</code>方法变为使用<code>match</code>表达式来处理<code>parse</code>的结果：</p>
+<ul>
+<li>如果<code>parse</code>转换成功，会返回含有转换结果的<code>Ok</code>，我们将<code>Ok</code>中的转换结果返回给<code>guess</code>；</li>
+<li>如果<code>parse</code>转换失败，会返回<code>Err</code>，其中的下划线<code>_</code>意思是“catchall”，即匹配所有<code>Err</code>值，不论其中包含的错误原因是什么。进而后面的<code>continue</code>会被执行，告诉程序继续下一轮循环。</li>
+</ul>
+<p>执行结果：<br><img src="/../imgs/Rust-Guessing-Game/0010-%E6%B7%BB%E5%8A%A0%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.png" alt="添加错误处理">  </p>
+<h2 id="7-不再打印Secret-Number"><a href="#7-不再打印Secret-Number" class="headerlink" title="7. 不再打印Secret Number"></a>7. 不再打印Secret Number</h2><p>目前程序会将Secret Number打印出来，将该行<code>println!</code>去掉，我们的Guessing Game就完成了！  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> rand::Rng;</span><br><span class="line"><span class="keyword">use</span> std::cmp::Ordering;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Guess the number!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">secret_number</span> = rand::<span class="title function_ invoke__">thread_rng</span>().<span class="title function_ invoke__">gen_range</span>(<span class="number">1</span>..=<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Please input your guess.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">guess</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">        io::<span class="title function_ invoke__">stdin</span>()</span><br><span class="line">            .<span class="title function_ invoke__">read_line</span>(&amp;<span class="keyword">mut</span> guess)</span><br><span class="line">            .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to read line&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">guess</span>: <span class="type">u32</span> = <span class="keyword">match</span> guess.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">parse</span>() &#123;</span><br><span class="line">            <span class="title function_ invoke__">Ok</span>(num) =&gt; num,</span><br><span class="line">            <span class="title function_ invoke__">Err</span>(_) =&gt; <span class="keyword">continue</span>,</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;You guessed: &#123;guess&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">match</span> guess.<span class="title function_ invoke__">cmp</span>(&amp;secret_number) &#123;</span><br><span class="line">            Ordering::Less =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too small!&quot;</span>),</span><br><span class="line">            Ordering::Greater =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Too big!&quot;</span>),</span><br><span class="line">            Ordering::Equal =&gt; &#123;</span><br><span class="line">                <span class="built_in">println!</span>(<span class="string">&quot;You win!&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] The Rust Programming Language：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/stable/book/ch02-00-guessing-game-tutorial.html">https://doc.rust-lang.org/stable/book/ch02-00-guessing-game-tutorial.html</a><br>[2] Module std::prelude： <a target="_blank" rel="noopener" href="https://rust.ffactory.org/std/prelude/index.html">https://rust.ffactory.org/std/prelude/index.html</a><br>[3] Rust 程序设计语言 简体中文版：<a target="_blank" rel="noopener" href="https://kaisery.github.io/trpl-zh-cn/ch10-02-traits.html">https://kaisery.github.io/trpl-zh-cn/ch10-02-traits.html</a><br>[4] Rust：Trait：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/127365605">https://zhuanlan.zhihu.com/p/127365605</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/923412339.html" rel="prev" title="Cargo">
+                  <i class="fa fa-angle-left"></i> Cargo
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2475550491.html" rel="next" title="通用编程概念">
+                  通用编程概念 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">八只爪</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

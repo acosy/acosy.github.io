@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文不含原创，只是知识的搬运工。 1 WebAssembly起源1.1. What is WebAssembly?来源：https:&#x2F;&#x2F;webassembly.org&#x2F;WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebAssembly资料">
+<meta property="og:url" content="https://www.bazhizhua.top/1659502486.html">
+<meta property="og:site_name" content="八只爪">
+<meta property="og:description" content="本文不含原创，只是知识的搬运工。 1 WebAssembly起源1.1. What is WebAssembly?来源：https:&#x2F;&#x2F;webassembly.org&#x2F;WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/001-WebAssembly%E4%BE%8B%E5%AD%90.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/002-ChakraCore%E5%BC%95%E6%93%8E%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/003-Measured%20on%20Windows.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/004-Fibonacci%E5%87%BD%E6%95%B0%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%EF%BC%9AWebAssembly%20vs%20JavaScript.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/005-WebAssembly%E4%B8%8EJavaScript%E7%9A%84%E5%8D%8F%E4%BD%9C%E5%85%B3%E7%B3%BB.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/006-LanguageSupport.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/007-LanuageSupport2.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/008-Implemented%20Features%20in%20Popular%20Engines.png">
+<meta property="article:published_time" content="2022-07-15T03:31:02.000Z">
+<meta property="article:modified_time" content="2024-05-13T01:56:08.279Z">
+<meta property="article:author" content="八只爪">
+<meta property="article:tag" content="WebAssembly">
+<meta property="article:tag" content="WASM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/WebAssembly%E8%B5%84%E6%96%99/001-WebAssembly%E4%BE%8B%E5%AD%90.png">
+
+
+<link rel="canonical" href="https://www.bazhizhua.top/1659502486.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/1659502486.html","path":"1659502486.html","title":"WebAssembly资料"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>WebAssembly资料 | 八只爪</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">八只爪</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-WebAssembly%E8%B5%B7%E6%BA%90"><span class="nav-text">1 WebAssembly起源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-What-is-WebAssembly"><span class="nav-text">1.1. What is WebAssembly?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%94%B1%E6%9D%A5"><span class="nav-text">1.2. 由来</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88"><span class="nav-text">1.2.1. 性能瓶颈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B%E6%89%80%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.2.2. 静态变量类型所带来的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-asm-js%E5%87%BA%E7%8E%B0"><span class="nav-text">1.2.3. asm.js出现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-asm-js%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E6%89%80%E6%9C%89%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.2.4. asm.js不能解决所有的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-WebAssembly%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96"><span class="nav-text">1.2.5. WebAssembly横空出世</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-WebAssembly%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-text">2. WebAssembly的优势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-WebAssembly%E5%92%8Casm-js%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-text">2.1. WebAssembly和asm.js性能对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E4%B8%8EJavaScript%E5%81%9A%E5%AF%B9%E6%AF%94"><span class="nav-text">2.2. 与JavaScript做对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-WebAssembly%E5%9C%A8%E5%A4%A7%E5%9E%8B%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-text">3. WebAssembly在大型项目中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-AutoCAD"><span class="nav-text">3.1. AutoCAD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Google-Earth"><span class="nav-text">3.2. Google Earth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Unity%E5%92%8CUnreal%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E"><span class="nav-text">3.3. Unity和Unreal游戏引擎</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-WebAssembly%E8%A6%81%E5%8F%96%E4%BB%A3JavaScript%EF%BC%9F"><span class="nav-text">4. WebAssembly要取代JavaScript？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-WebAssembly%E8%A6%81%E5%8F%96%E4%BB%A3JavaScript%EF%BC%9F"><span class="nav-text">4.1. WebAssembly要取代JavaScript？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8WebAssembly%EF%BC%9F"><span class="nav-text">4.2. 什么时候使用WebAssembly？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-WebAssembly%E7%9A%84%E5%87%A0%E4%B8%AA%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-text">5. WebAssembly的几个开发工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Language-Support"><span class="nav-text">6. Language Support</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Roadmap"><span class="nav-text">7. Roadmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E6%96%87%E6%91%98%E8%87%AA"><span class="nav-text">全文摘自</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="八只爪"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">八只爪</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/1659502486.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="八只爪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="八只爪">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="WebAssembly资料 | 八只爪">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WebAssembly资料
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-14 23:31:02" itemprop="dateCreated datePublished" datetime="2022-07-14T23:31:02-04:00">2022-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:56:08" itemprop="dateModified" datetime="2024-05-12T21:56:08-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<h2 id="1-WebAssembly起源"><a href="#1-WebAssembly起源" class="headerlink" title="1 WebAssembly起源"></a>1 WebAssembly起源</h2><h3 id="1-1-What-is-WebAssembly"><a href="#1-1-What-is-WebAssembly" class="headerlink" title="1.1. What is WebAssembly?"></a>1.1. What is WebAssembly?</h3><p>来源：<a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a><br>WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a <strong>portable compilation target</strong> for programming languages, enabling deployment on the web for client and server applications.  </p>
+<p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a><br>WebAssembly 或者 wasm 是一个可移植、体积小、加载快并且兼容 Web 的全新格式。  </p>
+<p>当然，我知道，即使你看了定义也不知道WebAssembly到底是什么东西。废话不多说，我们通过一个简单的例子来看看WebAssembly到底是什么。  </p>
+<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/001-WebAssembly%E4%BE%8B%E5%AD%90.png" alt="WebAssembly例子">  </p>
+<p>上图的左侧是用C++实现的求递归的函数，中间是十六进制的Binary Code，右侧是指令文本。而中间的十六进制的Binary Code就是WebAssembly。  </p>
+<p>大家可以看到，其可写性和可读性差到无法想象。那是因为WebAssembly不是用来给各位用手一行一行撸的代码，WebAssembly是一个<strong>编译目标</strong>。什么是编译目标？当我们写TypeScript的时候，Webpack最后打包生成的JavaScript文件就是编译目标。可能大家已经猜到了，上图的Binary就是左侧的C++代码经过编译器编译之后的结果。  </p>
+<h3 id="1-2-由来"><a href="#1-2-由来" class="headerlink" title="1.2. 由来"></a>1.2. 由来</h3><p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a></p>
+<h4 id="1-2-1-性能瓶颈"><a href="#1-2-1-性能瓶颈" class="headerlink" title="1.2.1. 性能瓶颈"></a>1.2.1. 性能瓶颈</h4><p>在业务需求越来越复杂的现在，前端的开发逻辑越来越复杂，相应的代码量随之变的越来越多。相应的，整个项目的起步的时间越来越长。在性能不好的电脑上，启动一个前端的项目甚至要花上十多秒。这些其实还好，说明前端越来越受到重视，越来越多的人开始进行前端的开发。  </p>
+<p>但是除了逻辑复杂、代码量大，还有另一个原因是JavaScript这门语言本身的缺陷，JavaScript没有静态变量类型。这门解释型编程语言的作者Brendan Eich，仓促的创造了这门被广泛使用的语言，以至于JavaScript的发展史甚至在某种层面上变成了填坑史。为什么说没有静态类型会降低效率，这会涉及到一些JavaScript引擎的知识。  </p>
+<h4 id="1-2-2-静态变量类型所带来的问题"><a href="#1-2-2-静态变量类型所带来的问题" class="headerlink" title="1.2.2. 静态变量类型所带来的问题"></a>1.2.2. 静态变量类型所带来的问题</h4><p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/002-ChakraCore%E5%BC%95%E6%93%8E%E7%BB%93%E6%9E%84.png" alt="ChakraCore引擎结构">  </p>
+<p>这是Microsoft Edge浏览器的JavaScript引擎ChakraCore的结构。我们来看一看我们的JavaScript代码在引擎中会经历什么。  </p>
+<ul>
+<li>JavaScript文件会被下载下来。</li>
+<li>然后进入Parser，Parser会把代码转化成AST（抽象语法树）。</li>
+<li>然后根据抽象语法树，Bytecode Compiler字节码编译器会生成引擎能够直接阅读、执行的字节码。</li>
+<li>字节码进入翻译器，将字节码一行一行的翻译成效率十分高的Machine Code.</li>
+</ul>
+<p>在项目运行的过程中，引擎会对执行次数较多的function记性优化，引擎将其代码编译成Machine Code后打包送到顶部的Just-In-Time(JIT) Compiler，下次再执行这个function，就会直接执行编译好的Machine Code。但是由于JavaScript的动态变量，上一秒可能是Array，下一秒就变成了Object。那么上一次引擎所做的优化，就失去了作用，此时又要再一次进行优化。  </p>
+<h4 id="1-2-3-asm-js出现"><a href="#1-2-3-asm-js出现" class="headerlink" title="1.2.3. asm.js出现"></a>1.2.3. asm.js出现</h4><p>所以为了解决这个问题，WebAssembly的前身，asm.js诞生了。asm.js是一个JavaScript的严格子集，合理合法的asm.js代码一定是合理合法的JavaScript代码，但是反之就不成立。同WebAssembly一样，asm.js不是用来给各位用手一行一行撸的代码，asm.js是一个<strong>编译目标</strong>。它的可读性、可写性虽然比WebAssembly好，但是对于开发者来说，仍然是无法接受的。  </p>
+<p>asm.js强制静态类型，举个例子。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">asmJs</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="string">&#x27;use asm&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myInt = <span class="number">0</span> | <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> myDouble = +<span class="number">1.1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么asm.js会有静态类型呢？因为像<code>0 | 0</code>这样的，代表这是一个Int的数据，而<code>+1.1</code>则代表这是一个Double的数据。</p>
+<h4 id="1-2-4-asm-js不能解决所有的问题"><a href="#1-2-4-asm-js不能解决所有的问题" class="headerlink" title="1.2.4. asm.js不能解决所有的问题"></a>1.2.4. asm.js不能解决所有的问题</h4><p>可能有人有疑问，这问题不是解决了吗？那为什么会有WebAssembly？WebAssembly又解决了什么问题？大家可以再看一下上面的ChakraCore的引擎结构。即便asm.js对静态类型的问题做的再好，它始终<strong>逃不过要经过Parser，要经过ByteCode Compiler，而这两步是JavaScript代码在引擎执行过程当中消耗时间最多的两步。</strong>而WebAssembly不用经过这两步。这就是WebAssembly比asm.js更快的原因。  </p>
+<h4 id="1-2-5-WebAssembly横空出世"><a href="#1-2-5-WebAssembly横空出世" class="headerlink" title="1.2.5. WebAssembly横空出世"></a>1.2.5. WebAssembly横空出世</h4><p>所以在2015年，我们迎来了WebAssembly。WebAssembly是经过编译器编译之后的代码，体积小、起步快。在语法上完全脱离JavaScript，同时具有<strong>沙盒化的执行环境</strong>。WebAssembly同样的强制静态类型，<strong>是C&#x2F;C++&#x2F;Rust的编译目标</strong>。</p>
+<h2 id="2-WebAssembly的优势"><a href="#2-WebAssembly的优势" class="headerlink" title="2. WebAssembly的优势"></a>2. WebAssembly的优势</h2><p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a></p>
+<h3 id="2-1-WebAssembly和asm-js性能对比"><a href="#2-1-WebAssembly和asm-js性能对比" class="headerlink" title="2.1. WebAssembly和asm.js性能对比"></a>2.1. WebAssembly和asm.js性能对比</h3><p>下面的图是Unity WebGL使用和不使用WebAssembly的起步时间对比的一个BenchMark，给大家当作一个参考。  </p>
+<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/003-Measured%20on%20Windows.png" alt="Measured on Windows">  </p>
+<p>可以看到，在FireFox中，WebAssembly和asm.js的性能差异达到了2倍，在Chrome中达到了3倍，在Edge中甚至达到了6倍。通过这些对比也可以从侧面看出，目前所有的主流浏览器都已经支持WebAssembly V1（Node &gt;&#x3D; 8.0.0）。  </p>
+<h3 id="2-2-与JavaScript做对比"><a href="#2-2-与JavaScript做对比" class="headerlink" title="2.2. 与JavaScript做对比"></a>2.2. 与JavaScript做对比</h3><p>我自己在一个用create-react-app新建的项目中，分别对比了WebAssembly版本和原生JavaScript版本的递归无优化的Fibonacci函数，下图是这两个函数在值是45、48、50的时候的性能对比。</p>
+<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/004-Fibonacci%E5%87%BD%E6%95%B0%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%EF%BC%9AWebAssembly%20vs%20JavaScript.png" alt="Fibonacci函数性能对比：WebAssembly vs JavaScript">  </p>
+<p>看图说话，这就是WebAssembly与JavaScript很实际的一个性能对比，几乎稳定地是JavaScript的两倍。 </p>
+<h2 id="3-WebAssembly在大型项目中的应用"><a href="#3-WebAssembly在大型项目中的应用" class="headerlink" title="3. WebAssembly在大型项目中的应用"></a>3. WebAssembly在大型项目中的应用</h2><p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a>  </p>
+<p>在这里能够举的例子还是很多，比如AutoCAD、GoogleEarth、Unity、Unreal、PSPDKit、WebPack等等。拿其中几个来简单说一下。  </p>
+<h3 id="3-1-AutoCAD"><a href="#3-1-AutoCAD" class="headerlink" title="3.1. AutoCAD"></a>3.1. AutoCAD</h3><p>这是一个用于画图的软件，在很长的一段时间是没有Web的版本的，原因有两个，其一，是Web的性能的确不能满足他们的需求。其二，在WebAssembly没有面世之前，AutoCAD是用C++实现的，要将其搬到Web上，就意味着要重写他们所有的代码，这代价十分的巨大。  </p>
+<p>而在WebAssembly面世之后，AutoCAD得以利用编译器，将其沉淀了30多年的代码直接编译成WebAssembly，同时性能基于之前的普通Web应用得到了很大的提升。正是这些原因，得以让AutoCAD将其应用从Desktop搬到Web中。</p>
+<h3 id="3-2-Google-Earth"><a href="#3-2-Google-Earth" class="headerlink" title="3.2. Google Earth"></a>3.2. Google Earth</h3><p>Google Earth也就是谷歌地球，因为需要展示很多3D的图像，对性能要求十分高，所以采取了一些Native的技术。最初的时候就连Google Chrome浏览器都不支持Web的版本，需要单独下载Google Earth的Destop应用。而在WebAssembly之后呢，谷歌地球推出了Web的版本。而据说下一个可以运行谷歌地球的浏览器是FireFox。  </p>
+<h3 id="3-3-Unity和Unreal游戏引擎"><a href="#3-3-Unity和Unreal游戏引擎" class="headerlink" title="3.3. Unity和Unreal游戏引擎"></a>3.3. Unity和Unreal游戏引擎</h3><p>这里给两个油管的链接自己体验一下，大家注意科学上网。</p>
+<ul>
+<li>Unity WebGL的戳<a target="_blank" rel="noopener" href="https://youtu.be/rIyIlATjNcE">这里</a>  </li>
+<li>Unreal引擎的戳<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TwuIRcpeUWE">这里</a></li>
+</ul>
+<h2 id="4-WebAssembly要取代JavaScript？"><a href="#4-WebAssembly要取代JavaScript？" class="headerlink" title="4. WebAssembly要取代JavaScript？"></a>4. WebAssembly要取代JavaScript？</h2><h3 id="4-1-WebAssembly要取代JavaScript？"><a href="#4-1-WebAssembly要取代JavaScript？" class="headerlink" title="4.1. WebAssembly要取代JavaScript？"></a>4.1. WebAssembly要取代JavaScript？</h3><p>答案是否定的，请看下图。  </p>
+<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/005-WebAssembly%E4%B8%8EJavaScript%E7%9A%84%E5%8D%8F%E4%BD%9C%E5%85%B3%E7%B3%BB.png" alt="WebAssembly与JavaScript的协作关系"></p>
+<p>大家可以看到这是一个协作关系。<strong>WebAssembly是被设计成JavaScript的一个完善、补充</strong>，而不是一个替代品。WebAssembly将很多编程语言带到了Web中，但是JavaScript因其不可思议的能力，仍然将保留现有的地位。  </p>
+<p>在我的个人理解上，WebAssembly并没有要替代JavaScript，一统天下的意思。我总结下来就两个点：  </p>
+<ul>
+<li>给了Web更好的性能</li>
+<li>给了Web更多的可能</li>
+</ul>
+<p>关于WebAssembly的性能问题，之前也花了很大的篇幅讲过了。而更多的可能，随着WebAssembly的技术越来越成熟，势必会有更多的应用从Desktop被搬到Web上，这会使本来已经十分强大的Web更加丰富和强大。  </p>
+<h3 id="4-2-什么时候使用WebAssembly？"><a href="#4-2-什么时候使用WebAssembly？" class="headerlink" title="4.2. 什么时候使用WebAssembly？"></a>4.2. 什么时候使用WebAssembly？</h3><p>说了这么多，我到底什么时候该使用它呢？总结下来，大部分情况分两个点：  </p>
+<ul>
+<li>对<strong>性能有很高要求</strong>的App&#x2F;Module&#x2F;游戏 </li>
+<li>在<strong>Web中</strong>使用C&#x2F;C++&#x2F;Rust&#x2F;Go的库</li>
+</ul>
+<p>举个简单的例子。如果你要实现的是Web版本的Ins或者Facebook，你想要提高效率，那么就可以把其中对图片进行压缩、解压缩、处理的工具，用C++实现，然后再编译回WebAssembly。  </p>
+<h2 id="5-WebAssembly的几个开发工具"><a href="#5-WebAssembly的几个开发工具" class="headerlink" title="5. WebAssembly的几个开发工具"></a>5. WebAssembly的几个开发工具</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/AssemblyScript/assemblyscript">AssemblyScript</a>。支持直接<strong>将TypeScript编译成WebAssembly</strong>。这对于很多前端同学来说，入门的门槛还是很低的。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kripken/emscripten">Emscripten</a>。可以说是WebAssembly的灵魂工具不为过，上面说了很多编译，这个就是那个编译器。<strong>将其他的高级语言编译成WebAssembly</strong>。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/WebAssembly/wabt">WABT</a>。是个将WebAssembly在<strong>字节码和文本格式相互转换</strong>的一个工具，方便开发者去理解这个wasm到底是在做什么事。</li>
+</ul>
+<h2 id="6-Language-Support"><a href="#6-Language-Support" class="headerlink" title="6. Language Support"></a>6. Language Support</h2><p>（截止至2022-07-13）来源：<a target="_blank" rel="noopener" href="https://webassembly.org/getting-started/developers-guide/">https://webassembly.org/getting-started/developers-guide/</a></p>
+<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/006-LanguageSupport.png" alt="Language Support">  </p>
+<p>其它语言（C#，F#，Kotlin，Pascal，Zig，Grain）的介绍可以在上面的链接中找到。  </p>
+<p>其它来源的总结：<a target="_blank" rel="noopener" href="https://www.fermyon.com/wasm-languages/webassembly-language-support">https://www.fermyon.com/wasm-languages/webassembly-language-support</a>  </p>
+<p>总结了top 20 languages能够在被编译成Wasm后，运行在browser、非browser环境和WASI环境：<br><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/007-LanuageSupport2.png" alt="Language Support 2">  </p>
+<h2 id="7-Roadmap"><a href="#7-Roadmap" class="headerlink" title="7. Roadmap"></a>7. Roadmap</h2><p>来源：<a target="_blank" rel="noopener" href="https://webassembly.org/roadmap/">https://webassembly.org/roadmap/</a>  </p>
+<p>In November 2017, WebAssembly CG members representing four browsers, Chrome, Edge, Firefox, and WebKit, reached consensus that the design of the initial (MVP) WebAssembly API and binary format is complete to the extent that no further design work is possible without implementation experience and significant usage.  </p>
+<blockquote>
+<p><strong>MVP &#x3D; Minimum Viable Product</strong><br>来源1：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a></p>
+<p>A minimum viable product (MVP) is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development.</p>
+<p>来源2：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/37254490/answer/71546119">https://www.zhihu.com/question/37254490/answer/71546119</a><br>MVP（minimum viable product，最小化可行产品）概念最早由埃里克·莱斯提出，刊载于哈弗商业评论，并有出版物《精益创业》。  </p>
+<p>和常规产品不同，MVP更侧重于<strong>对未知市场的勘测</strong>，用最小的代价来验证你的商业可行性。举个例子，如果你希望做一个图片分享网站，那么作为产品原型，MVP<strong>仅仅包含最基础的功能</strong>，形态或许就是一个提交图片的按钮以及图片的展示。借助MVP，经过一系列实践，产品的设计思路将被一次次整改，最终完成正式版的开发。  </p>
+<p>MVP的目的——<strong>更快地接触客户</strong><br>按照常规的开发方式，从调研、到设计、到开发再到推向市场，会是一个漫长的过程，而且很难有人会保证成功率。但当换一种方式，以MVP进行小样调研，快速进入市场、接触客户并得到反馈，透过反馈不断修改原型，并进行不断的迭代开发，极大减少了试错成本。</p>
+</blockquote>
+<p>After the initial release, WebAssembly has been gaining new features through the standardization process. For the complete list of current proposals and their respective stages, check out the <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/proposals">WebAssembly&#x2F;proposals repo</a>.  </p>
+<p>The table below aims to track implemented features in popular engines:<br><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/008-Implemented%20Features%20in%20Popular%20Engines.png" alt="Implemented Features in Popular Engines">  </p>
+<h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WebAssembly官网：<a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a><br>[2] WebAssembly完全入门——了解wasm的前世今身：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a><br>[3] WebAssembly Language Support Matric：<a target="_blank" rel="noopener" href="https://www.fermyon.com/wasm-languages/webassembly-language-support">https://www.fermyon.com/wasm-languages/webassembly-language-support</a><br>[4] Minimum viable product：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a><br>[5] 什么是营销中的「最小化可行产品」（MVP）？：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/37254490/answer/71546119">https://www.zhihu.com/question/37254490/answer/71546119</a>  </p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WebAssembly/" rel="tag"># WebAssembly</a>
+              <a href="/tags/WASM/" rel="tag"># WASM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/637701298.html" rel="prev" title="安装Java">
+                  <i class="fa fa-angle-left"></i> 安装Java
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/1872035402.html" rel="next" title="WASI资料">
+                  WASI资料 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">八只爪</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

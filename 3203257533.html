@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="介绍三种向Hexo中插入图片的方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="向Hexo博客中插入图片">
+<meta property="og:url" content="https://www.bazhizhua.top/3203257533.html">
+<meta property="og:site_name" content="八只爪">
+<meta property="og:description" content="介绍三种向Hexo中插入图片的方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-21T20:35:44.000Z">
+<meta property="article:modified_time" content="2024-05-13T01:30:28.193Z">
+<meta property="article:author" content="八只爪">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.bazhizhua.top/3203257533.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/3203257533.html","path":"3203257533.html","title":"向Hexo博客中插入图片"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>向Hexo博客中插入图片 | 八只爪</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">八只爪</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%9C%AC%E5%9C%B0%E5%9B%BE%E7%89%87"><span class="nav-text">插入本地图片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E7%BD%91%E7%BB%9C%E5%9B%BE%E7%89%87"><span class="nav-text">插入网络图片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E5%85%A5base64%E8%BD%AC%E7%A0%81%E7%BB%93%E6%9E%9C"><span class="nav-text">插入base64转码结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="八只爪"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">八只爪</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/3203257533.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="八只爪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="八只爪">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="向Hexo博客中插入图片 | 八只爪">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          向Hexo博客中插入图片
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-03-21 16:35:44" itemprop="dateCreated datePublished" datetime="2019-03-21T16:35:44-04:00">2019-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:30:28" itemprop="dateModified" datetime="2024-05-12T21:30:28-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>介绍三种向Hexo中插入图片的方法。</p>
+<span id="more"></span>
+<h1 id="插入本地图片"><a href="#插入本地图片" class="headerlink" title="插入本地图片"></a>插入本地图片</h1><p>将Hexo的配置文件 _config.yml 中的 <span class="inArticleHighlight">post_asset_folder</span> 属性设置为 <span class="inArticleHighlight">true</span> 。这样就开启了资源文件夹功能，该功能支持用户通过相对路径标签引用资源。设置完毕后，使用指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;新文件&quot;</span><br></pre></td></tr></table></figure>
+<p>时，在 _posts 文件夹下会生成一个md文件“新文件.md”和一个名为“新文件”的文件夹。<br>例如，我执行指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;hello&quot;</span><br></pre></td></tr></table></figure>
+<p>此时_posts文件夹下会新增一个 hello.md 文件和一个名为 hello 的文件夹，结构为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_posts</span><br><span class="line">  |- hello.md</span><br><span class="line">  |- hello</span><br></pre></td></tr></table></figure>
+
+<p>将之后 hello.md 文件需要用到的图片存入 hello 文件夹中，在 md 文件中通过以下格式引用图片：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img image.png This is an example image %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还可以使用html语法(常用此种方法引用本地图片)，下面的语句引用了与md文件同名的文件夹中的图片 image.png，并使其居中显示，显示出来的图片的长宽均为原图长宽的一半：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div align=&quot;center&quot;&gt;&lt;img src=&quot;image.png&quot; width=&quot;50%&quot; height=&quot;50%&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="插入网络图片"><a href="#插入网络图片" class="headerlink" title="插入网络图片"></a>插入网络图片</h1><p>(来源：知乎；作者：知乎用户；链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21065229/answer/132993179">Markdown中插入图片有什么技巧?</a>)<br>只需要在基础语法的括号中填入图片的网络链接即可，现在已经有很多免费&#x2F;收费图床和方便传图的小工具可选。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](http://baidu.com/pic/doge.png)</span><br></pre></td></tr></table></figure>
+
+<p>缺点是图片存在网络服务器上，非常依赖网络。</p>
+<p>常用方法：利用GitHub存储图片，在markdown引用图片链接地址<br>(来源：知乎；作者：沈绍敏；链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21065229/answer/61070700">Markdown中插入图片有什么技巧?</a>)</p>
+<ol>
+<li>将markdown需要用的图片放到git仓库中，发布到GitHub上</li>
+<li>访问GitHub仓库：<a target="_blank" rel="noopener" href="https://github.com/smshen/MarkdownPhotos">smshen&#x2F;MarkdownPhotos · GitHub</a></li>
+<li>访问图片：<a target="_blank" rel="noopener" href="https://github.com/smshen/MarkdownPhotos/blob/master/Res/test.jpg">MarkdownPhotos&#x2F;test.jpg at master · smshen&#x2F;MarkdownPhotos · GitHub</a></li>
+<li>点 download 按钮，在地址栏可以复制图片地址，或者在Download按钮上直接右键 “复制链接地址”:<br><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/smshen/MarkdownPhotos/master/Res/test.jpg">https://raw.githubusercontent.com/smshen/MarkdownPhotos/master/Res/test.jpg</a></li>
+<li>在Markdown中引用图片：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![Aaron Swartz](https://raw.githubusercontent.com/smshen/MarkdownPhotos/master/Res/test.jpg)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="插入base64转码结果"><a href="#插入base64转码结果" class="headerlink" title="插入base64转码结果"></a>插入base64转码结果</h1><p>(来源：知乎；作者：知乎用户；链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21065229/answer/132993179">Markdown中插入图片有什么技巧?</a>)<br>用base64转码工具把图片转成一段字符串，然后把字符串填到基础格式中链接的那个位置。<br>基础用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](data:image/png;base64,iVBORw0......)</span><br></pre></td></tr></table></figure>
+
+<p>这个时候会发现插入的这一长串字符串会把整个文章分割开，非常影响编写文章时的体验。如果能够把大段的base64字符串放在文章末尾，然后在文章中通过一个id来调用，文章就不会被分割的这么乱了。就像写论文时的文末的注释和参考文档一样。这个想法可以通过markdown的参考式链接语法来实现。<br>进阶用法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar][doge]</span><br></pre></td></tr></table></figure>
+
+<p>文末存储字符串语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[doge]:data:image/png;base64,iVBORw0......</span><br></pre></td></tr></table></figure>
+
+<p>这个用法不常见，比较野路子。优点是很灵活，不会有链接失效的困扰。缺点是一大团base64的乱码看着不美观。</p>
+<br/>
+
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://www.xinxiaoyang.com/programming/2016-11-25-hexo-image-bug/">Hexo 图片插入</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23378396">markdown中插入图片怎么定义图片的大小或比例?</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21065229">Markdown中插入图片有什么技巧?</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>八只爪
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://www.bazhizhua.top/3203257533.html" title="向Hexo博客中插入图片">https://www.bazhizhua.top/3203257533.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2202174491.html" rel="prev" title="Hexo博客链接到自己的另一篇博客">
+                  <i class="fa fa-angle-left"></i> Hexo博客链接到自己的另一篇博客
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2723988910.html" rel="next" title="Hexo显示统计字数和阅读时长">
+                  Hexo显示统计字数和阅读时长 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">八只爪</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

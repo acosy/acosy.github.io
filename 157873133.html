@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="1. 语法1.1. Rust中的r#&quot;&quot;#字符串字面值开头的r不是一个操作符，而是一个前缀。 在普通的字符串文字中，需要对某些字符进行转义才能使它们成为字符串的一部分，例如&quot;和\：  需要对&quot;字符进行转义，否则它将终止字符串 需要对\进行转义，因为它是转义字符  在Rust中，如果字符串中有需要转义的字符，可以在字符串前面加r前缀，然后放置任意数量的#符号，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust实践总结">
+<meta property="og:url" content="https://www.bazhizhua.top/157873133.html">
+<meta property="og:site_name" content="八只爪">
+<meta property="og:description" content="1. 语法1.1. Rust中的r#&quot;&quot;#字符串字面值开头的r不是一个操作符，而是一个前缀。 在普通的字符串文字中，需要对某些字符进行转义才能使它们成为字符串的一部分，例如&quot;和\：  需要对&quot;字符进行转义，否则它将终止字符串 需要对\进行转义，因为它是转义字符  在Rust中，如果字符串中有需要转义的字符，可以在字符串前面加r前缀，然后放置任意数量的#符号，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0024-serde%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0025-serde%20default%E7%A4%BA%E4%BE%8B.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0026-config%E8%AF%BB%E5%8F%96toml%E6%96%87%E4%BB%B6.png">
+<meta property="article:published_time" content="2022-08-11T13:53:02.000Z">
+<meta property="article:modified_time" content="2024-05-13T01:56:55.906Z">
+<meta property="article:author" content="八只爪">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0024-serde%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+
+
+<link rel="canonical" href="https://www.bazhizhua.top/157873133.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/157873133.html","path":"157873133.html","title":"Rust实践总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Rust实践总结 | 八只爪</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">八只爪</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%AF%AD%E6%B3%95"><span class="nav-text">1. 语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Rust%E4%B8%AD%E7%9A%84r"><span class="nav-text">1.1. Rust中的r#&quot;&quot;#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-text">1.2. ?运算符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Crates%E4%BD%BF%E7%94%A8"><span class="nav-text">2. Crates使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-serde"><span class="nav-text">2.1. serde</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-serde%E4%BB%8B%E7%BB%8D"><span class="nav-text">2.1.1. serde介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E4%BD%BF%E7%94%A8derive%EF%BC%88Serialize-%E5%92%8C-Deserialize%EF%BC%89"><span class="nav-text">2.1.2. 使用derive（Serialize 和 Deserialize）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-derive-Serialize-Deserialize-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">2.1.3. #[derive(Serialize, Deserialize)]使用示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-serde-default"><span class="nav-text">2.1.4. #[serde(default)]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-config"><span class="nav-text">2.2. config</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="八只爪"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">八只爪</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/157873133.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="八只爪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="八只爪">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Rust实践总结 | 八只爪">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust实践总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-11 09:53:02" itemprop="dateCreated datePublished" datetime="2022-08-11T09:53:02-04:00">2022-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:56:55" itemprop="dateModified" datetime="2024-05-12T21:56:55-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">语言</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="1-语法"><a href="#1-语法" class="headerlink" title="1. 语法"></a>1. 语法</h1><h2 id="1-1-Rust中的r"><a href="#1-1-Rust中的r" class="headerlink" title="1.1. Rust中的r#&quot;&quot;#"></a>1.1. Rust中的<code>r#&quot;&quot;#</code></h2><p>字符串字面值开头的<code>r</code>不是一个操作符，而是一个前缀。</p>
+<p>在普通的字符串文字中，需要对某些字符进行转义才能使它们成为字符串的一部分，例如<code>&quot;</code>和<code>\</code>：</p>
+<ul>
+<li>需要对<code>&quot;</code>字符进行转义，否则它将终止字符串</li>
+<li>需要对<code>\</code>进行转义，因为它是转义字符</li>
+</ul>
+<p>在Rust中，如果字符串中有需要转义的字符，可以在字符串前面加<code>r</code>前缀，然后放置任意数量的<code>#</code>符号，再用左引号<code>&quot;</code>开始一个字符串。在结束该字符串时，再在右引号<code>&quot;</code>之后放置与开头相同数量的<code>#</code>字符。这样，在<code>&quot;&quot;</code>之间的字符串中就可以放置原始字符串，而不需要进行任何转义。例如：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">r##&quot;foo #&quot;# bar&quot;##</span></span><br></pre></td></tr></table></figure>
+<p>表示字符串<code>foo #&quot;# bar</code>。</p>
+<p>字符串不会在中间的引号处停止，因为它后面只有一个<code>#</code>，而字符串是以两个<code>#</code>开始的。</p>
+<h2 id="1-2-运算符"><a href="#1-2-运算符" class="headerlink" title="1.2. ?运算符"></a>1.2. <code>?</code>运算符</h2><p>参考 <strong><a href="/1010502636.html" title="错误处理（Error Handling）">错误处理（Error Handling）</a></strong> 中 “<strong>2.4. 传播错误的简写：?运算符</strong>” 部分。</p>
+<p>例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"><span class="keyword">use</span> std::io::Read;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">read_username_from_file</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">String</span>, io::Error&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    f.<span class="title function_ invoke__">read_to_string</span>(&amp;<span class="keyword">mut</span> s)?;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>?</code>作用于<code>Result</code>类型：<ul>
+<li>结尾调用<code>?</code>，如果结果是<code>Ok</code>，会返回<code>Ok</code>中的值</li>
+<li>如果结果是<code>Err</code>，<code>?</code>会提早return，并返回<code>Err</code>中的值</li>
+</ul>
+</li>
+<li><code>?</code>作用于<code>Option</code>类型：<ul>
+<li>如果值是<code>Some</code>，<code>Some</code>中的值作为表达式的返回值，同时函数继续</li>
+<li>如果值是<code>None</code>，<code>None</code>会从函数中提前返回</li>
+</ul>
+</li>
+<li><code>?</code>只能被用于函数的返回值与它作用的值相兼容的函数<ul>
+<li>例如，上例中<code>?</code>作用于<code>File::open(&quot;hello.txt&quot;)</code>的返回值，即<code>Result</code>，那么整个函数的返回值类型也必须是<code>Result</code>才可以</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-Crates使用"><a href="#2-Crates使用" class="headerlink" title="2. Crates使用"></a>2. Crates使用</h1><h2 id="2-1-serde"><a href="#2-1-serde" class="headerlink" title="2.1. serde"></a>2.1. serde</h2><h3 id="2-1-1-serde介绍"><a href="#2-1-1-serde介绍" class="headerlink" title="2.1.1. serde介绍"></a>2.1.1. serde介绍</h3><p>Rust中有一个99%的程序员或许都会用到的组件，那就是序列化组件: serde。</p>
+<p>众所周知，rust是静态语言，这让我们在序列化上繁琐了很多，但是serde能帮助我们更好地序列化结构体，生产对应的数据。它实现了各种<strong>声明宏（declarative macros）</strong>以及<strong>过程宏（procedural macros）</strong>来协助我们序列化。</p>
+<p>serde是Rust语言用来序列化和反序列化数据的一个非常高效的解决方案。本质上，serde提供了一个序列化层的概念。可以将任何支持的数据格式反序列化成中间格式，然后序列化成任何一种支持的数据格式。</p>
+<p>同其他语言通过反射来实现序列化方案不同，serde基于Rust的trait系统来实现自己的序列化，每种数据结构<strong>通过实现serde的Serialize和Deserialize接口</strong>来实现序列化功能，这种实现方案可以有效避免反射的性能开销。Rust编译器可以在很多场景下对序列化进行高度优化，甚至可以达到一个资深工程师手写序列化代码的性能。  </p>
+<p>目前围绕serde支持的序列化的数据格式组件有：</p>
+<ul>
+<li>JSON，许多HTTP API都使用的JavaScript对象符号。</li>
+<li>Bincode，一个紧凑的二进制格式，用于伺服渲染的IPC引擎。</li>
+<li>CBOR，一种简洁的二进制对象表示，专为小消息大小设计而不需要版本协商。</li>
+<li>YAML，一个自称对人类友好的配置语言，其实不是标记语言。</li>
+<li>MessagePack，一个高效的二进制格式，类似于一个紧凑的JSON。</li>
+<li>TOML， Cargo使用的最小配置格式。</li>
+<li>Pickle， Python世界中常见的格式。</li>
+<li>RON，一个生锈的符号。</li>
+<li>BSON， MongoDB使用的数据存储和网络传输格式。</li>
+<li>Avro，在Apache Hadoop中使用的二进制格式，支持schema定义。</li>
+<li>JSON5，一个JSON的超集，包括一些来自ES5的产品。</li>
+<li>URL查询字符串，格式为<code>x-www-form-urlencoded</code>。</li>
+<li>Envy，一种将环境变量反序列化为锈蚀结构的方法。</li>
+<li>Envy Store</li>
+</ul>
+<p>反序列化：</p>
+<ul>
+<li>Envy Store，一种反序列化AWS Parameter Store参数到Rust的方法结构体。(反序列化)</li>
+<li>S-expressions， Lisp使用的代码和数据的文本表示形式语言的家庭。</li>
+<li>D-Bus的二进制线格式。</li>
+<li>FlexBuffers，谷歌的FlatBuffers 0 -copy的无模式表兄弟序列化格式。</li>
+<li>Bencode，在BitTorrent协议中使用的一个简单的二进制格式。</li>
+<li>DynamoDB Items， rusoto_dynamodb用来传输数据的格式和DynamoDB。</li>
+<li>Hjson，一个JSON的语法扩展，围绕人类阅读和编辑而设计。(反序列化)</li>
+</ul>
+<h3 id="2-1-2-使用derive（Serialize-和-Deserialize）"><a href="#2-1-2-使用derive（Serialize-和-Deserialize）" class="headerlink" title="2.1.2. 使用derive（Serialize 和 Deserialize）"></a>2.1.2. 使用<code>derive</code>（Serialize 和 Deserialize）</h3><p>为了方便实现你自己创建的数据结构的序列化功能，serde提供了一个derive macro来自动生成你的数据结构的<code>Serialize</code>和<code>Deserialize</code> trait的实现代码，让你定义的数据结构通过serde数据模型方便的表达出来。</p>
+<p>你只需要在你代码里通过添加一行</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Serialize, Deserialize)]</span></span><br></pre></td></tr></table></figure>
+<p>serde就会自动生成这些实现代码。</p>
+<p>此功能基于rust的<code>#[derive]</code>范式来实现，类似于你通过derive自动实现系统内置的<code>Clone</code>，<code>Copy</code>，<code>Debug</code>和其他的一些trait。它能够给绝大多数数据结构和枚举自动生成trait实现代码。极少数情况下，面对一些非常复杂的数据结构，你可能需要手工去实现这些代码。  </p>
+<h3 id="2-1-3-derive-Serialize-Deserialize-使用示例"><a href="#2-1-3-derive-Serialize-Deserialize-使用示例" class="headerlink" title="2.1.3. #[derive(Serialize, Deserialize)]使用示例"></a>2.1.3. <code>#[derive(Serialize, Deserialize)]</code>使用示例</h3><p><code>Cargo.toml</code>文件：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[package]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;try_serde&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line"><span class="attr">edition</span> = <span class="string">&quot;2021&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html</span></span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">serde</span> = &#123;version = <span class="string">&quot;1.0.139&quot;</span>, features = [<span class="string">&quot;derive&quot;</span>]&#125;</span><br><span class="line"><span class="attr">serde_json</span> = <span class="string">&quot;1.0.83&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>src/main.rust</code>文件：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> serde::&#123;Serialize, Deserialize&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Serialize, Deserialize, Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    x: <span class="type">i32</span>,</span><br><span class="line">    y: <span class="type">i32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">point</span> = Point &#123; x: <span class="number">1</span>, y: <span class="number">2</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Convert the Point to a JSON string.</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">serialized</span> = serde_json::<span class="title function_ invoke__">to_string</span>(&amp;point).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Prints serialized = &#123;&quot;x&quot;:1,&quot;y&quot;:2&#125;</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;serialized = &#123;&#125;&quot;</span>, serialized);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Convert the JSON string back to a Point.</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">deserialized</span>: Point = serde_json::<span class="title function_ invoke__">from_str</span>(&amp;serialized).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Prints deserialized = Point &#123; x: 1, y: 2 &#125;</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;deserialized = &#123;:?&#125;&quot;</span>, deserialized);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cargo run运行结果：<br><img src="/../imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0024-serde%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="serde用法示例运行结果">  </p>
+<h3 id="2-1-4-serde-default"><a href="#2-1-4-serde-default" class="headerlink" title="2.1.4. #[serde(default)]"></a>2.1.4. <code>#[serde(default)]</code></h3><p><code>#[serde(default)]</code>用来设置字段的默认值。<br>示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> serde::Deserialize;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Deserialize, Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Request</span> &#123;</span><br><span class="line">    <span class="comment">// Use the result of a function as the default if &quot;resource&quot; is</span></span><br><span class="line">    <span class="comment">// not included in the input</span></span><br><span class="line">    <span class="meta">#[serde(default = <span class="string">&quot;default_resource&quot;</span>)]</span></span><br><span class="line">    resource: <span class="type">String</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Use the type&#x27;s implementation of std::default::Default if</span></span><br><span class="line">    <span class="comment">// &quot;timeout&quot; is not included in the input.</span></span><br><span class="line">    <span class="meta">#[serde(default)]</span></span><br><span class="line">    timeout: Timeout,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Use a method from the type as the default if &quot;priority&quot; is not</span></span><br><span class="line">    <span class="comment">// included in the input. This may also be a trait method.</span></span><br><span class="line">    <span class="meta">#[serde(default = <span class="string">&quot;Priority::lowest&quot;</span>)]</span></span><br><span class="line">    priority: Priority,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">default_resource</span>() <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">    <span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Timeout in seconds.</span></span><br><span class="line"><span class="meta">#[derive(Deserialize, Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Timeout</span>(<span class="type">u32</span>);</span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Default</span> <span class="keyword">for</span> <span class="title class_">Timeout</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">default</span>() <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Timeout</span>(<span class="number">30</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Deserialize, Debug)]</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Priority</span> &#123; ExtraHigh, High, Normal, Low, ExtraLow &#125;</span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Priority</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">lowest</span>() <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123; Priority::ExtraLow &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">json</span> = <span class="string">r#&quot;</span></span><br><span class="line"><span class="string">    [</span></span><br><span class="line"><span class="string">        &#123;</span></span><br><span class="line"><span class="string">            &quot;resource&quot;: &quot;/users&quot;</span></span><br><span class="line"><span class="string">        &#125;,</span></span><br><span class="line"><span class="string">        &#123;</span></span><br><span class="line"><span class="string">            &quot;timeout&quot;: 5,</span></span><br><span class="line"><span class="string">            &quot;priority&quot;: &quot;High&quot;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    ]</span></span><br><span class="line"><span class="string">    &quot;#</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">requests</span>: <span class="type">Vec</span>&lt;Request&gt; = serde_json::<span class="title function_ invoke__">from_str</span>(json).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The first request has resource=&quot;/users&quot;, timeout=30, priority=ExtraLow</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, requests[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The second request has resource=&quot;/&quot;, timeout=5, priority=High</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, requests[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/../imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0025-serde%20default%E7%A4%BA%E4%BE%8B.png" alt="serde default示例"></p>
+<p>对<code>r#&quot;&quot;#</code>的说明见 <a href="#1-1-Rust%E4%B8%AD%E7%9A%84r-quot-quot">Rust中的r#””#</a> 部分。</p>
+<h2 id="2-2-config"><a href="#2-2-config" class="headerlink" title="2.2. config"></a>2.2. config</h2><p>GitHub链接：<a target="_blank" rel="noopener" href="https://github.com/mehcode/config-rs">https://github.com/mehcode/config-rs</a><br>可用于从<code>toml</code>、<code>json</code>、<code>yaml</code>、<code>ini</code>等格式的文件中读取数据。示例：<a target="_blank" rel="noopener" href="https://github.com/mehcode/config-rs/tree/master/examples">https://github.com/mehcode/config-rs/tree/master/examples</a></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> config::Config;</span><br><span class="line"><span class="keyword">use</span> std::collections::HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">settings</span> = Config::<span class="title function_ invoke__">builder</span>()</span><br><span class="line">        <span class="comment">// Add in `./Settings.toml`</span></span><br><span class="line">        .<span class="title function_ invoke__">add_source</span>(config::File::<span class="title function_ invoke__">with_name</span>(<span class="string">&quot;Settings.toml&quot;</span>))</span><br><span class="line">        <span class="comment">// Add in settings from the environment (with a prefix of APP)</span></span><br><span class="line">        <span class="comment">// Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key</span></span><br><span class="line">        .<span class="title function_ invoke__">add_source</span>(config::Environment::<span class="title function_ invoke__">with_prefix</span>(<span class="string">&quot;APP&quot;</span>))</span><br><span class="line">        .<span class="title function_ invoke__">build</span>()</span><br><span class="line">        .<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Print out our settings (as a HashMap)</span></span><br><span class="line">    <span class="built_in">println!</span>(</span><br><span class="line">        <span class="string">&quot;&#123;:?&#125;&quot;</span>,</span><br><span class="line">        settings</span><br><span class="line">            .try_deserialize::&lt;HashMap&lt;<span class="type">String</span>, <span class="type">String</span>&gt;&gt;()</span><br><span class="line">            .<span class="title function_ invoke__">unwrap</span>()</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Settings.toml</code>内容：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">debug</span> = <span class="literal">false</span></span><br><span class="line"><span class="attr">priority</span> = <span class="number">32</span></span><br><span class="line"><span class="attr">key</span> = <span class="string">&quot;189rjfadoisfj8923fjio&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Cargo.toml</code>内容：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[package]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;try_config&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line"><span class="attr">edition</span> = <span class="string">&quot;2021&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html</span></span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">config</span> = <span class="string">&quot;0.13.1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try_config</span><br><span class="line">    |-------- src</span><br><span class="line">               |-------- main.rs</span><br><span class="line">    |-------- Cargo.toml</span><br><span class="line">    |-------- Settings.toml</span><br></pre></td></tr></table></figure>
+
+<p><code>cargo run</code>的运行结果：<br><img src="/../imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0026-config%E8%AF%BB%E5%8F%96toml%E6%96%87%E4%BB%B6.png" alt="config读取toml文件">  </p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p>[1] serde - rust的序列化方案：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/54004232">https://zhuanlan.zhihu.com/p/54004232</a><br>[2] 【rust】序列化框架serde：<a target="_blank" rel="noopener" href="https://whiteccinn.github.io/2021/04/13/Rust%E8%AF%AD%E8%A8%80/rust-%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6serde/">https://whiteccinn.github.io/2021/04/13/Rust语言/rust-序列化框架serde/</a><br>[3] Using derive：<a target="_blank" rel="noopener" href="https://serde.rs/derive.html">https://serde.rs/derive.html</a><br>[4] Default value for a field：<a target="_blank" rel="noopener" href="https://serde.rs/attr-default.html">https://serde.rs/attr-default.html</a><br>[5] Rust中的r#””#：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/ask/sof/37840">https://cloud.tencent.com/developer/ask/sof/37840</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>八只爪
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://www.bazhizhua.top/157873133.html" title="Rust实践总结">https://www.bazhizhua.top/157873133.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1169343067.html" rel="prev" title="编写自动化测试">
+                  <i class="fa fa-angle-left"></i> 编写自动化测试
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/3395771604.html" rel="next" title="Git使用">
+                  Git使用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">八只爪</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

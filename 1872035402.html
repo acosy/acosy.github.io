@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文不含原创，只是知识的搬运工。 1. WASI 是什么？WASI是WebAssembly System Interface的缩写。WebAssembly，我们都知道，是一种新的字节码格式，目前被应用于 web 中，由于其可移植、体积小、安全性的等优点被渐渐广泛认可，但是其主要是运行在浏览器中。 一些天才们，想让 WebAssembly 也可以运行在非浏览器环境中，这就产生了 WASI。 因此，这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WASI资料">
+<meta property="og:url" content="https://www.bazhizhua.top/1872035402.html">
+<meta property="og:site_name" content="八只爪">
+<meta property="og:description" content="本文不含原创，只是知识的搬运工。 1. WASI 是什么？WASI是WebAssembly System Interface的缩写。WebAssembly，我们都知道，是一种新的字节码格式，目前被应用于 web 中，由于其可移植、体积小、安全性的等优点被渐渐广泛认可，但是其主要是运行在浏览器中。 一些天才们，想让 WebAssembly 也可以运行在非浏览器环境中，这就产生了 WASI。 因此，这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/009-crash-data-leak.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/010-protection-ring-sec.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/011-syscall.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/012-implementations.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/013-implementations-2.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/014-emscripten.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/015-system3.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/016-emulation.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/017-portability.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/018-portability-1.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/019-access-control.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/020-bitcoin.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/021-sandbox.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/022-wasi.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/023-wasi-1.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/024-open-imps.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/025-imports.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/026-sec-port.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/027-openat-path.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/028-file-perms.png">
+<meta property="article:published_time" content="2022-07-15T15:35:05.000Z">
+<meta property="article:modified_time" content="2024-05-13T02:00:08.261Z">
+<meta property="article:author" content="八只爪">
+<meta property="article:tag" content="WebAssembly">
+<meta property="article:tag" content="WASM">
+<meta property="article:tag" content="WASI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/WASI%E8%B5%84%E6%96%99/009-crash-data-leak.png">
+
+
+<link rel="canonical" href="https://www.bazhizhua.top/1872035402.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/1872035402.html","path":"1872035402.html","title":"WASI资料"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>WASI资料 | 八只爪</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">八只爪</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-WASI-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">1. WASI 是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">关于安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Mozilla-Announces-WASI-Initiative-to-Run-Web-Assembly-on-All-Devices-Computers-Operating-Systems"><span class="nav-text">2. Mozilla Announces WASI Initiative to Run Web Assembly on All Devices, Computers, Operating Systems</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%8E%9F%E6%96%87%E8%A7%A3%E8%AF%BB"><span class="nav-text">3. 原文解读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What%E2%80%99s-a-system-interface"><span class="nav-text">What’s a system interface?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-is-WebAssembly-running-outside-the-browser-today"><span class="nav-text">How is WebAssembly running outside the browser today?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-principles-does-a-WebAssembly-system-interface-need-to-uphold"><span class="nav-text">What principles does a WebAssembly system interface need to uphold?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Portability"><span class="nav-text">Portability</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Security"><span class="nav-text">Security</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-should-this-system-interface-look-like"><span class="nav-text">What should this system interface look like?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-will-be-in-wasi-core"><span class="nav-text">What will be in wasi-core?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-does-the-user%E2%80%99s-code-call-these-WASI-functions"><span class="nav-text">How does the user’s code call these WASI functions?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What%E2%80%99s-next"><span class="nav-text">What’s next?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E6%96%87%E6%91%98%E8%87%AA"><span class="nav-text">全文摘自</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="八只爪"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">八只爪</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/1872035402.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="八只爪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="八只爪">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="WASI资料 | 八只爪">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WASI资料
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-15 11:35:05" itemprop="dateCreated datePublished" datetime="2022-07-15T11:35:05-04:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 22:00:08" itemprop="dateModified" datetime="2024-05-12T22:00:08-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<h2 id="1-WASI-是什么？"><a href="#1-WASI-是什么？" class="headerlink" title="1. WASI 是什么？"></a>1. WASI 是什么？</h2><p>WASI是WebAssembly System Interface的缩写。WebAssembly，我们都知道，是一种新的字节码格式，目前被应用于 web 中，由于其可移植、体积小、安全性的等优点被渐渐广泛认可，但是其主要是运行在浏览器中。</p>
+<p>一些天才们，<strong>想让 WebAssembly 也可以运行在非浏览器环境中，这就产生了 WASI</strong>。</p>
+<p>因此，这样会有一些问题需要解决。我们知道，一些语言，比如Rust，都有自己的标准库，标准库对系统调用进行了封装，让我们写的代码可以跨平台，这实际上是源代码的可移植性。</p>
+<p>wasi 这里需要可移植的是二进制文件（.wasm）和一个跨平台的 runtime，也就是说，我们在某一个平台上生成了.wasm，直接拿到其他平台上，也可以直接使用。</p>
+<p>我们在设计这个 runtime 的时候，有两个关键点需要考虑：</p>
+<ul>
+<li>可移植性（上文提到的，二进制级别的可移植性）+ 可扩展性</li>
+<li>安全性</li>
+</ul>
+<h3 id="关于安全性"><a href="#关于安全性" class="headerlink" title="关于安全性"></a>关于安全性</h3><p>传统的软件开发，是以<strong>用户级别</strong>来进行权限管理的，也就是说，这个用户有什么权限，以这个用户的名义运行的程序就有什么权限，这样就可以避免不同用户之间互相影响。这样无疑是科学的，但是现在的问题是：现今大多数情况，我们的电脑只有一个用户，但是运行的程序可能来自各处，而程序本身可能是不安全的，所以像以前那样以用户级别来进行权限控制，其实是不安全的。</p>
+<p>所以wasm提供了一种更细粒度的权限控制。因为wasm有二进制模块和一个运行时，所以我们做这样几个工作：</p>
+<ul>
+<li>先定义一套标准的系统调用接口：<code>wasi-core</code></li>
+<li>各个平台（windows、unix）对标准接口进行平台实现</li>
+<li>对于一个具体的 wasm 程序，需要把其允许调用的接口在运行的时候传入，比如对于一个 wasm 模块，我只传入<code>__wasi_path_open</code>这样一个接口，因此 wasm 中就只能用这样一个接口（使用过 web 端的 wasm 同学，是不是对此十分熟悉）</li>
+<li>同样的，对于文件路径也是，只允许对传入的文件路径进行操作，例如只传入<code>​/tmp</code>​路径，wasm 模块就没有办法对<code>​/User</code>​路径下的文件进行操作</li>
+</ul>
+<p>这样的设计更<strong>细粒度</strong>地保证了安全，同时也具备了可移植性。</p>
+<p>与此同时，除了上文提到的<code>wasi-core</code>系统接口，我们还可以定义<code>wasi-xx</code>模块接口，然后运行时传入，这样也具备了可扩展性。</p>
+<p>以上就是 wasi 的一些基本介绍，目前其有三个实现，可以尝试：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">wasmtime</a>：Mozilla’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://www.fastly.com/blog/announcing-lucet-fastly-native-webassembly-compiler-runtime">Lucet</a>：Fastly’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://wasi.dev/polyfill/">a browser polyfill</a></li>
+</ul>
+<h2 id="2-Mozilla-Announces-WASI-Initiative-to-Run-Web-Assembly-on-All-Devices-Computers-Operating-Systems"><a href="#2-Mozilla-Announces-WASI-Initiative-to-Run-Web-Assembly-on-All-Devices-Computers-Operating-Systems" class="headerlink" title="2. Mozilla Announces WASI Initiative to Run Web Assembly on All Devices, Computers, Operating Systems"></a>2. Mozilla Announces WASI Initiative to Run Web Assembly on All Devices, Computers, Operating Systems</h2><p>来源：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a></p>
+<blockquote>
+<p>Mozilla recently announced a new standardization effort aiming at running the same WebAssembly code across all devices, machines and operating systems. </p>
+</blockquote>
+<p>WASI是定义了标准化系统接口，使WebAssembly能跨设备、跨操作系统运行。  </p>
+<p>这个“recently”应该是指<code>2019-03-27</code>，是Lin Clark发表文章宣布：  </p>
+<blockquote>
+<p>Today, we announce the start of a new standardization effort — WASI, the WebAssembly system interface.  </p>
+</blockquote>
+<p>的时间。该文章原文见本文<a href="#3-%E5%8E%9F%E6%96%87%E8%A7%A3%E8%AF%BB">第四部分</a>，或<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">此链接</a>。  </p>
+<blockquote>
+<p>The new standard, WebAssembly System Interface (WASI), defines one single conceptual operating system interface, which can be implemented by multiple, actual operating systems. </p>
+</blockquote>
+<p>WASI定义了一个单一的概念性操作系统接口，可以被多个实际的操作系统实现。</p>
+<p>At the difference of previous “Run Anywhere” efforts like Java, WASI builds on WebAssembly, a rare collaboration between browser vendors and manufacturers of chips, devices, computers and operating systems to produce a patent-free, open standard. The WASI standard will strive to provide WebAssembly’s portability and security through a modular set of standard interfaces, and to provide a solid foundation for an ecosystem. Mozilla and Fastly are already shipping prototypal WASI implementations.</p>
+<p>WASI aims to be a system interface for the WebAssembly platform (currently implemented by the four major browser engines). WebAssembly (Wasm) describes itself as a “binary instruction format for a stack-based virtual machine”, with the design goal to “execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms”. Wasm is used as a target for compilation of high-level languages like C&#x2F;C++&#x2F;Rust. While WebAssembly was primarily designed to run on the open web, Mozilla seeks now to extend WebAssembly’s reach to non-web embeddings, “including everything from minimal shells for testing to full-blown application environments e.g. on servers in datacenters, on IoT devices, or mobile&#x2F;desktop apps”. As Lin Clark observes:</p>
+<p>Code outside of a browser needs a way to talk to the system — a system interface. And the WebAssembly platform doesn’t have that yet.</p>
+<p>WASI’s stated goal echoes the original Java promise to “Write Once, Run Anywhere”. The Java Virtual Machine (JVM) indeed serves a similar purpose, and language flexibility similar to that offered by the WebAssembly platform may be realized in Java via the GraalVM. Java, however, remains a de facto standard, and its owner Oracle has a lawsuit pending against Google for allegedly using unlawfully Java’s APIs. By contrast, WebAssembly is the result of a rare collaboration between browser vendors and major companies such as Microsoft, Google, Apple, Mozilla, Intel, Samsung and more. Jay Phelps emphasized at QCon San Francisco 2018:</p>
+<p>(…) these companies, they’ve come together and they’ve all created the first standardized byte code by all of these major companies. And it’s free. It’s not a proprietary program. There’s no question that this is completely open. And it’s not encumbered by patent laws and all that sorts of things.</p>
+<p>Furthermore, Wasm, being memory safe and tuned for validation, may have security advantages over Java. Till Schneidereit‏ provides extra arguments to the comparison in favor of Wasm:</p>
+<p>(…) WebAssembly has been designed to scale from tiny devices to large server farms or CDNs; is much more language-agnostic than Java; and has a much smaller implementation footprint.</p>
+<p>WASI seeks to achieve portable binaries by specifying a common interface to multiple systems, based on abstractions of system functionalities. Such abstractions are clustered into modules, with wasi-core occupying a central role. Lin Clark details:</p>
+<p>wasi-core will contain the basics that all programs need. It will cover much of the same ground as POSIX, including things such as files, network connections, clocks, and random numbers.</p>
+<p>Other functionalities, like multimedia, 3D graphics, or smart contracts, may be addressed by specific modules. The standardization effort in place aims at specifying carefully the system functionality abstractions to address a large set of operating systems and architectures, while maintaining the performance objective of WebAssembly.</p>
+<p>WASI builds on the security aspect of Wasm by adopting a capability-based security model. WASI applications are provided with capabilities, instead of forgeable references (such as a file path) which identify a resource, but do not specify which access rights are appropriate for that resource. Forgeable references force validation by the operating system based on the ambient authority of the requesting program. Lin Clark explains how a WASI app can only open a file if it previously has been given the capability to open that file:</p>
+<p>(…) you can’t have code that randomly asks to open &#x2F;etc&#x2F;passwd. Instead, the code can only operate on the directories that are passed in to it. (…) So the runtime passes in the file descriptors that an app can use to the top level code, and then file descriptors get propagated through the rest of the system on an as-needed basis.</p>
+<p>WASI-enabled apps can currently be run in the browser with a polyfill, or outside the browser with Mozilla’s Wasmtime, or Fastly’s Lucet.</p>
+<p>WASI is a work in progress. Lin Clark reflects:</p>
+<p>But there are still questions we’ll need to address after wasi-core is fully standardized. Those questions include:</p>
+<p>asynchronous I&#x2F;O<br>file watching<br>file locking<br>The stakes are high. Solomon Hikes, co-founder of Docker, says:</p>
+<p>If WASM+WASI existed in 2008, we wouldn’t have needed to created Docker. That’s how important it is. Webassembly on the server is the future of computing. A standardized system interface was the missing link. Let’s hope WASI is up to the task!</p>
+<h2 id="3-原文解读"><a href="#3-原文解读" class="headerlink" title="3. 原文解读"></a>3. 原文解读</h2><p>文档链接：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">Standardizing WASI: A system interface to run WebAssembly outside the web</a> by Lin Clark on March 27, 2019  </p>
+<blockquote>
+<p>Today, we announce the start of a new standardization effort — WASI, the WebAssembly system interface.</p>
+<ul>
+<li><p><strong>Why</strong>: Developers are starting to <strong>push WebAssembly beyond the browser</strong>, because it provides a fast, scalable, secure way to run the same code across all machines.</p>
+<p>  But we don’t yet have a solid foundation to build upon. <strong>Code outside of a browser needs a way to talk to the system — a system interface.</strong> And the WebAssembly platform doesn’t have that yet.</p>
+</li>
+</ul>
+</blockquote>
+<p>由于WebAssembly的诸多好处（fast，scalable，secure，跨平台），产生了<strong>在浏览器外</strong>运行WebAssembly的诉求。但想要在浏览器外运行WebAssembly，就需要解决程序与操作系统之间通信的问题。（为了解决这个问题，WASI产生了。）</p>
+<blockquote>
+<ul>
+<li><p><strong>What</strong>: WebAssembly is an assembly language <strong>for a conceptual machine, not a physical one</strong>. This is why it can be run across a variety of different machine architectures.</p>
+<p>  Just as WebAssembly is an assembly language for a conceptual machine, WebAssembly needs a system interface for a conceptual operating system, not any single operating system. This way, it can be run across all different OSs.</p>
+<p>  This is what WASI is — a system interface for the WebAssembly platform.</p>
+<p>  We aim to create a system interface that will be a true companion to WebAssembly and last the test of time. This means upholding the <strong>key principles of WebAssembly — portability and security</strong>.</p>
+</li>
+</ul>
+</blockquote>
+<p>WASI是一个为WebAssembly平台设计的系统接口，为WebAssembly的<strong>可移植性</strong>和<strong>安全性</strong>提供支持。</p>
+<blockquote>
+<ul>
+<li><p><strong>Who</strong>: We are chartering a WebAssembly subgroup to focus on standardizing WASI. We’ve already gathered interested partners, and are looking for more to join.</p>
+<p> Here are some of the reasons that we, our partners, and our supporters think this is important:</p>
+</li>
+</ul>
+</blockquote>
+<p>下面是一些有在浏览器外使用WebAssembly诉求的人对WASI的看法：  </p>
+<blockquote>
+<ul>
+<li><em>Sean White, Chief R&amp;D Officer of <strong>Mozilla</strong></em><br>  “WebAssembly is already transforming the way the web brings new kinds of compelling content to people and empowers developers and creators to do their best work on the web. Up to now that’s been through browsers, but <strong>with WASI we can deliver the benefits of WebAssembly and the web to more users, more places, on more devices, and as part of more experiences</strong>.”</li>
+</ul>
+</blockquote>
+<p>由于WASI是要为WebAssembly提供非浏览器环境的支持，因此它可以把WebAssembly的优势推广到更多用户、更多设备。</p>
+<blockquote>
+<ul>
+<li><em>Tyler McMullen, CTO of <strong>Fastly</strong></em><br>  “We are taking WebAssembly beyond the browser, <strong>as a platform for fast, safe execution of code in our edge cloud</strong>. Despite the differences in environment between our edge and browsers, WASI means WebAssembly developers won’t have to port their code to each different platform.”</li>
+</ul>
+</blockquote>
+<p>Fastly旨在将WebAssembly拓展到非浏览器环境，在edge cloud中提供一个快速安全地执行代码的平台。</p>
+<blockquote>
+<ul>
+<li><em>Myles Borins, Node Technical Steering committee director</em><br>  “WebAssembly could solve one of the biggest problems in Node — how to <strong>get close-to-native speeds and reuse code written in other languages like C and C++ like you can with native modules</strong>, while still remaining <strong>portable and secure</strong>. Standardizing this system interface is the first step towards making that happen.”</li>
+</ul>
+</blockquote>
+<p>有了WebAssembly，我们不但可以重用已经用C&#x2F;C++写好的代码，还可以获得接近C&#x2F;C++的运行速度。</p>
+<blockquote>
+<ul>
+<li><em>Laurie Voss, co-founder of <strong>npm</strong></em><br>  “npm is tremendously excited by the potential WebAssembly holds to expand the capabilities of the npm ecosystem while hugely simplifying the process of getting native code to run in server-side JavaScript applications. We look forward to the results of this process.”</li>
+</ul>
+<p>So that’s the big news! 🎉</p>
+<p>There are currently 3 implementations of WASI:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">wasmtime</a>：Mozilla’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://www.fastly.com/blog/announcing-lucet-fastly-native-webassembly-compiler-runtime">Lucet</a>：Fastly’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://wasi.dev/polyfill/">a browser polyfill</a></li>
+</ul>
+<p>You can see WASI in action in this video:  <a target="_blank" rel="noopener" href="https://www.youtube.com/embed/ggtEJC0Jv8A">https://www.youtube.com/embed/ggtEJC0Jv8A</a>  </p>
+<p>And if you want to learn more about our proposal for how this system interface should work, keep reading.</p>
+<h3 id="What’s-a-system-interface"><a href="#What’s-a-system-interface" class="headerlink" title="What’s a system interface?"></a>What’s a system interface?</h3><p>Many people talk about languages like C giving you direct access to system resources. But that’s not quite true.</p>
+<p>These languages don’t have direct access to do things like open or create files on most systems. Why not?</p>
+<p>Because these system resources — such as files, memory, and network connections— are too important for stability and security.</p>
+<p>If one program unintentionally messes up the resources of another, then it could crash the program. Even worse, if a program (or user) intentionally messes with the resources of another, it could steal sensitive data.  </p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/009-crash-data-leak.png" alt="A frowning terminal window indicating a crash, and a file with a broken lock indicating a data leak">  </p>
+<p>So we need a way to control which programs and users can access which resources. People figured this out pretty early on, and came up with a way to provide this control: protection ring security.</p>
+<p>With protection ring security, the operating system basically puts a protective barrier around the system’s resources. This is the kernel. The kernel is the only thing that gets to do operations like creating a new file or opening a file or opening a network connection.</p>
+<p>The user’s programs run outside of this kernel in something called user mode. If a program wants to do anything like open a file, it has to ask the kernel to open the file for it.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/010-protection-ring-sec.png" alt="A file directory structure on the left, with a protective barrier in the middle containing the operating system kernel, and an application knocking for access on the right">  </p>
+<p>This is where the concept of the system call comes in. When a program needs to ask the kernel to do one of these things, it asks using a system call. This gives the kernel a chance to figure out which user is asking. Then it can see if that user has access to the file before opening it.</p>
+<p>On most devices, this is the only way that your code can access the system’s resources — through system calls.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/011-syscall.png" alt="An application asking the operating system to put data into an open file">  </p>
+<p>The operating system makes the system calls available. But if each operating system has its own system calls, wouldn’t you need a different version of the code for each operating system? Fortunately, you don’t.</p>
+<p>How is this problem solved? Abstraction.</p>
+<p>Most languages provide a standard library. While coding, the programmer doesn’t need to know what system they are targeting. They just use the interface.</p>
+<p>Then, when compiling, your toolchain picks which implementation of the interface to use based on what system you’re targeting. This implementation uses functions from the operating system’s API, so it’s specific to the system.</p>
+<p>This is where the system interface comes in. For example, <code>printf</code> being compiled for a Windows machine could use the Windows API to interact with the machine. If it’s being compiled for Mac or Linux, it will use POSIX instead.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/012-implementations.png" alt="The interface for putc being translated into two different implementations, one implemented using POSIX and one implemented using Windows APIs">  </p>
+<p>This poses a problem for WebAssembly, though.</p>
+<p>With WebAssembly, you don’t know what kind of operating system you’re targeting even when you’re compiling. So you can’t use any single OS’s system interface inside the WebAssembly implementation of the standard library.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/013-implementations-2.png" alt="an empty implementation of putc">  </p>
+<p>I’ve talked before about how WebAssembly is <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/creating-and-working-with-webassembly-modules/">an assembly language for a conceptual machine</a>, not a real machine. In the same way, WebAssembly needs a system interface for a conceptual operating system, not a real operating system.</p>
+<p>But there are already runtimes that can run WebAssembly outside the browser, even without having this system interface in place. How do they do it? Let’s take a look.</p>
+<h3 id="How-is-WebAssembly-running-outside-the-browser-today"><a href="#How-is-WebAssembly-running-outside-the-browser-today" class="headerlink" title="How is WebAssembly running outside the browser today?"></a>How is WebAssembly running outside the browser today?</h3><p>The first tool for producing WebAssembly was Emscripten. <strong>It emulates a particular OS system interface, POSIX, on the web.</strong> This means that the programmer can use functions from the C standard library (libc).</p>
+<p>To do this, Emscripten created its own implementation of libc. This implementation was split in two — part was compiled into the WebAssembly module, and the other part was implemented in JS glue code. This JS glue would then call into the browser, which would then talk to the OS.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/014-emscripten.png" alt="A Rube Goldberg machine showing how a call goes from a WebAssembly module, into Emscripten&#39;s JS glue code, into the browser, into the kernel"></p>
+<p>Most of the early WebAssembly code was compiled with Emscripten. So when people started wanting to run WebAssembly without a browser, they started by making Emscripten-compiled code run.</p>
+<p>So these runtimes needed to create their own implementations for all of these functions that were in the JS glue code.</p>
+<p>There’s a problem here, though. The interface provided by this JS glue code wasn’t designed to be a standard, or even a public facing interface. That wasn’t the problem it was solving.</p>
+<p>For example, for a function that would be called something like <code>read</code> in an API that was designed to be a public interface, the JS glue code instead uses <code>_system3(which, varargs)</code>.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/015-system3.png" alt="A clean interface for read, vs a confusing one for system3">  </p>
+<p>The first parameter, <code>which</code>, is an integer which is always the same as the number in the name (so 3 in this case).</p>
+<p>The second parameter, <code>varargs</code>, are the arguments to use. It’s called <code>varargs</code> because you can have a variable number of them. But WebAssembly doesn’t provide a way to pass in a variable number of arguments to a function. So instead, the arguments are passed in via linear memory. This isn’t type safe, and it’s also slower than it would be if the arguments could be passed in using registers.</p>
+<p>That was fine for Emscripten running in the browser. But now runtimes are treating this as a de facto standard, implementing their own versions of the JS glue code. They are emulating an internal detail of an emulation layer of POSIX.</p>
+<p>This means they are re-implementing choices (like passing arguments in as heap values) that made sense based on Emscripten’s constraints, even though these constraints don’t apply in their environments.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/016-emulation.png" alt="A more convoluted Rube Goldberg machine, with the JS glue and browser being emulated by a WebAssembly runtime">  </p>
+<p>If we’re going to build a WebAssembly ecosystem that lasts for decades, we need solid foundations. This means <strong>our de facto standard can’t be an emulation of an emulation</strong>.</p>
+<p>But what principles should we apply?</p>
+<h3 id="What-principles-does-a-WebAssembly-system-interface-need-to-uphold"><a href="#What-principles-does-a-WebAssembly-system-interface-need-to-uphold" class="headerlink" title="What principles does a WebAssembly system interface need to uphold?"></a>What principles does a WebAssembly system interface need to uphold?</h3><p>There are two important principles that are baked into WebAssembly :</p>
+<ul>
+<li><strong>portability</strong></li>
+<li><strong>security</strong></li>
+</ul>
+<p>We need to maintain these key principles as we move to outside-the-browser use cases.</p>
+<p>As it is, POSIX and Unix’s Access Control approach to security don’t quite get us there. Let’s look at where they fall short.</p>
+<h4 id="Portability"><a href="#Portability" class="headerlink" title="Portability"></a>Portability</h4><p>POSIX provides source code portability. You can compile the same source code with different versions of libc to target different machines.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/017-portability.png" alt="One C source file being compiled to multiple binaries">  </p>
+<p>But WebAssembly needs to go one step beyond this. We need to be able to compile once and run across a whole bunch of different machines. We need portable binaries.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/018-portability-1.png" alt="One C source file being compiled to a single binary">  </p>
+<p>This kind of portability makes it much easier to distribute code to users.</p>
+<p>For example, if Node’s native modules were written in WebAssembly, then users wouldn’t need to run node-gyp when they install apps with native modules, and developers wouldn’t need to configure and distribute dozens of binaries.</p>
+<h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><p>When a line of code asks the operating system to do some input or output, the OS needs to determine if it is safe to do what the code asks.</p>
+<p>Operating systems typically handle this with access control that is based on ownership and groups.</p>
+<p>For example, the program might ask the OS to open a file. A user has a certain set of files that they have access to.</p>
+<p>When the user starts the program, the program runs on behalf of that user. If the user has access to the file — either because they are the owner or because they are in a group with access — then the program has that same access, too.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/019-access-control.png" alt="An application asking to open a file that is relevant to what it&#39;s doing"></p>
+<p>This protects users from each other. That made a lot of sense when early operating systems were developed. Systems were often multi-user, and administrators controlled what software was installed. So the most prominent threat was other users taking a peek at your files.</p>
+<p>That has changed. Systems now are usually single user, but they are running code that pulls in lots of other, third party code of unknown trustworthiness. Now the biggest threat is that the code that you yourself are running will turn against you.</p>
+<p>For example, let’s say that the library you’re using in an application gets a new maintainer (as often happens in open source). That maintainer might have your interest at heart… or they might be one of the bad guys. And if they have access to do anything on your system — for example, open any of your files and send them over the network — then their code can do a lot of damage.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/020-bitcoin.png" alt="An evil application asking for access to the users bitcoin wallet and opening up a network connection">  </p>
+<p>This is why using third-party libraries that can talk directly to the system can be dangerous.</p>
+<p>WebAssembly’s way of doing security is different. <strong>WebAssembly is sandboxed.</strong></p>
+<p>This means that code can’t talk directly to the OS. But then how does it do anything with system resources? The host (<strong>which might be a browser, or might be a wasm runtime</strong>) puts functions in the sandbox that the code can use.</p>
+<p>This means that the host can limit what a program can do on a program-by-program basis. It doesn’t just let the program act on behalf of the user, calling any system call with the user’s full permissions.</p>
+<p>Just having a mechanism for sandboxing doesn’t make a system secure in and of itself — the host can still put all of the capabilities into the sandbox, in which case we’re no better off — but it at least gives hosts the option of creating a more secure system.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/021-sandbox.png" alt="A runtime placing safe functions into the sandbox with an application">  </p>
+<p>In any system interface we design, we need to uphold these two principles. Portability makes it easier to develop and distribute software, and providing the tools for hosts to secure themselves or their users is an absolute must.</p>
+<h3 id="What-should-this-system-interface-look-like"><a href="#What-should-this-system-interface-look-like" class="headerlink" title="What should this system interface look like?"></a>What should this system interface look like?</h3><p>Given those two key principles, what should the design of the WebAssembly system interface be?</p>
+<p>That’s what we’ll figure out through the standardization process. We do have a proposal to start with, though:</p>
+<ul>
+<li>Create a modular set of standard interfaces</li>
+<li>Start with standardizing the most fundamental module, wasi-core<br><img src="/../imgs/WASI%E8%B5%84%E6%96%99/022-wasi.png" alt="Multiple modules encased in the WASI standards effort"></li>
+</ul>
+<h4 id="What-will-be-in-wasi-core"><a href="#What-will-be-in-wasi-core" class="headerlink" title="What will be in wasi-core?"></a>What will be in wasi-core?</h4><p>wasi-core will contain the basics that all programs need. It will cover much of the same ground as POSIX, including things such as files, network connections, clocks, and random numbers.</p>
+<p>And it will take a very similar approach to POSIX for many of these things. For example, it will use POSIX’s file-oriented approach, where you have system calls such as open, close, read, and write and everything else basically provides augmentations on top.</p>
+<p>But wasi-core won’t cover everything that POSIX does. For example, the process concept does not map clearly onto WebAssembly. And beyond that, it doesn’t make sense to say that every WebAssembly engine needs to support process operations like <code>fork</code>. But we also want to make it possible to standardize fork.</p>
+<p>This is where the modular approach comes in. This way, we can get good standardization coverage while still allowing niche platforms to use only the parts of WASI that make sense for them.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/023-wasi-1.png" alt="Modules filled in with possible areas for standardization, such as processes, sensors, 3D graphics, etc">  </p>
+<p>Languages like Rust will use wasi-core directly in their standard libraries. For example, Rust’s <code>open</code> is implemented by calling <code>__wasi_path_open</code> when it’s compiled to WebAssembly.</p>
+<p>For C and C++, we’ve created a wasi-sysroot that implements libc in terms of wasi-core functions.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/024-open-imps.png" alt="The Rust and C implementations of openat with WASI">  </p>
+<p>We expect compilers like Clang to be ready to interface with the WASI API, and complete toolchains like the Rust compiler and Emscripten to use WASI as part of their system implementations</p>
+<h4 id="How-does-the-user’s-code-call-these-WASI-functions"><a href="#How-does-the-user’s-code-call-these-WASI-functions" class="headerlink" title="How does the user’s code call these WASI functions?"></a>How does the user’s code call these WASI functions?</h4><p>The runtime that is running the code passes the wasi-core functions in as imports.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/025-imports.png" alt="A runtime placing an imports object into the sandbox">  </p>
+<p>This gives us portability, because each host can have their own implementation of wasi-core that is specifically written for their platform — from WebAssembly runtimes like Mozilla’s wasmtime and Fastly’s Lucet, to Node, or even the browser.</p>
+<p>It also gives us sandboxing because the host can choose which wasi-core functions to pass in — so, which system calls to allow — on a program-by-program basis. This preserves security.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/026-sec-port.png" alt="Three runtimes—wastime, Node, and the browser—passing their own implementations of wasi_fd_open into the sandbox">  </p>
+<p>WASI gives us a way to extend this security even further. It brings in more concepts from capability-based security.</p>
+<p>Traditionally, if code needs to open a file, it calls <code>open</code> with a string, which is the path name. Then the OS does a check to see if the code has permission (based on the user who started the program).</p>
+<p>With WASI, if you’re calling a function that needs to access a file, you have to pass in a file descriptor, which has permissions attached to it. This could be for the file itself, or for a directory that contains the file.</p>
+<p>This way, you can’t have code that randomly asks to open <code>/etc/passwd</code>. Instead, the code can only operate on the directories that are passed in to it.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/027-openat-path.png" alt="Two evil apps in sandboxes. The one on the left is using POSIX and succeeds at opening a file it shouldn&#39;t have access to. The other is using WASI and can&#39;t open the file.">  </p>
+<p>This makes it possible to safely give sandboxed code more access to different system calls — because the capabilities of these system calls can be limited.</p>
+<p>And this happens on a module-by-module basis. By default, a module doesn’t have any access to file descriptors. But if code in one module has a file descriptor, it can choose to pass that file descriptor to functions it calls in other modules. Or it can create more limited versions of the file descriptor to pass to the other functions.</p>
+<p>So the runtime passes in the file descriptors that an app can use to the top level code, and then file descriptors get propagated through the rest of the system on an as-needed basis.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/028-file-perms.png" alt="The runtime passing a directory to the app, and then the app passing a file to a function">  </p>
+<p>This gets WebAssembly closer to the principle of least privilege, where a module can only access the exact resources it needs to do its job.</p>
+<p>These concepts come from capability-oriented systems, like CloudABI and Capsicum. One problem with capability-oriented systems is that it is often hard to port code to them. But we think this problem can be solved.</p>
+<p>If code already uses <code>openat</code> with relative file paths, compiling the code will just work.</p>
+<p>If code uses open and migrating to the <code>openat</code> style is too much up-front investment, WASI can provide an incremental solution. With libpreopen, you can create a list of file paths that the application legitimately needs access to. Then you can use <code>open</code>, but only with those paths.</p>
+<h3 id="What’s-next"><a href="#What’s-next" class="headerlink" title="What’s next?"></a>What’s next?</h3><p>We think wasi-core is a good start. It preserves WebAssembly’s portability and security, providing a solid foundation for an ecosystem.</p>
+<p>But there are still questions we’ll need to address after wasi-core is fully standardized. Those questions include:</p>
+<ul>
+<li>asynchronous I&#x2F;O</li>
+<li>file watching</li>
+<li>file locking</li>
+</ul>
+<p>This is just the beginning, so if you have ideas for how to solve these problems, join us!</p>
+</blockquote>
+<h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WASI 前瞻：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/105902805">https://zhuanlan.zhihu.com/p/105902805</a><br>[2] Mozilla 发布 WASI 计划，可在所有设备上运行 WebAssembly：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/rkcuswctom5wc5*kowac">https://www.infoq.cn/article/rkcuswctom5wc5*kowac</a><br>[3] 上面文章英文原文：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a><br>[4] Standardizing WASI: A system interface to run WebAssembly outside the web：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/</a>  </p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WebAssembly/" rel="tag"># WebAssembly</a>
+              <a href="/tags/WASM/" rel="tag"># WASM</a>
+              <a href="/tags/WASI/" rel="tag"># WASI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1659502486.html" rel="prev" title="WebAssembly资料">
+                  <i class="fa fa-angle-left"></i> WebAssembly资料
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/346707650.html" rel="next" title="WebAssembly和WASI介绍">
+                  WebAssembly和WASI介绍 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">八只爪</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

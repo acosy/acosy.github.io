@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Mac OS X；使用HTTPS网址；使用SSH网址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本地与GitHub的两种连接方式">
+<meta property="og:url" content="https://www.bazhizhua.top/351719571.html">
+<meta property="og:site_name" content="八只爪">
+<meta property="og:description" content="Mac OS X；使用HTTPS网址；使用SSH网址">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/1.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/2.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/3.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/8.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/9.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/10.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/11.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/12.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/13.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/14.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/17.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/15.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/18.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/16.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/21.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/19.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/4.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/5.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/6.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/7.png">
+<meta property="og:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/20.png">
+<meta property="article:published_time" content="2019-03-21T12:40:12.000Z">
+<meta property="article:modified_time" content="2024-05-13T01:25:18.042Z">
+<meta property="article:author" content="八只爪">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="GitHub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/%E6%9C%AC%E5%9C%B0%E4%B8%8EGitHub%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/1.png">
+
+
+<link rel="canonical" href="https://www.bazhizhua.top/351719571.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/351719571.html","path":"351719571.html","title":"本地与GitHub的两种连接方式"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>本地与GitHub的两种连接方式 | 八只爪</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">八只爪</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9C%E7%AB%AF-GitHub-%E5%85%8B%E9%9A%86%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="nav-text">远端(GitHub)克隆到本地</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8HTTPS%E7%BD%91%E5%9D%80"><span class="nav-text">使用HTTPS网址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8SSH%E7%BD%91%E5%9D%80"><span class="nav-text">使用SSH网址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90SSH%E5%AF%86%E9%92%A5%E5%AF%B9"><span class="nav-text">生成SSH密钥对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%8A%E7%A7%81%E9%92%A5%E6%B7%BB%E5%8A%A0%E5%88%B0ssh-agent"><span class="nav-text">把私钥添加到ssh-agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86public-key%E6%B7%BB%E5%8A%A0%E5%88%B0GitHub"><span class="nav-text">将public key添加到GitHub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%98%AF%E5%90%A6%E6%88%90%E5%8A%9F"><span class="nav-text">测试是否成功</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E6%9C%AC%E5%9C%B0push%E6%96%87%E4%BB%B6%E5%88%B0GitHub"><span class="nav-text">从本地push文件到GitHub</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8HTTPS%E7%BD%91%E5%9D%80-1"><span class="nav-text">使用HTTPS网址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-osxkeychain-helper-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">安装 osxkeychain helper 的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8OSX-keychain%E5%BD%93%E4%B8%AD%E6%9B%B4%E6%96%B0credentials"><span class="nav-text">在OSX keychain当中更新credentials</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8SSH%E7%BD%91%E5%9D%80-1"><span class="nav-text">使用SSH网址</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="八只爪"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">八只爪</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/351719571.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="八只爪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="八只爪">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="本地与GitHub的两种连接方式 | 八只爪">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          本地与GitHub的两种连接方式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-03-21 08:40:12" itemprop="dateCreated datePublished" datetime="2019-03-21T08:40:12-04:00">2019-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:25:18" itemprop="dateModified" datetime="2024-05-12T21:25:18-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Mac OS X；使用HTTPS网址；使用SSH网址</p>
+<span id="more"></span>
+<h1 id="远端-GitHub-克隆到本地"><a href="#远端-GitHub-克隆到本地" class="headerlink" title="远端(GitHub)克隆到本地"></a>远端(GitHub)克隆到本地</h1><h2 id="使用HTTPS网址"><a href="#使用HTTPS网址" class="headerlink" title="使用HTTPS网址"></a>使用HTTPS网址</h2><div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/1.png" width="50%" height="50%"></div>
+
+<p>官方文档：</p>
+<div class="inArticleExerpt">The https:// clone URLs are available on all repositories, public and private. These URLs work everywhere--even if you are behind a firewall or proxy. </div>
+
+<p>演示：使用 git clone 将 GitHub repository 克隆到本地</p>
+<ol>
+<li><p>本地新建文件夹 <span class="inArticleHighlight">t</span> ，使用 git clone 将 GitHub 上的 <span class="inArticleHighlight">test</span> 仓库克隆到该文件夹下：  </p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/2.png" width="50%" height="50%"></div>
+</li>
+<li><p>可以看到执行上述指令后，本地文件夹 <span class="inArticleHighlight">t</span> 下已经有了从 GitHub 上拷贝的 <span class="inArticleHighlight">test</span> 仓库：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/3.png" width="50%" height="50%"></div></li>
+</ol>
+<h2 id="使用SSH网址"><a href="#使用SSH网址" class="headerlink" title="使用SSH网址"></a>使用SSH网址</h2><div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/8.png" width="50%" height="50%"></div>
+
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>官方文档：</p>
+<div class="inArticleExerpt">SSH URLs provide access to a Git repository via SSH, a secure protocol. To use these URLs, you must generate an SSH keypair on your computer and add the public key to your GitHub account. </div>
+
+<p>使用SSH进行克隆的话必须使用SSH keys。SSH密钥对最直观的作用是让你方便的登录到 SSH 服务器，而无需输入密码。由于你无需发送你的密码到网络中，SSH 密钥对被认为是更加安全的方式。SSH密钥对由公钥和私钥组成。公钥就是一把锁，你把锁给别人，他用锁锁住东西后，除了你自己外其他人是没有钥匙(私钥)的，都无法打开。配对的私钥就是钥匙。必须保证使用你公钥的人明确知道这个公钥一定是你的。你可以在网站或通过其它方式公布你的公钥，以便他人进行对照确认。由于公钥很长，所以有了对应的指纹(指纹更易辨别，位数更少)，可以通过指纹进行对照(公布指纹)。公钥加密指纹fingerprint有两种形式：</p>
+<ul>
+<li>之前的十六进制形式：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48</span><br></pre></td></tr></table></figure></li>
+<li>现在使用sha256哈希值并且使用base64进行格式：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8</span><br></pre></td></tr></table></figure>
+指纹的用处之一是在使用SSH第一次连接到某主机时，会返回该主机使用的公钥的指纹让你识别。如下面演示所示。</li>
+</ul>
+<p>演示：</p>
+<ul>
+<li><p>目前没有设置SSH keys：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/9.png" width="50%" height="50%"></div>
+</li>
+<li><p>使用SSH网址执行 git clone ：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/10.png" width="50%" height="50%"></div></li>
+</ul>
+<p>要使用SSH URL，必须：生成SSH密钥对 -&gt; 添加私钥到ssh-agent -&gt; 添加公钥到GitHub。</p>
+<h3 id="生成SSH密钥对"><a href="#生成SSH密钥对" class="headerlink" title="生成SSH密钥对"></a>生成SSH密钥对</h3><p>(以下内容全部来自参考链接4、5、6)</p>
+<ol>
+<li>检验本机是否已经有SSH密钥对<blockquote>
+<p>方法一：打开Terminal，执行：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br><span class="line"># Lists the files in your .ssh directory, if they exist</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>方法二：在Finder中使用“command + shift + g”，搜索“~&#x2F;.ssh”：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/11.png" width="50%" height="50%"></div>
+进入文件夹“.ssh”：
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/12.png" width="50%" height="50%"></div>
+</blockquote>
+默认情况下，公钥有如下形式：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id_dsa.pub</span><br><span class="line">id_ecdsa.pub</span><br><span class="line">id_ed25519.pub</span><br><span class="line">id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>如果已存在密钥对，可以把公钥添加到GitHub；如果不存在密钥对，或者想使用新的密钥对，可以重新生成密钥对，方法如下：<blockquote>
+<p>下面演示的是创建多个ssh keypairs而不是覆盖默认文件的方法：<br>&lt;1&gt; 在创建ssh key时自行输入路径和文件名称，而非使用默认路径和文件名(使用 <span class="inArticleHighlight">-f</span> 指定文件名)：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;your_secondemail@email.com&quot; -f ~/.ssh/github-rsa</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>结果如下图：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/13.png" width="50%" height="50%"></div>
+ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA和DSA两种认证密钥。该命令的选项：
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-b：指定密钥长度；</span><br><span class="line">-e：读取openssh的私钥或者公钥文件；</span><br><span class="line">-C：添加注释；</span><br><span class="line">-f：指定用来保存密钥的文件名；</span><br><span class="line">-i：读取未加密的ssh-v2兼容的私钥/公钥文件，然后在标准输出设备上显示openssh兼容的私钥/公钥；</span><br><span class="line">-l：显示公钥文件的指纹数据；</span><br><span class="line">-N：提供一个新密语；</span><br><span class="line">-P：提供（旧）密语；</span><br><span class="line">-q：静默模式；</span><br><span class="line">-t：指定要创建的密钥类型。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>生成密钥对时，有一个选项要求你设置密码（passphrase），如上图所示。该密码是用来保护你的私钥的密码，如果设置了则在使用私钥时会要求你输入这个密码(一般不设置，因为记不住。。。之后还可更改此密码，使用ssh-keygen -p)。<br>在“.ssh”文件夹下可以看到刚刚生成的SSH keys：</p>
+</blockquote>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/14.png" width="50%" height="50%"></div></li>
+</ol>
+<h3 id="把私钥添加到ssh-agent"><a href="#把私钥添加到ssh-agent" class="headerlink" title="把私钥添加到ssh-agent"></a>把私钥添加到ssh-agent</h3><ol>
+<li><p>启动ssh-agent后台任务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ eval &quot;$(ssh-agent -s)&quot;</span><br><span class="line">&gt; Agent pid 59566</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果电脑是 macOS Sierra 10.12.2 及以上, 需要在配置文件 <span class="inArticleHighlight">~&#x2F;.ssh&#x2F;config</span> (如果没有该文件就新建一个)中添加信息，表示你要“把私钥自动加载到ssh-agent，并把passphrase存储在keychain中”。<br>你在GitHub上粘贴的公钥(Public SSH keys)不是默认的密钥对时，若想让你的ssh client正常与GitHub服务器通信，必须对ssh client进行配置，说明当通信对象为哪个服务器(如GitHub服务器主机)时，使用的是哪个私钥(SSH private key)，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># GitHub.com server</span><br><span class="line">Host github.com</span><br><span class="line"># 如果提示： Unsupported option &quot;rsaauthentication&quot;，则可以选择注释掉该行</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">IdentityFile ~/.ssh/private-key-filename-01</span><br><span class="line"></span><br><span class="line"># Private GitHub server</span><br><span class="line">Host github.company.com</span><br><span class="line">RSAAuthentication yes</span><br><span class="line">IdentityFile ~/.ssh/private-key-filename-02</span><br></pre></td></tr></table></figure>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/17.png" width="50%" height="50%"></div>
+</li>
+<li><p>把SSH私钥自动加载到ssh-agent，并把passphrase存储在keychain中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-add -K ~/.ssh/github-rsa</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的“-K”选项是 ssh-add 指令的Apple’s standard version，在使用这个选项时，会在添加ssh key到ssh-agent时自动把passphrase存到keychain当中。</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/15.png" width="50%" height="50%"></div>
+</blockquote>
+<blockquote>
+<p>检验相应的 ssh key 是否被加载：</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-add -l</span><br></pre></td></tr></table></figure>
+<blockquote>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/18.png" width="50%" height="50%"></div>
+</blockquote>
+<blockquote>
+<p>如果没有被加载，则使用下面的命令加载私钥：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#后面可以同时跟多个私钥</span><br><span class="line">ssh-add ~/.ssh/&lt;private_key_file&gt;  </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果提示 “Could not open a connection to your authentication agent.” 说明你的ssh agent并没有运行；使用下面的命令运行ssh agent，再使用ssh-add命令添加你的ssh key：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># macOS/Linux</span><br><span class="line">$ eval `ssh-agent`</span><br><span class="line"></span><br><span class="line"># 在Windows中的git-bash中</span><br><span class="line">$ eval $(ssh-agent) </span><br></pre></td></tr></table></figure>
+
+<h3 id="将public-key添加到GitHub"><a href="#将public-key添加到GitHub" class="headerlink" title="将public key添加到GitHub"></a>将public key添加到GitHub</h3><p>登录GitHub，进入 Settings -&gt; SSH and GPG keys，点击“New SSH key”，将公钥添加进去。如下图：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/16.png" width="20%" height="20%"></div>
+
+<h3 id="测试是否成功"><a href="#测试是否成功" class="headerlink" title="测试是否成功"></a>测试是否成功</h3><p>执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line"># Attempts to ssh to GitHub</span><br></pre></td></tr></table></figure>
+
+<p>如果出现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; The authenticity of host &#x27;github.com (IP ADDRESS)&#x27; can&#x27;t be established.</span><br><span class="line">&gt; RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.</span><br><span class="line">&gt; Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; The authenticity of host &#x27;github.com (IP ADDRESS)&#x27; can&#x27;t be established.</span><br><span class="line">&gt; RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.</span><br><span class="line">&gt; Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
+
+<p>输入“yes”，会出现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; Hi username! You&#x27;ve successfully authenticated, but GitHub does not</span><br><span class="line">&gt; provide shell access.</span><br></pre></td></tr></table></figure>
+
+<p>上述流程演示如下图：<br>SSH连接：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/21.png" width="50%" height="50%"></div>
+
+<p>这样，再执行 git clone 就可以把GitHub上的文件拷贝到本地了：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/19.png" width="50%" height="50%"></div>
+
+<p>下次无需认证，可以直接使用git clone了。</p>
+<h1 id="从本地push文件到GitHub"><a href="#从本地push文件到GitHub" class="headerlink" title="从本地push文件到GitHub"></a>从本地push文件到GitHub</h1><h2 id="使用HTTPS网址-1"><a href="#使用HTTPS网址-1" class="headerlink" title="使用HTTPS网址"></a>使用HTTPS网址</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>官方文档的说法：</p>
+<div class="inArticleExerpt">When you git clone, git fetch, git pull, or git push to a remote repository using HTTPS URLs on the command line, you'll be asked for your GitHub username and password.</div>
+
+<p>演示：使用 git push 将本地文件push到 GitHub 的 <span class="inArticleHighlight">test</span> 仓库</p>
+<ol>
+<li><p>本地新建文件 <span class="inArticleHighlight">test1.txt</span> ，push到 <span class="inArticleHighlight">test</span> 仓库：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/4.png" width="50%" height="50%"></div>
+</li>
+<li><p>效果：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/5.png" width="50%" height="50%"></div></li>
+</ol>
+<p>可以看到，本地在执行 git push 时被要求输入用户名和密码。<br>为了避免每次push都要输入用户名和密码，可以使用 osxkeychain helper 让 Git 记住 GitHub 的用户名和密码，这样，只要第一次push时输入了用户名和密码，Git 就会记住，之后再push就不必输入用户名和密码了。</p>
+<h3 id="安装-osxkeychain-helper-的方法"><a href="#安装-osxkeychain-helper-的方法" class="headerlink" title="安装 osxkeychain helper 的方法"></a>安装 osxkeychain helper 的方法</h3><p>(下面步骤全部来自参考链接2)<br>官方文档：</p>
+<div class="inArticleExerpt">If you're cloning GitHub repositories using HTTPS, you can use a credential helper to tell Git to remember your GitHub username and password every time it talks to GitHub.<ul><li>If you installed Git using Homebrew, the osxkeychain helper will already be installed.</li><li>If you're running Mac OS X 10.7 and above and you installed Git through Apple's Xcode Command Line Tools, then osxkeychain helper is automatically included in your Git installation.</li></ul></div>
+
+<p>由于本机是 Mac OS X 10.7 以上，osxkeychain helper 已经自动安装了。想要查看 osxkeychain helper 是否安装，可以使用指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git credential-osxkeychain</span><br></pre></td></tr></table></figure>
+
+<p>执行结果若如下图所示，说明已经安装：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/6.png" width="50%" height="50%"></div>
+
+<p>若并没有安装 osxkeychain helper ，</p>
+<ul>
+<li>Mac 版本是 10.9 以上，电脑会提示下载它，如下：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git credential-osxkeychain</span><br><span class="line">&gt; xcode-select: note: no developer tools were found at &#x27;/Applications/Xcode.app&#x27;,</span><br><span class="line">&gt; requesting install. Choose an option in the dialog to download the command line developer tools.</span><br></pre></td></tr></table></figure></li>
+<li>也可以使用 Homebrew 来安装 Git 和 osxkeychain helper：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install git</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>下载 osxkeychain helper 之后告诉 Git 使用它：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global credential.helper osxkeychain</span><br><span class="line"># Set git to use the osxkeychain credential helper</span><br></pre></td></tr></table></figure>
+
+<p>完成以上步骤后，只需要第一次push的时候输入用户名和密码(此时用户名和密码会被保存到 OSX keychain 当中)，下次再push的时候就不用再输入用户名和密码了。</p>
+<h3 id="在OSX-keychain当中更新credentials"><a href="#在OSX-keychain当中更新credentials" class="headerlink" title="在OSX keychain当中更新credentials"></a>在OSX keychain当中更新credentials</h3><p>(下面步骤全部来自参考链接3)</p>
+<ol>
+<li>删除原先的credentials<blockquote>
+<p>方法一：打开Mac的keychain Access，选择 “All items”，并在Search框内搜索“github.com”：</p>
+<blockquote>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/7.png" width="50%" height="50%"></div>
+若要更新credentials，只需简单地将“github.com”删除。
+</blockquote>
+</blockquote>
+<blockquote>
+<p>方法二：使用command line删除：</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git credential-osxkeychain erase</span><br><span class="line">host=github.com</span><br><span class="line">protocol=https</span><br><span class="line">[Press Return]</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>此后第一次push时需要输入新的用户名和密码，keychain此时会自动保存这个新的用户名和密码，再次push时就会自动使用更新后的用户名和密码了。</li>
+</ol>
+<h2 id="使用SSH网址-1"><a href="#使用SSH网址-1" class="headerlink" title="使用SSH网址"></a>使用SSH网址</h2><p>如果按照第一部分的步骤成功添加了SSH keys，那么在使用git push等操作时会自动匹配SSH keys，不需多余的认证过程。演示如下：<br>在GitHub上新建一个空的 <span class="inArticleHighlight">test</span> 仓库(无README.md)，在本地新建文件 <span class="inArticleHighlight">test0.txt</span> 并push到GitHub的 <span class="inArticleHighlight">test</span> 仓库：</p>
+<div class="pic"><img src="../imgs/本地与GitHub的两种连接方式/20.png" width="50%" height="50%"></div>
+
+<br/>
+
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/en/articles/which-remote-url-should-i-use">Which remote URL should I use?</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/en/articles/caching-your-github-password-in-git">Caching your GitHub password in Git</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/en/articles/updating-credentials-from-the-osx-keychain#updating-your-credentials-via-keychain-access">Updating credentials from the OSX Keychain</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/en/articles/connecting-to-github-with-ssh">Connecting to GitHub with SSH</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Generating a new SSH key and adding it to the ssh-agent</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1246cfdbe460">SSH key的介绍与在Git中的使用</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>八只爪
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://www.bazhizhua.top/351719571.html" title="本地与GitHub的两种连接方式">https://www.bazhizhua.top/351719571.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+              <a href="/tags/GitHub/" rel="tag"># GitHub</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/628590802.html" rel="prev" title="git config说明">
+                  <i class="fa fa-angle-left"></i> git config说明
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2260328288.html" rel="next" title="给Hexo博客加密">
+                  给Hexo博客加密 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">八只爪</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
