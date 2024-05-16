@@ -1775,7 +1775,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-12 21:25:18" itemprop="dateModified" datetime="2024-05-12T21:25:18-04:00">2024-05-12</time>
+      <time title="修改时间：2024-05-16 19:38:40" itemprop="dateModified" datetime="2024-05-16T19:38:40-04:00">2024-05-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1822,13 +1822,18 @@
 <li><p>下载安装包<br> 进入：<a target="_blank" rel="noopener" href="https://golang.org/dl/">https://golang.org/dl/</a><br> 点击macOS的安装包，直接下载。  </p>
 <blockquote>
 <p>或者：<br>右键单击安装包的链接，选择<code>Copy link address</code>（复制链接地址）：  </p>
-<p><img src="/../imgs/%E5%AE%89%E8%A3%85Go/014-%E5%A4%8D%E5%88%B6Mac%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80.png" alt="复制macOS的Golang链接地址"></p>
+<p><img src="/../imgs/%E5%AE%89%E8%A3%85Go/014-%E5%A4%8D%E5%88%B6Mac%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80.png" alt="复制macOS的Golang链接地址">  </p>
 <p>wget刚刚复制的address：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://go.dev/dl/go1.18.4.darwin-arm64.pkg</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">若没有安装wget，先安装：</span><br></pre></td></tr></table></figure>
-<p>brew install wget</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">MacOS安装`homebrew`的方法：[MacOS M1安装Homebrew](/MacOS-M1安装Homebrew)  </span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">2. 安装</span><br><span class="line">   双击下载好的`.pkg`文件：  </span><br><span class="line">   ![Go安装](../../imgs/安装Go/015-go安装.png)  </span><br><span class="line">   </span><br><span class="line">   按照提示安装（一路“继续”就可以）。</span><br><span class="line"></span><br><span class="line">3. 查看`/usr/local`目录下的内容</span><br><span class="line">   ```bash</span><br><span class="line">   cd /usr/local</span><br><span class="line">   ls</span><br></pre></td></tr></table></figure>
-<p> 可以看到<code>/usr/local</code>下面多了一个<code>go</code>路径，就是刚刚安装的golang。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https://go.dev/dl/go1.18.4.darwin-arm64.pkg</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">若没有安装wget，先安装：  </span><br><span class="line">```bash</span><br><span class="line">brew install wget</span><br></pre></td></tr></table></figure>
+<p>MacOS安装<code>homebrew</code>的方法：<a href="/MacOS-M1%E5%AE%89%E8%A3%85Homebrew">MacOS M1安装Homebrew</a>  </p>
 </blockquote>
+</li>
+<li><p>安装<br> 双击下载好的<code>.pkg</code>文件：<br> <img src="/../imgs/%E5%AE%89%E8%A3%85Go/015-go%E5%AE%89%E8%A3%85.png" alt="Go安装">  </p>
+<p> 按照提示安装（一路“继续”就可以）。</p>
+</li>
+<li><p>查看<code>/usr/local</code>目录下的内容</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local</span><br><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
+<p> 可以看到<code>/usr/local</code>下面多了一个<code>go</code>路径，就是刚刚安装的golang。</p>
 </li>
 <li><p>添加至环境变量</p>
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.zshrc</span><br><span class="line"><span class="comment"># 最后一行添加：</span></span><br><span class="line"><span class="built_in">export</span> GOROOT=/usr/local/go</span><br><span class="line"><span class="built_in">export</span> GOPATH=~/go</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOROOT</span>/bin:<span class="variable">$GOPATH</span>/bin</span><br><span class="line"><span class="comment"># 保存退出后source一下：</span></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure></li>
