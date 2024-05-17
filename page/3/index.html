@@ -1775,7 +1775,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-16 19:49:27" itemprop="dateModified" datetime="2024-05-16T19:49:27-04:00">2024-05-16</time>
+      <time title="修改时间：2024-05-16 19:58:49" itemprop="dateModified" datetime="2024-05-16T19:58:49-04:00">2024-05-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1813,7 +1813,10 @@
 <p> <img src="/../imgs/%E5%AE%89%E8%A3%85Go/003%E5%A4%8D%E5%88%B6%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80.png" alt="复制Linux的Golang链接地址">  </p>
 </li>
 <li><p>在Linux机器上wget刚刚复制的address  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    wget https://go.dev/dl/go1.18.3.linux-amd64.tar.gz</span><br><span class="line">    ```  </span><br><span class="line"></span><br><span class="line">3. 解压缩  </span><br><span class="line">    执行tar将上面安装包解压到`/usr/local`目录下：  </span><br><span class="line">    ```bash</span><br><span class="line">    sudo tar -C /usr/local/ -zxvf go1.18.3.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://go.dev/dl/go1.18.3.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压缩<br> 执行tar将上面安装包解压到<code>/usr/local</code>目录下：  </p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -C /usr/local/ -zxvf go1.18.3.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>打开<code>/etc/profile</code>（或者<code>$HOME/.profile</code>）设置GOROOT和PATH  </p>
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/profile</span><br><span class="line"><span class="comment"># 最后一行添加：</span></span><br><span class="line"><span class="built_in">export</span> GOROOT=/usr/local/go</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOROOT</span>/bin</span><br><span class="line"><span class="comment"># 保存退出后source一下：</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></li>
@@ -1824,6 +1827,7 @@
 <p> 或者：<br> 右键单击安装包的链接，选择<code>Copy link address</code>（复制链接地址）：<br> <img src="/../imgs/%E5%AE%89%E8%A3%85Go/014-%E5%A4%8D%E5%88%B6Mac%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80.png" alt="复制macOS的Golang链接地址">  </p>
 <p> wget刚刚复制的address：  </p>
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https://go.dev/dl/go1.18.4.darwin-arm64.pkg</span><br><span class="line">```   </span><br><span class="line"></span><br><span class="line">若没有安装wget，先安装：  </span><br><span class="line">```bash</span><br><span class="line">brew install wget</span><br></pre></td></tr></table></figure>
+
 <p> MacOS安装<code>homebrew</code>的方法：<a href="/3518489731.html" title="MacOS M1安装Homebrew">MacOS M1安装Homebrew</a>   </p>
 </li>
 <li><p>安装<br> 双击下载好的<code>.pkg</code>文件：<br> <img src="/../imgs/%E5%AE%89%E8%A3%85Go/015-go%E5%AE%89%E8%A3%85.png" alt="Go安装">  </p>
