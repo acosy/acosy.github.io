@@ -855,7 +855,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2945521800.html" class="post-title-link" itemprop="url">Mac下使用 Hexo+GitHub 编写并发布博客</a>
+          <a href="/2945521800.html" class="post-title-link" itemprop="url">Mac下使用 Hexo和GitHub 编写并发布博客</a>
         </h2>
 
         <div class="post-meta-container">
@@ -873,7 +873,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-16 20:11:00" itemprop="dateModified" datetime="2024-05-16T20:11:00-04:00">2024-05-16</time>
+      <time title="修改时间：2024-05-16 20:16:12" itemprop="dateModified" datetime="2024-05-16T20:16:12-04:00">2024-05-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -905,26 +905,26 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h1><p>在安装Hexo之前，需要先安装Node.js</p>
 <h2 id="安装-Node-js"><a href="#安装-Node-js" class="headerlink" title="安装 Node.js"></a>安装 Node.js</h2><ol>
-<li><p>进入网站：<a target="_blank" rel="noopener" href="http://nodejs.org/en/">http://nodejs.org/en/</a><br>  如下图所示：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/1.png">  </p>
+<li><p>进入网站：<a target="_blank" rel="noopener" href="http://nodejs.org/en/">http://nodejs.org/en/</a><br>  如下图所示：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/1.png">  </p>
 </li>
-<li><p>点击上图中左边的“10.15.3 LTS”版本进行下载，下载完的安装包如下图所示：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/2.png">  </p>
+<li><p>点击上图中左边的“10.15.3 LTS”版本进行下载，下载完的安装包如下图所示：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/2.png">  </p>
 </li>
-<li><p>双击安装包进行安装。安装完成后显示：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/3.png"></p>
+<li><p>双击安装包进行安装。安装完成后显示：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/3.png"></p>
 </li>
 </ol>
-<p>  上图中显示“Make sure that &#x2F;usr&#x2F;local&#x2F;bin is in your $PATH”。在Terminal下执行：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure><br>  来查看$PATH的内容：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/4.png">  </p>
-<p>  从上图中可以看到，<code>/user/local/bin</code> 确实在$PATH中。PATH之间是使用冒号作为分隔符的，格式如下：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&lt;PATH 1&gt;:&lt;PATH 2&gt;:...:&lt;PATH N&gt;</span><br></pre></td></tr></table></figure><br>  若安装成功，在Terminal下执行：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure><br>  能够显示当前node.js的版本号：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/5.png">  </p>
-<p>  执行<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm -v</span><br></pre></td></tr></table></figure><br>  能够显示npm版本号：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/6.png">  </p>
+<p>  上图中显示“Make sure that &#x2F;usr&#x2F;local&#x2F;bin is in your $PATH”。在Terminal下执行：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure><br>  来查看$PATH的内容：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/4.png">  </p>
+<p>  从上图中可以看到，<code>/user/local/bin</code> 确实在$PATH中。PATH之间是使用冒号作为分隔符的，格式如下：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:&lt;PATH 1&gt;:&lt;PATH 2&gt;:...:&lt;PATH N&gt;</span><br></pre></td></tr></table></figure><br>  若安装成功，在Terminal下执行：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure><br>  能够显示当前node.js的版本号：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/5.png">  </p>
+<p>  执行<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm -v</span><br></pre></td></tr></table></figure><br>  能够显示npm版本号：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/6.png">  </p>
 <h2 id="安装-Hexo-1"><a href="#安装-Hexo-1" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h2><ol>
-<li><p>进入网站：<a target="_blank" rel="noopener" href="https://hexo.io/">https://hexo.io</a><br>  如下图所示：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/7.png">  </p>
+<li><p>进入网站：<a target="_blank" rel="noopener" href="https://hexo.io/">https://hexo.io</a><br>  如下图所示：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/7.png">  </p>
 </li>
 <li><p>在Terminal下按上图所示指令执行  </p>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
-<p>  进行hexo安装。执行上述指令结果：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/8.png"></p>
+<p>  进行hexo安装。执行上述指令结果：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/8.png"></p>
 </li>
 </ol>
 <p>  提示信息显示 <code>/usr/local/lib/node_modules</code> 的权限不够。我们可以查看一下 <code>/usr/local</code> 的权限：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l /usr/local</span><br></pre></td></tr></table></figure><br>  (备注：<a href="/2452241759.html" title="Mac查看文件&#x2F;文件夹权限">Mac查看文件&#x2F;文件夹权限</a>)  </p>
-<p>  使用<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l /usr/local</span><br></pre></td></tr></table></figure><br>  查询 <code>/usr/local</code> 权限：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/9.png">  </p>
+<p>  使用<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l /usr/local</span><br></pre></td></tr></table></figure><br>  查询 <code>/usr/local</code> 权限：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/9.png">  </p>
 <p>  上图红框中为updatetime为今天(Mar 19, 2019)的几条指令。  </p>
 <p>  可以看到，被permission denied的文件夹lib的权限是 <code>drwxrwxr-x</code>。  </p>
 <ul>
@@ -933,57 +933,57 @@
 <li>下一个<code>rwx</code>表示文件拥有者所在组(staff)对该文件夹有读写执行权限；</li>
 <li>最后一个<code>r-x</code>表示其他用户对这个文件夹有读和执行的权限，没有写权限。</li>
 </ul>
-<p>  可以看到，上图中的文件所有者为504或505。如果某一个用户因为某种原因被删除，而该用户的文件还存在，那么用ls -l 查看该文件将显示一个代表用户存在前ID号的数字。<br>  例如：<br>  先创建一个用户test，将其加入wang用户组，并用su切换，使用ls –l查看文件拥有者，随即删除用户test，用root进入test家目录，查看刚刚创建的文件testing。<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/10.png">  </p>
+<p>  可以看到，上图中的文件所有者为504或505。如果某一个用户因为某种原因被删除，而该用户的文件还存在，那么用ls -l 查看该文件将显示一个代表用户存在前ID号的数字。<br>  例如：<br>  先创建一个用户test，将其加入wang用户组，并用su切换，使用ls –l查看文件拥有者，随即删除用户test，用root进入test家目录，查看刚刚创建的文件testing。<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/10.png">  </p>
 <p>  可以看到，第三字段成了一个数字，这个数字是原test用户的ID号。因为文件系统对每个文件记录文件所有者的ID，而非用户名。  </p>
-<p>  一般来说，若权限不够，赋予指令最高权限(使用sudo)可以提升该指令权限：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install hexo-cli -g</span><br></pre></td></tr></table></figure><br>  但执行上述命令后出现：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/11.png">  </p>
+<p>  一般来说，若权限不够，赋予指令最高权限(使用sudo)可以提升该指令权限：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install hexo-cli -g</span><br></pre></td></tr></table></figure><br>  但执行上述命令后出现：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/11.png">  </p>
 <p>  解决这个问题的方法：<br>  (1) 修改目录的拥有者:<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">chown</span> -R `<span class="built_in">whoami</span>` /usr/local/lib/node_modules</span><br></pre></td></tr></table></figure><br>  输入用户的登录密码。之后就可以安装了。上面的指令把 <code>/usr/local/lib/node_modules</code> 的拥有者改为了当前用户(<code>whoami</code>，等价于$(whoami))。<br>  (备注：<a href="/2019/03/19/Linux-chown%E5%91%BD%E4%BB%A4%E7%AE%80%E4%BB%8B">Linux chown命令简介</a>)  </p>
-<p>  查看当前用户：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/12.png"><br>  可以看到，当前用户为 <code>shiyuyuan</code>。</p>
-<p>  修改拥有者之后，再查看 <code>/usr/local/lib/node_modules</code> 的权限：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/13.png"><br>  看到owner已经变成当前用户<code>shiyuyuan</code>了。</p>
-<p>  (2) 安装hexo(注意不要使用sudo命令)：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/14.png">  </p>
-<p>  安装成功后，可使用<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure><br>  查看版本号等信息：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/15.png">  </p>
-<p>  Tip: 打开<code>/usr/local</code>的方法：<br>  打开Finder -&gt; <code>command+shift+G</code> -&gt; 输入 <code>/usr/local</code> -&gt; Go<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/16.png">  </p>
-<h1 id="使用-Hexo-创建博客"><a href="#使用-Hexo-创建博客" class="headerlink" title="使用 Hexo 创建博客"></a>使用 Hexo 创建博客</h1><h2 id="创建以后写blog的目录"><a href="#创建以后写blog的目录" class="headerlink" title="创建以后写blog的目录"></a>创建以后写blog的目录</h2><p>为以后写blog创建一个目录 blogs:<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/17.png">  </p>
+<p>  查看当前用户：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/12.png"><br>  可以看到，当前用户为 <code>shiyuyuan</code>。</p>
+<p>  修改拥有者之后，再查看 <code>/usr/local/lib/node_modules</code> 的权限：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/13.png"><br>  看到owner已经变成当前用户<code>shiyuyuan</code>了。</p>
+<p>  (2) 安装hexo(注意不要使用sudo命令)：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/14.png">  </p>
+<p>  安装成功后，可使用<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure><br>  查看版本号等信息：<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/15.png">  </p>
+<p>  Tip: 打开<code>/usr/local</code>的方法：<br>  打开Finder -&gt; <code>command+shift+G</code> -&gt; 输入 <code>/usr/local</code> -&gt; Go<br>  <img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/16.png">  </p>
+<h1 id="使用-Hexo-创建博客"><a href="#使用-Hexo-创建博客" class="headerlink" title="使用 Hexo 创建博客"></a>使用 Hexo 创建博客</h1><h2 id="创建以后写blog的目录"><a href="#创建以后写blog的目录" class="headerlink" title="创建以后写blog的目录"></a>创建以后写blog的目录</h2><p>为以后写blog创建一个目录 blogs:<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/17.png">  </p>
 <p>上述指令在目录 <code>/Users/shiyuyuan/Documents</code> 下新建了一个文件夹 <code>blogs</code>。cd到<code>blogs</code>文件夹下，准备在该文件夹下初始化一个hexo。</p>
 <h2 id="在路径-Users-shiyuyuan-Documents-blogs-下运行："><a href="#在路径-Users-shiyuyuan-Documents-blogs-下运行：" class="headerlink" title="在路径 /Users/shiyuyuan/Documents/blogs 下运行："></a>在路径 <code>/Users/shiyuyuan/Documents/blogs</code> 下运行：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/18.png">  </p>
-<p>如果用ls查看该目录下的内容，可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/19.png">  </p>
+<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/18.png">  </p>
+<p>如果用ls查看该目录下的内容，可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/19.png">  </p>
 <p>我们以后就是在<code>source</code>文件夹下编辑<code>blogs</code>；可以在<code>themes</code>文件夹下添加我们喜欢的主题；<code>_config.yml</code>文件可以修改参数。  </p>
-<h2 id="修改-config-yml"><a href="#修改-config-yml" class="headerlink" title="修改_config.yml"></a>修改<code>_config.yml</code></h2><p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/20.png">  </p>
+<h2 id="修改-config-yml"><a href="#修改-config-yml" class="headerlink" title="修改_config.yml"></a>修改<code>_config.yml</code></h2><p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/20.png">  </p>
 <h2 id="新建post"><a href="#新建post" class="headerlink" title="新建post"></a>新建post</h2><p>目前<code>source</code>文件夹下有个<code>_posts</code>文件夹，<code>_posts</code>文件夹下有一个<code>hello-world.md</code>文件。可以通过:  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post 文件名</span><br></pre></td></tr></table></figure>
 <p>在<code>_posts</code>下新建一个文件。如，使用  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post <span class="string">&quot;My first post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>会在<code>_posts</code>下新建一个名为“My-first-post.md”的文件：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/21.png">  </p>
-<p>用Finder打开可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/22.png"></p>
-<p>打开My-first-post.md：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/23.png">  </p>
-<p>在<code>---</code>下方可以写正文，如：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/24.png">  </p>
+<p>会在<code>_posts</code>下新建一个名为“My-first-post.md”的文件：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/21.png">  </p>
+<p>用Finder打开可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/22.png"></p>
+<p>打开My-first-post.md：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/23.png">  </p>
+<p>在<code>---</code>下方可以写正文，如：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/24.png">  </p>
 <h2 id="启动本地web-server，预览博客内容："><a href="#启动本地web-server，预览博客内容：" class="headerlink" title="启动本地web server，预览博客内容："></a>启动本地web server，预览博客内容：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/25.png">  </p>
-<p>打开<code>localhost:4000</code>就可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/26.png">  </p>
+<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/25.png">  </p>
+<p>打开<code>localhost:4000</code>就可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/26.png">  </p>
 <h1 id="将本地博客发布到GitHub"><a href="#将本地博客发布到GitHub" class="headerlink" title="将本地博客发布到GitHub"></a>将本地博客发布到GitHub</h1><h2 id="生成public文件夹"><a href="#生成public文件夹" class="headerlink" title="生成public文件夹"></a>生成public文件夹</h2><p>执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-<p>会在当前目录下生成public文件夹：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/27.png"><br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/28.png">  </p>
+<p>会在当前目录下生成public文件夹：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/27.png"><br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/28.png">  </p>
 <p><code>public</code>文件夹下的内容是之后push到GitHub上的内容。此时，public文件夹下含有<code>hello-world</code>和<code>My-first-post</code>两个blogs。</p>
-<h2 id="将public文件夹下的内容push到GitHub"><a href="#将public文件夹下的内容push到GitHub" class="headerlink" title="将public文件夹下的内容push到GitHub"></a>将public文件夹下的内容push到GitHub</h2><p>(1) 登录自己的GitHub<br>(2) 新建一个repository (注意，repository的名称为username.github.io)<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/29.png">  </p>
-<p>新建成功后，我们可以获得ssh的地址：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/30.png">   </p>
+<h2 id="将public文件夹下的内容push到GitHub"><a href="#将public文件夹下的内容push到GitHub" class="headerlink" title="将public文件夹下的内容push到GitHub"></a>将public文件夹下的内容push到GitHub</h2><p>(1) 登录自己的GitHub<br>(2) 新建一个repository (注意，repository的名称为username.github.io)<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/29.png">  </p>
+<p>新建成功后，我们可以获得ssh的地址：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/30.png">   </p>
 <p>如上图所示，为<br><a target="_blank" rel="noopener" href="https://github.com/AliceYsy/AliceYsy.github.io.git">https://github.com/AliceYsy/AliceYsy.github.io.git</a>  </p>
-<p>(3) 本地新建git repository<br>(此处默认本地已经安装了git。检测本地是否安装了git，只需要在Terminal下执行“git”，看是够会出现usage等信息。)<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/31.png">  </p>
+<p>(3) 本地新建git repository<br>(此处默认本地已经安装了git。检测本地是否安装了git，只需要在Terminal下执行“git”，看是够会出现usage等信息。)<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/31.png">  </p>
 <p>(4) 将public下的全部文件添加到本地repository的staging area中:  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add --all</span><br></pre></td></tr></table></figure>
 <p>或</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
 <p>(5) 将staging area中的内容添加到本地的git repository中：  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;This is my first hexo blog commit&quot;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/32.png">  </p>
+<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/32.png">  </p>
 <p><code>-m</code> 表示后面双引号中内容是本次commit的comment。  </p>
 <p>(6) 告诉本地的git将要push到的远端git的地址：  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://github.com/AliceYsy/AliceYsy.github.io.git</span><br></pre></td></tr></table></figure>
-<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/33.png">  </p>
+<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/33.png">  </p>
 <p>(7) 把本地git repository中的内容push到远端git repository：  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/34.png">  </p>
-<p>刷新GitHub页面就可以看到刚刚push上来的文件：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/35.png">  </p>
-<h2 id="使用浏览器访问博客"><a href="#使用浏览器访问博客" class="headerlink" title="使用浏览器访问博客"></a>使用浏览器访问博客</h2><p>进入网址：<code>AliceYsy.github.io</code><br>可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo+GitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/36.png"><br>显示的正是我们本地创建并push到GitHub上的博客。  </p>
+<p><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/34.png">  </p>
+<p>刷新GitHub页面就可以看到刚刚push上来的文件：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/35.png">  </p>
+<h2 id="使用浏览器访问博客"><a href="#使用浏览器访问博客" class="headerlink" title="使用浏览器访问博客"></a>使用浏览器访问博客</h2><p>进入网址：<code>AliceYsy.github.io</code><br>可以看到：<br><img src="/../imgs/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo%E5%92%8CGitHub%E7%BC%96%E5%86%99%E5%B9%B6%E5%8F%91%E5%B8%83%E5%8D%9A%E5%AE%A2/36.png"><br>显示的正是我们本地创建并push到GitHub上的博客。  </p>
 <br/>
 
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ol>
