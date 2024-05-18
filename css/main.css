@@ -1260,7 +1260,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #639ed5;
+  background: #d2bdba;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2764,13 +2764,13 @@ header.header {
   flex-wrap: wrap;
   justify-content: center;
   justify-content: left;
-  padding-bottom: 5rem;
+  margin-bottom: 5rem;
 }
 .home-item {
   font-size: 1.25rem;
   height: 5em;
   width: 45%;
-  margin: 1em 1em;
+  margin: 0.3em 0.3em;
   border-top-left-radius: 0.2rem;
   border-top-right-radius: 0.2rem;
   border-bottom-left-radius: 0.2rem;
@@ -2798,13 +2798,13 @@ header.header {
   flex-wrap: wrap;
   justify-content: center;
   justify-content: left;
-  padding-bottom: 5rem;
+  margin-bottom: 5rem;
 }
 .gallery-item {
   border: none;
-  font-size: 1rem;
-  max-width: 45%;
-  margin: 1em 1em;
+  font-size: 0.85rem;
+  width: 45%;
+  margin: 0.3em 0.3em;
 }
 .gallery-item:hover {
   color: #fc5523;
@@ -2817,7 +2817,7 @@ header.header {
   border-bottom-right-radius: 0.2rem;
   border: 1px solid #d1d1d1;
   width: 95%;
-  height: 10rem;
+  height: 30%;
 }
 .img-name {
   text-align: center;
