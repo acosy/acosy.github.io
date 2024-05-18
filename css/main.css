@@ -1260,7 +1260,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #7bf;
+  background: #7a6bff;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2744,7 +2744,8 @@ header.header {
   color: #3c3c3c;
 }
 .post-copyright ul {
-  width: 95%;
+  width: 85%;
+  max-width: 45em;
   margin: 2.8em auto 0;
   border: 1px solid #3c3c3c;
   font-size: 0.95rem;
