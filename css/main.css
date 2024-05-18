@@ -1260,7 +1260,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #e3baf9;
+  background: #13ff22;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2739,4 +2739,20 @@ header.header {
 }
 .sub-menu .menu-item {
   display: inline-block;
+}
+.post-copyright {
+  color: #3c3c3c;
+}
+.post-copyright ul {
+  width: 100%;
+  margin: 2.8em auto 0;
+  border: 1px solid #3c3c3c;
+  font-size: 0.95rem;
+  line-height: 2em;
+  word-break: break-all;
+  background: rgba(255,255,255,0.4);
+}
+.post-copyright a:hover {
+  color: #000;
+  border-bottom: 1px solid #000;
 }
