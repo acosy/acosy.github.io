@@ -17,34 +17,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="本文大部分内容翻译自：The Rust Programming Language 1. Cargo简介Cargo是Rust的构建系统和软件包管理器，可以为Rust程序完成很多工作，如：    构建代码 下载代码依赖的库 构建这些库  当你写的Rust程序变得越来越复杂，就会需要依赖包，使用Cargo就会让添加依赖变得更容易。   在安装Rust时，Cargo已经被安装好了，可以通过下面命令来查看C">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cargo">
-<meta property="og:url" content="https://www.bazhizhua.top/923412339.html">
-<meta property="og:site_name" content="八只爪">
+<meta property="og:url" content="https://acosy.github.io/923412339.html">
+<meta property="og:site_name" content="Acosy">
 <meta property="og:description" content="本文大部分内容翻译自：The Rust Programming Language 1. Cargo简介Cargo是Rust的构建系统和软件包管理器，可以为Rust程序完成很多工作，如：    构建代码 下载代码依赖的库 构建这些库  当你写的Rust程序变得越来越复杂，就会需要依赖包，使用Cargo就会让添加依赖变得更容易。   在安装Rust时，Cargo已经被安装好了，可以通过下面命令来查看C">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Cargo/0001-cargo-new%E7%BB%93%E6%9E%9C.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Cargo/0002-cargo%E6%9E%84%E5%BB%BA%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Cargo/0003-cargo-run%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Cargo/0001-cargo-new%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Cargo/0002-cargo%E6%9E%84%E5%BB%BA%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Cargo/0003-cargo-run%E7%BB%93%E6%9E%9C.png">
 <meta property="article:published_time" content="2022-07-25T15:01:48.000Z">
 <meta property="article:modified_time" content="2024-05-13T01:58:36.707Z">
-<meta property="article:author" content="八只爪">
+<meta property="article:author" content="Acosy">
 <meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/Cargo/0001-cargo-new%E7%BB%93%E6%9E%9C.png">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/Cargo/0001-cargo-new%E7%BB%93%E6%9E%9C.png">
 
 
-<link rel="canonical" href="https://www.bazhizhua.top/923412339.html">
+<link rel="canonical" href="https://acosy.github.io/923412339.html">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/923412339.html","path":"923412339.html","title":"Cargo"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/923412339.html","path":"923412339.html","title":"Cargo"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Cargo | 八只爪</title>
+<title>Cargo | Acosy</title>
   
 
 
@@ -77,7 +77,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">八只爪</p>
+      <p class="site-title">Acosy</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -151,9 +151,9 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="八只爪"
+    <img class="site-author-image" itemprop="image" alt="Acosy"
       src="/images/custom/avatar.png">
-  <p class="site-author-name" itemprop="name">八只爪</p>
+  <p class="site-author-name" itemprop="name">Acosy</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap animated">
@@ -198,20 +198,20 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/923412339.html">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/923412339.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Cargo | 八只爪">
+      <meta itemprop="name" content="Cargo | Acosy">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -375,7 +375,7 @@
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">八只爪</span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
   </div>
 
     </div>

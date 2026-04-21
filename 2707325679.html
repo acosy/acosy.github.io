@@ -17,39 +17,39 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="1. 创建支持一次通信的Echo Server - Handle One Client1.1. 项目结构1234chat-tokio-stream        |-------- src        |          |-------- main.rs        |-------- Cargo.toml  1.2. 源文件内容main.rs内容： 1234567891011121314">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rust实践：Creating a Chat Server with async Rust and Tokio">
-<meta property="og:url" content="https://www.bazhizhua.top/2707325679.html">
-<meta property="og:site_name" content="八只爪">
+<meta property="og:url" content="https://acosy.github.io/2707325679.html">
+<meta property="og:site_name" content="Acosy">
 <meta property="og:description" content="1. 创建支持一次通信的Echo Server - Handle One Client1.1. 项目结构1234chat-tokio-stream        |-------- src        |          |-------- main.rs        |-------- Cargo.toml  1.2. 源文件内容main.rs内容： 1234567891011121314">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0027-tokio-chat-server-%E5%8D%95%E6%AC%A1%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0028-tokio-chat-server%E5%8D%95%E6%AC%A1%E8%BF%9E%E6%8E%A5%E8%BF%94%E5%9B%9Ehello.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0029-tokio-chat-server-%E5%8D%95%E4%B8%AAclient%E5%A4%9A%E6%AC%A1%E9%80%9A%E4%BF%A1.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0030-tokio-chat-server-client%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0031-%E5%A4%9A%E7%94%A8%E6%88%B7%E6%94%AF%E6%8C%81.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0032-chat-server%E9%80%BB%E8%BE%91%E6%9C%89%E8%AF%AF.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0033-%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%B6%88%E6%81%AF%E7%9A%84chat-server.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0034-chat-server%E4%BC%98%E5%8C%96-%E4%B8%8D%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E7%BB%99%E8%87%AA%E5%B7%B1.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0027-tokio-chat-server-%E5%8D%95%E6%AC%A1%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0028-tokio-chat-server%E5%8D%95%E6%AC%A1%E8%BF%9E%E6%8E%A5%E8%BF%94%E5%9B%9Ehello.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0029-tokio-chat-server-%E5%8D%95%E4%B8%AAclient%E5%A4%9A%E6%AC%A1%E9%80%9A%E4%BF%A1.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0030-tokio-chat-server-client%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0031-%E5%A4%9A%E7%94%A8%E6%88%B7%E6%94%AF%E6%8C%81.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0032-chat-server%E9%80%BB%E8%BE%91%E6%9C%89%E8%AF%AF.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0033-%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86%E6%B6%88%E6%81%AF%E7%9A%84chat-server.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0034-chat-server%E4%BC%98%E5%8C%96-%E4%B8%8D%E5%8F%91%E9%80%81%E6%B6%88%E6%81%AF%E7%BB%99%E8%87%AA%E5%B7%B1.png">
 <meta property="article:published_time" content="2022-08-17T15:33:04.000Z">
 <meta property="article:modified_time" content="2024-05-13T01:56:47.843Z">
-<meta property="article:author" content="八只爪">
+<meta property="article:author" content="Acosy">
 <meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0027-tokio-chat-server-%E5%8D%95%E6%AC%A1%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95.png">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5Creating-a-Chat-Server-with-async-Rust-and-Tokio/0027-tokio-chat-server-%E5%8D%95%E6%AC%A1%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95.png">
 
 
-<link rel="canonical" href="https://www.bazhizhua.top/2707325679.html">
+<link rel="canonical" href="https://acosy.github.io/2707325679.html">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/2707325679.html","path":"2707325679.html","title":"Rust实践：Creating a Chat Server with async Rust and Tokio"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/2707325679.html","path":"2707325679.html","title":"Rust实践：Creating a Chat Server with async Rust and Tokio"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Rust实践：Creating a Chat Server with async Rust and Tokio | 八只爪</title>
+<title>Rust实践：Creating a Chat Server with async Rust and Tokio | Acosy</title>
   
 
 
@@ -82,7 +82,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">八只爪</p>
+      <p class="site-title">Acosy</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -156,9 +156,9 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="八只爪"
+    <img class="site-author-image" itemprop="image" alt="Acosy"
       src="/images/custom/avatar.png">
-  <p class="site-author-name" itemprop="name">八只爪</p>
+  <p class="site-author-name" itemprop="name">Acosy</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap animated">
@@ -203,20 +203,20 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/2707325679.html">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/2707325679.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Rust实践：Creating a Chat Server with async Rust and Tokio | 八只爪">
+      <meta itemprop="name" content="Rust实践：Creating a Chat Server with async Rust and Tokio | Acosy">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -439,7 +439,7 @@
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">八只爪</span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
   </div>
 
     </div>

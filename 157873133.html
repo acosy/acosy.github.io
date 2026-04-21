@@ -17,34 +17,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="1. 语法1.1. Rust中的r#&quot;&quot;#字符串字面值开头的r不是一个操作符，而是一个前缀。 在普通的字符串文字中，需要对某些字符进行转义才能使它们成为字符串的一部分，例如&quot;和\：  需要对&quot;字符进行转义，否则它将终止字符串 需要对\进行转义，因为它是转义字符  在Rust中，如果字符串中有需要转义的字符，可以在字符串前面加r前缀，然后放置任意数量的#符号，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rust实践总结">
-<meta property="og:url" content="https://www.bazhizhua.top/157873133.html">
-<meta property="og:site_name" content="八只爪">
+<meta property="og:url" content="https://acosy.github.io/157873133.html">
+<meta property="og:site_name" content="Acosy">
 <meta property="og:description" content="1. 语法1.1. Rust中的r#&quot;&quot;#字符串字面值开头的r不是一个操作符，而是一个前缀。 在普通的字符串文字中，需要对某些字符进行转义才能使它们成为字符串的一部分，例如&quot;和\：  需要对&quot;字符进行转义，否则它将终止字符串 需要对\进行转义，因为它是转义字符  在Rust中，如果字符串中有需要转义的字符，可以在字符串前面加r前缀，然后放置任意数量的#符号，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0024-serde%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0025-serde%20default%E7%A4%BA%E4%BE%8B.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0026-config%E8%AF%BB%E5%8F%96toml%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0024-serde%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0025-serde%20default%E7%A4%BA%E4%BE%8B.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0026-config%E8%AF%BB%E5%8F%96toml%E6%96%87%E4%BB%B6.png">
 <meta property="article:published_time" content="2022-08-11T13:53:02.000Z">
 <meta property="article:modified_time" content="2024-05-13T01:56:55.906Z">
-<meta property="article:author" content="八只爪">
+<meta property="article:author" content="Acosy">
 <meta property="article:tag" content="Rust">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0024-serde%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/Rust%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/0024-serde%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
 
 
-<link rel="canonical" href="https://www.bazhizhua.top/157873133.html">
+<link rel="canonical" href="https://acosy.github.io/157873133.html">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/157873133.html","path":"157873133.html","title":"Rust实践总结"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/157873133.html","path":"157873133.html","title":"Rust实践总结"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Rust实践总结 | 八只爪</title>
+<title>Rust实践总结 | Acosy</title>
   
 
 
@@ -77,7 +77,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">八只爪</p>
+      <p class="site-title">Acosy</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -151,9 +151,9 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="八只爪"
+    <img class="site-author-image" itemprop="image" alt="Acosy"
       src="/images/custom/avatar.png">
-  <p class="site-author-name" itemprop="name">八只爪</p>
+  <p class="site-author-name" itemprop="name">Acosy</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap animated">
@@ -198,20 +198,20 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/157873133.html">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/157873133.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Rust实践总结 | 八只爪">
+      <meta itemprop="name" content="Rust实践总结 | Acosy">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -367,11 +367,11 @@
 <div class="post-copyright">
 <ul>
   <li class="post-copyright-author">
-      <strong>本文作者： </strong>八只爪
+      <strong>本文作者： </strong>Acosy
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://www.bazhizhua.top/157873133.html" title="Rust实践总结">https://www.bazhizhua.top/157873133.html</a>
+      <a href="https://acosy.github.io/157873133.html" title="Rust实践总结">https://acosy.github.io/157873133.html</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
@@ -418,7 +418,7 @@
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">八只爪</span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
   </div>
 
     </div>

@@ -17,38 +17,38 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.bazhizhua.top","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="最早的时候，Go语言所依赖的所有的第三方库都放在 GOPATH 这个目录下面，这就导致了同一个库只能保存一个版本的代码。如果不同的项目依赖同一个第三方的库的不同版本，应该怎么解决？ go module 是Go语言从 1.11 版本之后官方推出的版本管理工具，并且从 Go1.13 版本开始，go module 成为了Go语言默认的依赖管理工具。 Modules 官方定义为：  Modules 是相关">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go Module">
-<meta property="og:url" content="https://www.bazhizhua.top/1869294573.html">
-<meta property="og:site_name" content="八只爪">
+<meta property="og:url" content="https://acosy.github.io/1869294573.html">
+<meta property="og:site_name" content="Acosy">
 <meta property="og:description" content="最早的时候，Go语言所依赖的所有的第三方库都放在 GOPATH 这个目录下面，这就导致了同一个库只能保存一个版本的代码。如果不同的项目依赖同一个第三方的库的不同版本，应该怎么解决？ go module 是Go语言从 1.11 版本之后官方推出的版本管理工具，并且从 Go1.13 版本开始，go module 成为了Go语言默认的依赖管理工具。 Modules 官方定义为：  Modules 是相关">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Go-Module/007-go%20mod%20init%20hello%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Go-Module/008-%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96%E8%BF%87%E7%A8%8B.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Go-Module/009-go-mod.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Go-Module/010-go-sum.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Go-Module/011-%E8%BF%90%E8%A1%8Cmain-go.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Go-Module/012-go%20mod%20init%E5%92%8Cgo%20mod%20tidy%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:image" content="https://www.bazhizhua.top/imgs/Go-Module/013-%E8%BF%90%E8%A1%8Cgo%20run%20main.go%EF%BC%8C%E8%BF%90%E8%A1%8Cgo%20get%E8%8E%B7%E5%8F%96%E4%BE%9D%E8%B5%96%EF%BC%8C%E5%86%8D%E8%BF%90%E8%A1%8Cgo%20run%20main.go.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Go-Module/007-go%20mod%20init%20hello%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Go-Module/008-%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Go-Module/009-go-mod.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Go-Module/010-go-sum.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Go-Module/011-%E8%BF%90%E8%A1%8Cmain-go.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Go-Module/012-go%20mod%20init%E5%92%8Cgo%20mod%20tidy%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Go-Module/013-%E8%BF%90%E8%A1%8Cgo%20run%20main.go%EF%BC%8C%E8%BF%90%E8%A1%8Cgo%20get%E8%8E%B7%E5%8F%96%E4%BE%9D%E8%B5%96%EF%BC%8C%E5%86%8D%E8%BF%90%E8%A1%8Cgo%20run%20main.go.png">
 <meta property="article:published_time" content="2022-07-15T01:19:50.000Z">
 <meta property="article:modified_time" content="2024-05-13T01:25:18.100Z">
-<meta property="article:author" content="八只爪">
+<meta property="article:author" content="Acosy">
 <meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.bazhizhua.top/imgs/Go-Module/007-go%20mod%20init%20hello%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/Go-Module/007-go%20mod%20init%20hello%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
 
 
-<link rel="canonical" href="https://www.bazhizhua.top/1869294573.html">
+<link rel="canonical" href="https://acosy.github.io/1869294573.html">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.bazhizhua.top/1869294573.html","path":"1869294573.html","title":"Go Module"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/1869294573.html","path":"1869294573.html","title":"Go Module"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Go Module | 八只爪</title>
+<title>Go Module | Acosy</title>
   
 
 
@@ -81,7 +81,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <p class="site-title">八只爪</p>
+      <p class="site-title">Acosy</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -155,9 +155,9 @@
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="八只爪"
+    <img class="site-author-image" itemprop="image" alt="Acosy"
       src="/images/custom/avatar.png">
-  <p class="site-author-name" itemprop="name">八只爪</p>
+  <p class="site-author-name" itemprop="name">Acosy</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap animated">
@@ -202,20 +202,20 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.bazhizhua.top/1869294573.html">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1869294573.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="八只爪">
+      <meta itemprop="name" content="Acosy">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Go Module | 八只爪">
+      <meta itemprop="name" content="Go Module | Acosy">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
@@ -442,11 +442,11 @@
 <div class="post-copyright">
 <ul>
   <li class="post-copyright-author">
-      <strong>本文作者： </strong>八只爪
+      <strong>本文作者： </strong>Acosy
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://www.bazhizhua.top/1869294573.html" title="Go Module">https://www.bazhizhua.top/1869294573.html</a>
+      <a href="https://acosy.github.io/1869294573.html" title="Go Module">https://acosy.github.io/1869294573.html</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
@@ -493,7 +493,7 @@
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">八只爪</span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
   </div>
 
     </div>
