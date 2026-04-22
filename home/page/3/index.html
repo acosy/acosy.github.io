@@ -150,7 +150,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -161,7 +161,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -178,6 +178,124 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/3518489731.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/3518489731.html" class="post-title-link" itemprop="url">MacOS M1安装Homebrew</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-21 12:55:24" itemprop="dateCreated datePublished" datetime="2022-07-21T12:55:24-04:00">2022-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:25:18" itemprop="dateModified" datetime="2024-05-12T21:25:18-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/Mac/" itemprop="url" rel="index"><span itemprop="name">Mac</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="1-运行安装指令"><a href="#1-运行安装指令" class="headerlink" title="1. 运行安装指令"></a>1. 运行安装指令</h3><p>打开Terminal（shell为zsh，配置文件为<code>~/.zshrc</code>，后边修改PATH时就是修改这个文件），运行：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~ % /bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br><span class="line">==&gt; Checking <span class="keyword">for</span> `sudo` access (<span class="built_in">which</span> may request your password)...</span><br><span class="line">Password:</span><br></pre></td></tr></table></figure>
+<p>这里要输入密码（因为只有管理员身份才能安装）。   </p>
+<p>接下来会显示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">==&gt; This script will install:</span><br><span class="line">/opt/homebrew/bin/brew</span><br><span class="line">/opt/homebrew/share/doc/homebrew</span><br><span class="line">/opt/homebrew/share/man/man1/brew.1</span><br><span class="line">/opt/homebrew/share/zsh/site-functions/_brew</span><br><span class="line">/opt/homebrew/etc/bash_completion.d/brew</span><br><span class="line">/opt/homebrew</span><br><span class="line">==&gt; The following new directories will be created:</span><br><span class="line">/opt/homebrew/bin</span><br><span class="line">/opt/homebrew/etc</span><br><span class="line">/opt/homebrew/include</span><br><span class="line">/opt/homebrew/lib</span><br><span class="line">/opt/homebrew/sbin</span><br><span class="line">/opt/homebrew/share</span><br><span class="line">/opt/homebrew/var</span><br><span class="line">/opt/homebrew/opt</span><br><span class="line">/opt/homebrew/share/zsh</span><br><span class="line">/opt/homebrew/share/zsh/site-functions</span><br><span class="line">/opt/homebrew/var/homebrew</span><br><span class="line">/opt/homebrew/var/homebrew/linked</span><br><span class="line">/opt/homebrew/Cellar</span><br><span class="line">/opt/homebrew/Caskroom</span><br><span class="line">/opt/homebrew/Frameworks</span><br><span class="line"></span><br><span class="line">Press RETURN/ENTER to <span class="built_in">continue</span> or any other key to abort:</span><br></pre></td></tr></table></figure>
+<p>这里敲回车继续安装。  </p>
+<p>然后就开始安装所有需要的工具，这个过程可能会比较慢：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">==&gt; Downloading and installing Homebrew...</span><br><span class="line">remote: Enumerating objects: 212202, <span class="keyword">done</span>.</span><br><span class="line">remote: Counting objects: 100% (44/44), <span class="keyword">done</span>.</span><br><span class="line">remote: Compressing objects: 100% (44/44), <span class="keyword">done</span>.</span><br><span class="line">remote: Total 212202 (delta 0), reused 44 (delta 0), pack-reused 212158</span><br><span class="line">Receiving objects: 100% (212202/212202), 59.21 MiB | 824.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Resolving deltas: 100% (156120/156120), <span class="keyword">done</span>.</span><br><span class="line">From https://github.com/Homebrew/brew</span><br><span class="line">...</span><br><span class="line">==&gt; Tapping homebrew/core</span><br><span class="line">remote: Enumerating objects: 1232883, <span class="keyword">done</span>.</span><br><span class="line">remote: Counting objects: 100% (601/601), <span class="keyword">done</span>.</span><br><span class="line">remote: Compressing objects: 100% (253/253), <span class="keyword">done</span>.</span><br><span class="line">Resolving deltas: 100% (851035/851035), <span class="keyword">done</span>.</span><br><span class="line">From https://github.com/Homebrew/homebrew-core</span><br><span class="line">* [new branch]              master     -&gt; origin/master</span><br><span class="line">HEAD is now at 566fbd2f195 x265: use `on_&#123;system&#125;` blocks</span><br><span class="line">Updated 1 tap (homebrew/core).</span><br><span class="line">Warning: /opt/homebrew/bin is not <span class="keyword">in</span> your PATH.</span><br><span class="line">Instructions on how to configure your shell <span class="keyword">for</span> Homebrew</span><br><span class="line">can be found <span class="keyword">in</span> the <span class="string">&#x27;Next steps&#x27;</span> section below.</span><br><span class="line">==&gt; Installation successful!</span><br><span class="line"></span><br><span class="line">==&gt; Homebrew has enabled anonymous aggregate formulae and cask analytics.</span><br><span class="line">Read the analytics documentation (and how to opt-out) here:</span><br><span class="line">https://docs.brew.sh/Analytics</span><br><span class="line">No analytics data has been sent yet (nor will any be during this install run).</span><br><span class="line"></span><br><span class="line">==&gt; Homebrew is run entirely by unpaid volunteers. Please consider donating:</span><br><span class="line">https://github.com/Homebrew/brew<span class="comment">#donations</span></span><br><span class="line"></span><br><span class="line">==&gt; Next steps:</span><br><span class="line">- Run these two commands <span class="keyword">in</span> your terminal to add Homebrew to your PATH:</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&#x27;eval &quot;$(/opt/homebrew/bin/brew shellenv)&quot;&#x27;</span> &gt;&gt; /Users/[username]/.zprofile</span><br><span class="line">    <span class="built_in">eval</span> <span class="string">&quot;<span class="subst">$(/opt/homebrew/bin/brew shellenv)</span>&quot;</span></span><br><span class="line">- Run brew <span class="built_in">help</span> to get started</span><br><span class="line">- Further documentation:</span><br><span class="line">    https://docs.brew.sh</span><br></pre></td></tr></table></figure>
+<p>可以看到“Installation successful!”的提示。</p>
+<p>如果出现了一些errors，重新再安装一遍。</p>
+<h3 id="2-将homebrew添加到PATH"><a href="#2-将homebrew添加到PATH" class="headerlink" title="2. 将homebrew添加到PATH"></a>2. 将homebrew添加到PATH</h3><p>“Installation successful!”的提示上面还有一行Warning：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: /opt/homebrew/bin is not <span class="keyword">in</span> your PATH.</span><br></pre></td></tr></table></figure>
+<p>提示你homebrew的可执行文件没有被添加到PATH中。  </p>
+<p>在home下创建<code>.zshrc</code>文件，然后添加下面内容（如果已经有这个文件，直接在文件末尾添加）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/opt/homebrew/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-使上面的PATH内容立即生效"><a href="#3-使上面的PATH内容立即生效" class="headerlink" title="3. 使上面的PATH内容立即生效"></a>3. 使上面的PATH内容立即生效</h3><p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-检查是否安装成功"><a href="#4-检查是否安装成功" class="headerlink" title="4. 检查是否安装成功"></a>4. 检查是否安装成功</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<p>执行结果：<br><img src="/../imgs/MacOS-M1%E5%AE%89%E8%A3%85Homebrew/01-%E6%89%A7%E8%A1%8Cbrew-help.png" alt="执行brew help">  </p>
+<p>说明安装成功。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>[1] How to install homebrew on M1 mac：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/66666134/how-to-install-homebrew-on-m1-mac">https://stackoverflow.com/questions/66666134/how-to-install-homebrew-on-m1-mac</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2244,143 +2362,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/2350345506.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="Acosy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Acosy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Acosy">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2350345506.html" class="post-title-link" itemprop="url">GOPATH</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-14 19:46:18" itemprop="dateCreated datePublished" datetime="2022-07-14T19:46:18-04:00">2022-07-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-12 21:25:18" itemprop="dateModified" datetime="2024-05-12T21:25:18-04:00">2024-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">语言</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>GOPATH是Go语言中使用的一个环境变量，它使用绝对路径提供项目的工作目录。  </p>
-<p>工作目录是一个工程开发的相对参考目录，好比当你要在公司编写一套服务器代码，你的工位所包含的桌面、计算机及椅子就是你的工作区。工作区的概念与工作目录的概念也是类似的。如果不使用工作目录的概念，在多人开发时，每个人有一套自己的目录结构，读取配置文件的位置不统一，输出的二进制运行文件也不统一，这样会导致开发的标准不统一，影响开发效率。  </p>
-<p>GOPATH适合处理大量Go语言源码、多个包组合而成的复杂工程。  </p>
-<h2 id="1-使用命令行查看GOPATH信息"><a href="#1-使用命令行查看GOPATH信息" class="headerlink" title="1. 使用命令行查看GOPATH信息"></a>1. 使用命令行查看GOPATH信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">env</span></span><br></pre></td></tr></table></figure>
-
-<p>运行结果（下面结果中，真实的用户名用{Username}代替）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">GO111MODULE=<span class="string">&quot;&quot;</span></span><br><span class="line">GOARCH=<span class="string">&quot;amd64&quot;</span></span><br><span class="line">GOBIN=<span class="string">&quot;&quot;</span></span><br><span class="line">GOCACHE=<span class="string">&quot;/Users/&#123;Username&#125;/Library/Caches/go-build&quot;</span></span><br><span class="line">GOENV=<span class="string">&quot;/Users/&#123;Username&#125;/Library/Application Support/go/env&quot;</span></span><br><span class="line">GOEXE=<span class="string">&quot;&quot;</span></span><br><span class="line">GOEXPERIMENT=<span class="string">&quot;&quot;</span></span><br><span class="line">GOFLAGS=<span class="string">&quot;&quot;</span></span><br><span class="line">GOHOSTARCH=<span class="string">&quot;amd64&quot;</span></span><br><span class="line">GOHOSTOS=<span class="string">&quot;darwin&quot;</span></span><br><span class="line">GOINSECURE=<span class="string">&quot;&quot;</span></span><br><span class="line">GOMODCACHE=<span class="string">&quot;/Users/&#123;Username&#125;/go/pkg/mod&quot;</span></span><br><span class="line">GONOPROXY=<span class="string">&quot;&quot;</span></span><br><span class="line">GONOSUMDB=<span class="string">&quot;&quot;</span></span><br><span class="line">GOOS=<span class="string">&quot;darwin&quot;</span></span><br><span class="line">GOPATH=<span class="string">&quot;/Users/&#123;Username&#125;/go&quot;</span></span><br><span class="line">GOPRIVATE=<span class="string">&quot;&quot;</span></span><br><span class="line">GOPROXY=<span class="string">&quot;https://proxy.golang.org,direct&quot;</span></span><br><span class="line">GOROOT=<span class="string">&quot;/usr/local/go&quot;</span></span><br><span class="line">GOSUMDB=<span class="string">&quot;sum.golang.org&quot;</span></span><br><span class="line">GOTMPDIR=<span class="string">&quot;&quot;</span></span><br><span class="line">GOTOOLDIR=<span class="string">&quot;/usr/local/go/pkg/tool/darwin_amd64&quot;</span></span><br><span class="line">GOVCS=<span class="string">&quot;&quot;</span></span><br><span class="line">GOVERSION=<span class="string">&quot;go1.18.3&quot;</span></span><br><span class="line">GCCGO=<span class="string">&quot;gccgo&quot;</span></span><br><span class="line">GOAMD64=<span class="string">&quot;v1&quot;</span></span><br><span class="line">AR=<span class="string">&quot;ar&quot;</span></span><br><span class="line">CC=<span class="string">&quot;clang&quot;</span></span><br><span class="line">CXX=<span class="string">&quot;clang++&quot;</span></span><br><span class="line">CGO_ENABLED=<span class="string">&quot;1&quot;</span></span><br><span class="line">GOMOD=<span class="string">&quot;/dev/null&quot;</span></span><br><span class="line">GOWORK=<span class="string">&quot;&quot;</span></span><br><span class="line">CGO_CFLAGS=<span class="string">&quot;-g -O2&quot;</span></span><br><span class="line">CGO_CPPFLAGS=<span class="string">&quot;&quot;</span></span><br><span class="line">CGO_CXXFLAGS=<span class="string">&quot;-g -O2&quot;</span></span><br><span class="line">CGO_FFLAGS=<span class="string">&quot;-g -O2&quot;</span></span><br><span class="line">CGO_LDFLAGS=<span class="string">&quot;-g -O2&quot;</span></span><br><span class="line">PKG_CONFIG=<span class="string">&quot;pkg-config&quot;</span></span><br><span class="line">GOGCCFLAGS=<span class="string">&quot;-fPIC -arch x86_64 -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/j4/7ng4g2t11hsgtg98308br_6m0000gn/T/go-build3214703220=/tmp/go-build -gno-record-gcc-switches -fno-common&quot;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>GOARCH：目标处理器架构</li>
-<li>GOBIN：编译器和链接器的安装位置</li>
-<li>GOOS：目标操作系统</li>
-<li>GOPATH：当前工作目录</li>
-<li>GOROOT：Go开发包的安装目录</li>
-</ul>
-<p>在 Go 1.8 版本之前，GOPATH 环境变量默认是空的。从 Go 1.8 版本开始，Go 开发包在安装完成后，将 GOPATH 赋予了一个默认的目录，参见下表：  </p>
-<table>
-<thead>
-<tr>
-<th>平台</th>
-<th>默认值</th>
-<th>举例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Windows 平台</td>
-<td>%USERPROFILE%&#x2F;go</td>
-<td>C:\Users\用户名\go</td>
-</tr>
-<tr>
-<td>Unix 平台</td>
-<td>$HOME&#x2F;go</td>
-<td>&#x2F;home&#x2F;用户名&#x2F;go</td>
-</tr>
-</tbody></table>
-<h2 id="2-使用GOPATH的工程结构"><a href="#2-使用GOPATH的工程结构" class="headerlink" title="2. 使用GOPATH的工程结构"></a>2. 使用GOPATH的工程结构</h2><p>在 GOPATH 指定的工作目录下，代码总是会保存在<code>$GOPATH/src</code>目录下。在工程经过<code>go build</code>、<code>go install</code>或<code>go get</code>等指令后，会将产生的二进制可执行文件放在<code>$GOPATH/bin</code>目录下，生成的中间缓存文件会被保存在<code>$GOPATH/pkg</code>下。  </p>
-<p>如果需要将整个源码添加到版本管理工具（Version Control System，VCS）中时，只需要添加 <code>$GOPATH/src</code>目录的源码即可。bin和pkg目录的内容都可以由src目录生成。  </p>
-<h2 id="3-Go环境变量的查看与设置"><a href="#3-Go环境变量的查看与设置" class="headerlink" title="3. Go环境变量的查看与设置"></a>3. Go环境变量的查看与设置</h2><p>查看go的环境变量：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">env</span></span><br></pre></td></tr></table></figure>
-<p>设置go的环境变量：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">env</span> -w &#123;Environment_variable&#125;=&#123;Value&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 例如：</span></span><br><span class="line">go <span class="built_in">env</span> -w GO111MODULE=on</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] 参考链接：<a target="_blank" rel="noopener" href="http://c.biancheng.net/view/88.html">http://c.biancheng.net/view/88.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/home/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/home/">1</a><a class="page-number" href="/home/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/home/page/4/">4</a><a class="page-number" href="/home/page/5/">5</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/home/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/home/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/home/">1</a><a class="page-number" href="/home/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/home/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/home/page/6/">6</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/home/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
