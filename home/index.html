@@ -215,9 +215,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-04-22 09:27:01 / 修改时间：09:42:22" itemprop="dateCreated datePublished" datetime="2026-04-22T09:27:01-04:00">2026-04-22</time>
+      <time title="创建时间：2025-02-05 09:27:01" itemprop="dateCreated datePublished" datetime="2025-02-05T09:27:01-05:00">2025-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-22 10:36:23" itemprop="dateModified" datetime="2026-04-22T10:36:23-04:00">2026-04-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -247,7 +253,113 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/688351816">https://zhuanlan.zhihu.com/p/688351816</a></p>
+<h1 id="1-编译器和解译器"><a href="#1-编译器和解译器" class="headerlink" title="1. 编译器和解译器"></a>1. 编译器和解译器</h1><p>通常我们使用高级编程语言来编写计算机程序，也称为源代码。然而，计算机并不理解高级语言。它只能理解用二进制的0和1编写的机器码程序。为了将源代码转换为机器码（machine code），我们使用编译器或解释器。</p>
+<p>编译器（compiler）和解释器（interpreter）都用于将用高级语言编写的程序转换为计算机可以理解的机器码。然而，解释器和编译器的工作方式有所不同。</p>
+<table>
+<thead>
+<tr>
+<th>解释器</th>
+<th>编译器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一次只翻译一个语句</td>
+<td>扫描整个程序，并将其整体翻译成机器码。</td>
+</tr>
+<tr>
+<td>解释器通常需要较少的时间来分析源代码。然而，总体执行时间相对较慢。</td>
+<td>编译器通常需要大量时间来分析源代码。然而，总体执行时间相对较快。</td>
+</tr>
+<tr>
+<td>不生成目标代码，因此内存效率高。</td>
+<td>生成目标代码，而目标代码需要链接，因此需要更多的内存。</td>
+</tr>
+<tr>
+<td>编程语言如JavaScript，Python，Ruby使用解释器。</td>
+<td>编程语言如C、C++、Java使用编译器。</td>
+</tr>
+</tbody></table>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/01.jpg">  </p>
+<h1 id="2-字节码和机器码"><a href="#2-字节码和机器码" class="headerlink" title="2. 字节码和机器码"></a>2. 字节码和机器码</h1><p>机器码是一种二进制表示的代码，它是计算机硬件可以直接执行的代码。由于机器码是针对具体硬件平台的，因此同一份源代码在不同的硬件平台上需要编译成不同的机器码，可以执行差，但是它具有直接执行、运行速度快的特性。</p>
+<p>字节码是一种中间代码，它是一种类似于汇编语言的低级语言，用于在虚拟机中执行。例如，在Java编程语言中，Java源代码在编译后会生成字节码，而不是机器码，字节码通过JVM（Java虚拟机）解释执行，从而实现了跨平台的特性。</p>
+<p>由于字节码是一种中间代码，它不依赖于具体的硬件平台，且可被进一步优化和加密，由字节码需要在虚拟机中执行，运行效率稍低。</p>
+<p>字节码是一种中间状态（中间码）的二进制代码（文件），需要编译器转译后才能成为机器码。</p>
+<h1 id="3-JavaScript引擎"><a href="#3-JavaScript引擎" class="headerlink" title="3. JavaScript引擎"></a>3. JavaScript引擎</h1><p>JavaScript引擎是一个简单的计算机程序，用于解释执行JavaScript代码。每个主要浏览器都有一个JavaScript引擎，执行JavaScript代码。</p>
+<ul>
+<li>Firefox浏览器中使用SpiderMonkey。</li>
+<li>Safari浏览器使用JavaScriptCore。</li>
+<li>Chrome浏览器中使用的V8</li>
+<li>…</li>
+</ul>
+<p>其中最流行的是Google Chrome V8引擎，由c++编写，可以在多种操作系统上运行。Google的V8引擎驱动着Google Chrome和Node.js，这是一个用于构建服务器端应用程序的后端JavaScript运行时环境。</p>
+<p>在V8引擎中，JavaScript代码的执行大致经历以下步骤：</p>
+<ol>
+<li>获取源代码。</li>
+<li>解析（Parsing）：接收到的代码经过解析，分为词法分析和语法分析两个阶段。词法分析器将代码转换为标记列表，而语法分析器则将标记列表转换为抽象语法树（AST），即代码的树形表示。</li>
+<li>优化（Optimization）：接着，V8会对抽象语法树进行优化，以提高执行效率。这可能涉及对代码进行动态编译或其他优化操作。</li>
+<li>生成字节码或机器码（Generating Bytecode&#x2F;Machine Code）：优化后的代码会被转换为字节码或机器码，以便计算机能够理解和执行。</li>
+<li>执行（Execution）：最终，生成的字节码或机器码被传递到调用栈中，然后在执行上下文中执行，实现JavaScript代码的功能。</li>
+</ol>
+<p>总的来说，V8引擎通过解析、优化、编译和执行这些步骤，将JavaScript代码转换为可执行的指令，从而实现了代码的执行过程。</p>
+<h1 id="4-解析器，Parser"><a href="#4-解析器，Parser" class="headerlink" title="4. 解析器，Parser"></a>4. 解析器，Parser</h1><p>要让引擎执行我们编写的源码，就要将源码转换成引擎能理解的格式。V8 会先把源码解析为一个抽象语法树（AST，Abstract Syntax Tree），这是用来表示源码的树形结构的对象，这个过程称为解析（Parsing），主要由 V8 的 Parser 模块实现。</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/02.jpg">  </p>
+<blockquote>
+<p>延迟解析：在解析过程中，对于不是立即执行的函数，只进行预解析（Pre Parser），只有当函数调用时，才对函数进行全量解析。进行预解析时，只验证函数语法是否有效，解析函数声明、确定函数作用域。不生成AST，实现预解析的是Pre-Parser解析器。</p>
+</blockquote>
+<p>主要包含两个过程：</p>
+<p>词法分析（Lexical Analysis）：词法分析是将源代码分解成一系列标记（token）的过程，由scanner完成。这些标记是最小的、有意义的代码单元，包括关键字、标识符、运算符、常量等。词法分析器会扫描代码并识别标记，然后生成标记流供后续步骤使用。</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/03.jpg">  </p>
+<p>语法分析（Syntax Analysis）：语法分析是将标记流转换为抽象语法树（AST）的过程，即parser。语法树是源代码的抽象表示形式，它描述了代码结构和语法规则。语法分析器将标记流转换为语法树，以便后续步骤（如编译或解释）能够理解和处理代码的结构和含义。</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/04.jpg">  </p>
+<p>AST会忽略代码风格，将代码解析为最纯粹的语法树，因此基于AST进行的转换是更加准确严谨的，而使用正则表达式来分析转换代码，无法有效的分析一段代码的上下文，即使对简单规则的匹配都需要考虑太多边界情况，兼容各种代码风格。</p>
+<p>AST 是一种非常重要的数据结构，在很多项目中都有着广泛的使用。例如 Babel、ESLint等。<br>举个简单的例子，将所有由var定义的变量转为let定义，基于AST可以很容易的完成，而使用正则需要考虑各种情况，书写的表达式也难以调试、读懂。</p>
+<h1 id="5-即时编译，JIT"><a href="#5-即时编译，JIT" class="headerlink" title="5. 即时编译，JIT"></a>5. 即时编译，JIT</h1><p>一般来说，为了让你的代码能够执行，编程语言需要被转换成机器码。有几种不同的方法来进行这种转换，以及何时进行这种转换。</p>
+<ul>
+<li>提前编译（Ahead-of-Time Compilation）。它的工作方式正如其名称所示：在程序执行之前，代码在编译阶段被转换为机器码。如C++、Java等，</li>
+<li>解释执行（Interpretation）：代码的每一行都会在运行时被执行。这种方式通常被动态类型语言如JavaScript和Python所采用，因为在执行前无法准确知道类型。</li>
+</ul>
+<p>由于提前编译能够综合考虑所有代码，它可以提供更好的优化，并最终生成更高性能的代码。而解释执行则更简单实现，但通常比编译选项更慢。</p>
+<p>为了更快更有效地转换动态语言的代码，出现了一种新的方法，称为即时编译（Just-in-Time Compilation，JIT）。它结合了解释和编译的优点。</p>
+<p>通过利用解释作为基础方法，V8引擎可以检测到被频繁使用的函数，并使用先前执行时的类型信息对它们进行编译。</p>
+<p>然而，类型可能会发生变化。我们需要对编译代码进行去优化（De-Optimize），并回退到解释执行（Interpretation）（之后，我们可以在获得新的类型反馈后重新编译函数）。</p>
+<p>下面让我们更详细地探讨即时编译（JIT Compilation）的每个部分。</p>
+<h1 id="6-解释器，Ignition"><a href="#6-解释器，Ignition" class="headerlink" title="6. 解释器，Ignition"></a>6. 解释器，Ignition</h1><p>有个AST和执行上下文之后，解释器就开始工作了，它根据AST生成字节码，并解释执行字节码，V8引擎中解释器由Ignition完成。</p>
+<p>最初版本的V8引擎并没有字节码，而是直接将AST转换为机器码，由于执行上下文的效率比较高，在当时的测试环境下运行效果还是非常好的，但是随着Chrome在移动端上的普及，特别是内存较小的设备上，内存占用问题就暴漏出来了：机器码占用的内存较大。为了解决这个问题，V8引擎团队对架构进行了重构，加入Ignition解释器，引入字节码。</p>
+<p>字节码就是介于AST和机器码之间的一种代码。字节码内存占用相对于机器码要更小，但执行效率不如机器码。</p>
+<p>字节码生成后，解释器Ignition（除了生成字节码还可以解释执行）首先会逐行解释执行字节码。字节码指令还包括元数据，例如未来调试时的源代码行位置。一般而言，字节码指令与JavaScript的抽象层次相匹配。</p>
+<p>在Ignition执行字节码的过程中，如果发现热点代码（HotSpot，一段代码被反复执行多次），后台的编译器TurboFan会将该段热点字节码编译为执行效率更高的机器码。将热点代码通过编译器转换为机器码这一过程，也导致V8引擎具有”执行时间越久，执行效率越高”的特点，正是更多的代码成为机器码。</p>
+<h1 id="7-优化编译器，TurboFan"><a href="#7-优化编译器，TurboFan" class="headerlink" title="7. 优化编译器，TurboFan"></a>7. 优化编译器，TurboFan</h1><p>上面介绍了Ignition执行代码过程中会发现热点代码。如果一个函数被多次使用，它将会在编译器Turbofan中得到优化，来提高运行效率。</p>
+<p>Turbofan接收来自Ignition的字节码和函数的类型反馈（称为反馈向量），根据此进行一系列的优化，并生成机器码。</p>
+<p>但是，类型反馈并不保证它在未来不会更改（换句话说，编译为机器码的内容也可能被回退到字节码）。</p>
+<p>举个例子，Turbofan基于一个假设对代码进行了优化，认为某些加法操作总是针对整数进行的。但是，如果它接收到一个字符串会发生什么呢？这个流程称为去优化（deoptimization）。我们丢弃优化后的代码，回到解释执行代码，继续执行，并更新类型反馈。</p>
+<h1 id="8-非优化编译器，Sparkplug"><a href="#8-非优化编译器，Sparkplug" class="headerlink" title="8. 非优化编译器，Sparkplug"></a>8. 非优化编译器，Sparkplug</h1><p>实际上，编写一个高性能的 JavaScript 引擎不仅仅需要像 TurboFan 这样高度优化的编译器，还有很多工作在优化编译器TurboFan介入之前就需要处理完成。</p>
+<p>V8的解释器Ignition经过高度优化，运行速度已经非常快了，但解释器有固有的开销，我们无法摆脱；像字节码解码开销或分派开销这样的东西是解释器功能的固有部分。在之前的双编译器模型（Ignition+TurboFan）中，进一步优化的空间较小。基于Ignition和TurboFan之间的执行速度和编译时间的差异较大，在2021年V8推出了一种非优化编译器（non-optimising JavaScript compiler）Sparkplug，旨在将字节码几乎即时编译成等效的机器码。</p>
+<p>Sparkplug位于Ignition 解释器和 TurboFan 优化编译器之间。目的在于解释器执行的序列化，调用相同的内建函数并维护相同的堆栈帧，它消除了（或更准确地说，预先编译了）那些无法消除的解释器开销，比如操作数解码和下一个字节码调度。</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/05.jpg">  </p>
+<p>Sparkplug编译速度很快，可以达到随时编译的程度，主要来源于两个原因：首先，Sparkplug 从字节码而不是从 JavaScript 源代码编译，所以大部分工作已经由字节码编译器完成。其次， Sparkplug 不生成任何中间表示（IR），而是直接在单个线性遍历字节码的过程中编译为机器码，生成与该字节码执行匹配的代码。</p>
+<h1 id="9-最快的优化即时编译器，Maglev"><a href="#9-最快的优化即时编译器，Maglev" class="headerlink" title="9. 最快的优化即时编译器，Maglev"></a>9. 最快的优化即时编译器，Maglev</h1><p>2023年推出的一种新的优化中间层即时编译器，位于Sparkplug和TurboFan之间。Maglev旨在快速生成非常高性能的机器码，另外Maglev还通过使用更少的离线CPU时间显着减少了V8引擎的总体资源消耗。与顶层即时编译器TurboFan相比，Maglev生成的代码优化程度较低，但编译速度更快。</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/06.jpg">  </p>
+<p>与TurboFan类似，它通过JavaScript函数的字节码进行转换，并考虑了之前运行收集到的反馈信息，将字节码转换为更优化的代码。然而，与TurboFan不同的是，TurboFan首先将字节码转换为“Sea of Nodes”，Maglev使用了一种中间（IR，intermediate representation ）表示，并首先将字节码转换为SSA（静态单赋值）节点。在撰写本文时，Maglev的编译过程主要包括两个优化阶段：第一个阶段涉及从SSA节点构建图，而第二个阶段包括优化Phi值的表示。具体可以可以在参考文档中找下链接。</p>
+<blockquote>
+<p>SSA，Static Single-Assignment，静态单赋值<br>编译器中间表示中非常重要的一个概念，它是一种变量的命名约定。当程序中的每个变量都有且只有一个赋值语句时，称一个程序是 SSA 形式的。<br>SSA 是一种高效的数据流分析技术，可以简化编译器的优化过程，运用在编译技术和代码静态分析技术中。目前几乎所有的现代编译器都是有SSA的支持</p>
+</blockquote>
+<h1 id="10-总结"><a href="#10-总结" class="headerlink" title="10. 总结"></a>10. 总结</h1><p>下面就是JavaScript的整个执行过程。</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/07.jpg">  </p>
+<ol>
+<li>获取JavaScript代码。</li>
+<li>V8解析源代码并将其转换为抽象语法树（AST）。</li>
+<li>基于该AST，Ignition解释器可以开始执行，并生成字节码。</li>
+<li>这时，引擎开始运行代码并收集类型反馈。</li>
+<li>为了使其运行更快，字节码可以与反馈数据一起发送到优化编译器。优化编译器基于这些数据做出一些假设，然后产生高度优化的机器码。</li>
+<li>如果某个时刻发现假设有误，优化编译器将进行去优化并返回到解释器阶段。</li>
+</ol>
+<p>在2021年之后的版本，其新增了两种中间层编译器Sparkplug和Maglev。其关系如下：</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/08.jpg">  </p>
+<p>上面两种中间层编译器已经在Chrome桌面端最新版本（M117及以上）得以使用，前后性能对比如下：</p>
+<p><img src="/../imgs/JavaScript%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84/09.jpg">  </p>
+<h1 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h1><p>[1] <a target="_blank" rel="noopener" href="https://v8.dev/blog/sparkplug">https://v8.dev/blog/sparkplug</a><br>[2] <a target="_blank" rel="noopener" href="https://v8.dev/blog/maglev">https://v8.dev/blog/maglev</a><br>[3] <a target="_blank" rel="noopener" href="https://www.phoronix.com/news/Google-Chrome-Maglev-Compiler">https://www.phoronix.com/news/Google-Chrome-Maglev-Compiler</a><br>[4] <a target="_blank" rel="noopener" href="https://blog.csdn.net/manok/article/details/90347315">https://blog.csdn.net/manok/article/details/90347315</a><br>[5] <a target="_blank" rel="noopener" href="https://buaa-se-compiling.github.io/miniSysY-tutorial/pre/llvm_ir_ssa.html">https://buaa-se-compiling.github.io/miniSysY-tutorial/pre/llvm_ir_ssa.html</a>  </p>
+
       
     </div>
 
