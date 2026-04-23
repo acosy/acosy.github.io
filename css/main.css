@@ -1260,7 +1260,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #ff3721;
+  background: #75e8ff;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2839,7 +2839,7 @@ header.header {
   border-left-width: 0.25em;
   border-left-color: #5ddab3;
   background: rgba(93,218,178,0.293);
-  padding: 0em 1em 0.5em 1em;
+  padding: 0em 2em 0.5em 1em;
   position: relative;
   box-shadow: 0.2em 0.2em 0.5em rgba(0,0,0,0.1);
   overflow: hidden; /* 防止折角溢出 */
@@ -2867,4 +2867,13 @@ header.header {
   border-color: transparent transparent #fff transparent; /* 底边颜色即折页颜色 */
   box-shadow: -5px -5px 10px rgba(0,0,0,0.3); /* 添加阴影增强立体感。初始状态不旋转，如果需要动画翻折，可配合@keyframes */
   transition: all 0.3s ease-in-out;
+}
+.inline-comment-date {
+  font-size: 0.6em;
+  color: #808080;
+  text-align: right;
+  font-weight: bold;
+  font-style: italic;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
 }
