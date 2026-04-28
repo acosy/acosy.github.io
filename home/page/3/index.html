@@ -1109,7 +1109,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-28 16:31:03" itemprop="dateModified" datetime="2026-04-28T16:31:03-04:00">2026-04-28</time>
+      <time title="修改时间：2026-04-28 17:06:06" itemprop="dateModified" datetime="2026-04-28T17:06:06-04:00">2026-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1322,7 +1322,7 @@
 <p>然而，这给WebAssembly带来了问题。</p>
 <p>使用WebAssembly时，即使在编译时，你也不知道你的目标操作系统是什么。因此，你无法在WebAssembly实现的标准库中使用任何一个操作系统的系统接口。  </p>
 <div class="inline-comment">
-对于 WebAssembly 而言，在把源代码（比如 C/C++/Rust）编译成 WebAssembly 的时候，我们也不知道拿到 wasm module 的人要把它放到什么环境中运行（即，在编译时无法知道目标操作系统是什么）。因此，当 WebAssembly 想要跟 C 语言一样实现一套标准库供程序员使用时，无法使用任何一种操作系统的接口实现。
+对于 WebAssembly 而言，在把源代码（比如 C/C++/Rust）编译成 WebAssembly 的时候，我们也不知道拿到 .wasm 文件的人要把它放到什么环境中运行（即，在编译时无法知道目标操作系统是什么）。因此，当 WebAssembly 想要跟 C 语言一样实现一套标准库供程序员使用时，无法使用任何一种操作系统的接口实现。
 <br/><br/>
 也就是说，原来在编译的时候就可以知道具体的目标操作系统是什么，这样就可以将该操作系统的接口实现一起编译进去。而 WebAssembly 的情况是，在编译成 wasm 的时候无法确定到底该使用哪套操作系统实现的API，因为 wasm 是需要在各个操作系统上都能运行的，这样的话把任何一个操作系统的具体实现编译进 wasm 都不合适。  
 
@@ -1375,6 +1375,18 @@
 <p>If we’re going to build a WebAssembly ecosystem that lasts for decades, we need solid foundations. This means <strong>our de facto standard can’t be an emulation of an emulation</strong>.</p>
 </blockquote>
 <p>如果我们要建立一个持续几十年的 WebAssembly 生态系统，我们需要坚实的基础。这意味着我们事实上的标准不能是一个仿真的仿真。  </p>
+<div class="inline-comment">
+上面的内容叙述了：  
+
+<ul>
+<li>什么是 System Interface；</li>
+<li>WebAssembly System Interface（WASI）与传统的系统接口有什么不同（It’s an interface for a conceptual operating system, not a real operating system）</li>
+<li>WASI 为什么需要标准化（模拟 Emscription 实现的 runtimes 是基于仿真的仿真，并受限于 Emscripten 本身带来的限制，而我们需要为 WebAssembly 生态提供更坚实的基础，因此需要标准化 WASI）</li>
+</ul>
+<p>接下来详细介绍实现标准化 WASI 需要满足的原则（Portability 和 Security）。</p>
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
 <blockquote>
 <p>But what principles should we apply?</p>
 <h3 id="What-principles-does-a-WebAssembly-system-interface-need-to-uphold"><a href="#What-principles-does-a-WebAssembly-system-interface-need-to-uphold" class="headerlink" title="What principles does a WebAssembly system interface need to uphold?"></a>What principles does a WebAssembly system interface need to uphold?</h3><p>There are two important principles that are baked into WebAssembly :</p>
