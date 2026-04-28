@@ -1109,7 +1109,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-24 10:45:58" itemprop="dateModified" datetime="2026-04-24T10:45:58-04:00">2026-04-24</time>
+      <time title="修改时间：2026-04-28 16:31:03" itemprop="dateModified" datetime="2026-04-28T16:31:03-04:00">2026-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1259,9 +1259,19 @@
 <p>So we need a way to control which programs and users can access which resources. People figured this out pretty early on, and came up with a way to provide this control: protection ring security.</p>
 <p>With protection ring security, the operating system basically puts a protective barrier around the system’s resources. This is the kernel. The kernel is the only thing that gets to do operations like creating a new file or opening a file or opening a network connection.</p>
 <p>The user’s programs run outside of this kernel in something called user mode. If a program wants to do anything like open a file, it has to ask the kernel to open the file for it.</p>
+</blockquote>
+<p>很多人谈论像C这样的语言，它可以让你直接访问系统资源，但那并不完全正确。对于大多数系统，这些语言并没有直接访问权限，比如做打开文件或创建文件这样的操作。为什么没有呢？因为这些系统资源（如文件、内存和网络连接）对于稳定性和安全性非常重要。如果一个程序无意中弄乱了另一个程序的资源，那么程序就可能崩溃。更糟糕的是，如果一个程序（或用户）故意扰乱另一个程序的资源，它可能会窃取敏感数据。</p>
+<p>因此，我们需要一种方法来控制哪些程序和用户可以访问哪些资源。人们很早就想通了这一点，并想出了一种方法来提供这种控制：保护环安全（protection ring security）。</p>
+<p>有了保护环安全性，操作系统基本上在系统资源周围设置了一个保护屏障——<strong>内核(Kernel)<strong>。</strong>内核是唯一可以执行创建新文件、打开文件或打开网络连接等操作的东西。</strong></p>
+<p>用户的程序在内核之外运行，运行方式被称为用户模式。如果一个程序想要做任何事情，比如打开一个文件，它必须要求内核为它打开文件。</p>
+<blockquote>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/010-protection-ring-sec.png" alt="A file directory structure on the left, with a protective barrier in the middle containing the operating system kernel, and an application knocking for access on the right">  </p>
 <p>This is where the concept of the system call comes in. When a program needs to ask the kernel to do one of these things, it asks using a system call. This gives the kernel a chance to figure out which user is asking. Then it can see if that user has access to the file before opening it.</p>
 <p>On most devices, this is the only way that your code can access the system’s resources — through system calls.</p>
+</blockquote>
+<p>这就是系统调用的概念出现的地方。<b>当程序需要要求内核去做这些事情之一时，它会通过系统调用（system call）来发出请求。</b>这让内核有机会弄清楚哪个用户在问。然后，它在打开文件之前可以查看该用户是否可以访问该文件。</p>
+<p>在大多数设备上，这是你的代码访问系统资源的唯一方式——通过系统调用。</p>
+<blockquote>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/011-syscall.png" alt="An application asking the operating system to put data into an open file">  </p>
 <p>The operating system makes the system calls available. But if each operating system has its own system calls, wouldn’t you need a different version of the code for each operating system? Fortunately, you don’t.</p>
 <p>How is this problem solved? Abstraction.</p>
@@ -1269,25 +1279,103 @@
 <p>Then, when compiling, your toolchain picks which implementation of the interface to use based on what system you’re targeting. This implementation uses functions from the operating system’s API, so it’s specific to the system.</p>
 <p>This is where the system interface comes in. For example, <code>printf</code> being compiled for a Windows machine could use the Windows API to interact with the machine. If it’s being compiled for Mac or Linux, it will use POSIX instead.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/012-implementations.png" alt="The interface for putc being translated into two different implementations, one implemented using POSIX and one implemented using Windows APIs">  </p>
+</blockquote>
+<p>操作系统使系统调用（system calls）可用。但是，如果每个操作系统都有自己的系统调用，你需要为每个操作系统提供不同版本的代码吗？幸运的是，不需要。</p>
+<p>这个问题是如何解决的？通过<strong>抽象（Abstraction）</strong>。</p>
+<p>大多数语言都提供标准库。在编码时，程序员不需要知道他们的目标系统是什么，他们只需要使用接口（interface）。</p>
+<p>然后，在编译时，工具链（toolchain）会根据你的目标系统选择要使用的接口实现。这个实现使用的是目标操作系统的API的函数，所以它是专门针对于目标系统的。</p>
+<p>这就是系统接口的用处。例如，为Windows机器编译的<code>printf</code>可以使用Windows API与机器交互。如果它是为Mac或Linux编译的，它将改用POSIX。 </p>
+<div class="inline-comment">
+系统调用与 OS API 的关系（来自Google AI）：   
+
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/029-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB.png" alt="系统调用与OS API的关系">  </p>
+<p>关于系统调用（来自维基百科：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%EF%BC%89%EF%BC%9A">https://zh.wikipedia.org/wiki/系统调用）：</a>  </p>
+<blockquote>
+<p>在电脑中，系统调用（英语：system call），指运行在用户空间的程序向操作系统内核请求需要更高权限运行的服务。这些服务可能包含访问文件系统、创建和销毁进程、进程间通信和内存分配。系统调用在进程和作系统之间提供了一个重要的接口。系统调用提供用户程序与操作系统之间的接口。大多数系统交互式操作需求在内核态执行。如设备IO操作或者进程间通信。  </p>
+<p><strong>典型实现（Linux）</strong><br>Linux 在x86上的系统调用通过 int 80h 实现，用系统调用号来区分入口函数。操作系统实现系统调用的基本过程是：</p>
+<ol>
+<li>应用程序调用库函数（API）；</li>
+<li>API 将系统调用号存入 EAX，然后通过中断调用使系统进入内核态；</li>
+<li>内核中的中断处理函数根据系统调用号，调用对应的内核函数（系统调用）；</li>
+<li>系统调用完成相应功能，将返回值存入 EAX，返回到中断处理函数；</li>
+<li>中断处理函数返回到 API 中；</li>
+<li>API 将 EAX 返回给应用程序。</li>
+</ol>
+<p>应用程序调用系统调用的过程是：</p>
+<ol>
+<li>把系统调用的编号存入 EAX；</li>
+<li>把函数参数存入其它通用寄存器；</li>
+<li>触发 0x80 号中断（int 0x80）。</li>
+</ol>
+</blockquote>
+<p>其它关于系统调用的资料：<a target="_blank" rel="noopener" href="https://hackmd.io/@combo-tw/BJPoAcqQS">https://hackmd.io/@combo-tw/BJPoAcqQS</a><br><img src="/../imgs/WASI%E8%B5%84%E6%96%99/030-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB2.png">  </p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/031-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB3.png">    </p>
+<p>总结来说，即使不同操作系统的系统调用函数是不同的，当需要对不同的操作系统做系统调用时，程序员也不需要为每种操作系统都单独写一套代码。因为大多数语言（比如C语言）都会在标准库中提供统一的接口（system interface），程序员只需要调用这些接口，在编译时，toolchain 就会根据实际情况来选择相应的接口实现（operating system’s API），比如 Windows 系统选 Windows API，Linux&#x2F;Mac 选 POSIX。这些具体的接口实现中会进一步调用各自的系统调用函数（可能包含一个或多个系统调用）。</p>
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
 <p>This poses a problem for WebAssembly, though.</p>
-<p>With WebAssembly, you don’t know what kind of operating system you’re targeting even when you’re compiling. So you can’t use any single OS’s system interface inside the WebAssembly implementation of the standard library.</p>
+<p>With WebAssembly, you don’t know what kind of operating system you’re targeting even when you’re compiling. So you can’t use any single OS’s system interface inside the WebAssembly implementation of the standard library.  </p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/013-implementations-2.png" alt="an empty implementation of putc">  </p>
+</blockquote>
+<p>然而，这给WebAssembly带来了问题。</p>
+<p>使用WebAssembly时，即使在编译时，你也不知道你的目标操作系统是什么。因此，你无法在WebAssembly实现的标准库中使用任何一个操作系统的系统接口。  </p>
+<div class="inline-comment">
+对于 WebAssembly 而言，在把源代码（比如 C/C++/Rust）编译成 WebAssembly 的时候，我们也不知道拿到 wasm module 的人要把它放到什么环境中运行（即，在编译时无法知道目标操作系统是什么）。因此，当 WebAssembly 想要跟 C 语言一样实现一套标准库供程序员使用时，无法使用任何一种操作系统的接口实现。
+<br/><br/>
+也就是说，原来在编译的时候就可以知道具体的目标操作系统是什么，这样就可以将该操作系统的接口实现一起编译进去。而 WebAssembly 的情况是，在编译成 wasm 的时候无法确定到底该使用哪套操作系统实现的API，因为 wasm 是需要在各个操作系统上都能运行的，这样的话把任何一个操作系统的具体实现编译进 wasm 都不合适。  
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
 <p>I’ve talked before about how WebAssembly is <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/creating-and-working-with-webassembly-modules/">an assembly language for a conceptual machine</a>, not a real machine. In the same way, WebAssembly needs a system interface for a conceptual operating system, not a real operating system.</p>
+</blockquote>
+<p>我之前提到过WebAssembly是 <em>概念机器</em> 的汇编语言，而不是真实机器的。同样，WebAssembly需要 <em>概念操作系统</em> 的系统接口，而不是真正的操作系统的系统接口。</p>
+<blockquote>
 <p>But there are already runtimes that can run WebAssembly outside the browser, even without having this system interface in place. How do they do it? Let’s take a look.</p>
 <h3 id="How-is-WebAssembly-running-outside-the-browser-today"><a href="#How-is-WebAssembly-running-outside-the-browser-today" class="headerlink" title="How is WebAssembly running outside the browser today?"></a>How is WebAssembly running outside the browser today?</h3><p>The first tool for producing WebAssembly was Emscripten. <strong>It emulates a particular OS system interface, POSIX, on the web.</strong> This means that the programmer can use functions from the C standard library (libc).</p>
 <p>To do this, Emscripten created its own implementation of libc. This implementation was split in two — part was compiled into the WebAssembly module, and the other part was implemented in JS glue code. This JS glue would then call into the browser, which would then talk to the OS.</p>
+</blockquote>
+<p>第一个WebAssembly的编译工具是Emscripten。它在网络上<strong>模拟特定的操作系统的系统接口——POSIX</strong>。这意味着程序员可以使用C标准库（libc）中的函数。</p>
+<p>为此，Emscripten创建了自己的libc实现。这个实现被分成两部分——一部分被编译到WebAssembly模块中，另一部分在JS glue code中实现。然后，这个JS glue会调用浏览器，浏览器进而会与操作系统对话。</p>
+<blockquote>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/014-emscripten.png" alt="A Rube Goldberg machine showing how a call goes from a WebAssembly module, into Emscripten&#39;s JS glue code, into the browser, into the kernel"></p>
 <p>Most of the early WebAssembly code was compiled with Emscripten. So when people started wanting to run WebAssembly without a browser, they started by making Emscripten-compiled code run.</p>
 <p>So these runtimes needed to create their own implementations for all of these functions that were in the JS glue code.</p>
+</blockquote>
+<p>由于大部分早期的WebAssembly代码都是用Emscripten编译的，因此当人们开始想在没有浏览器的情况下运行WebAssembly时，他们的起点就是让Emscripten编译的代码运行。</p>
+<p>因此，这些运行时（runtimes）需要为JS glue code中的所有函数创建自己的实现。</p>
+<div class="inline-comment">
+意思可能是，在浏览器上运行时，Emscripten 提供的 JS glue code 中可能提供了一些能使 wasm module 与浏览器进行交互的函数。现在要在非浏览器环境下运行，原本的 JS glue code 中的相应函数就要替换成 wasm module 与各种 operating systems 进行交互的函数，而不能沿用原先的 JS glue code。
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
 <p>There’s a problem here, though. The interface provided by this JS glue code wasn’t designed to be a standard, or even a public facing interface. That wasn’t the problem it was solving.</p>
 <p>For example, for a function that would be called something like <code>read</code> in an API that was designed to be a public interface, the JS glue code instead uses <code>_system3(which, varargs)</code>.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/015-system3.png" alt="A clean interface for read, vs a confusing one for system3">  </p>
 <p>The first parameter, <code>which</code>, is an integer which is always the same as the number in the name (so 3 in this case).</p>
+</blockquote>
+<p>不过，这里有个问题。这个 JS glue code 提供的接口不是为成为一个标准而设计的，甚至不是为成为面向公共的接口而设计的，因为这不是它要解决的问题。  </p>
+<p>例如，相对于一个被设计成公共接口的API <code>read</code> 函数，在 JS glue code 中使用的却是 <code>__syscall3(which, varargs)</code>。</p>
+<p>第1个参数，<code>which</code>，是一个整数，它总是与函数名字中的数字相同（即 <code>__syscall3</code> 中的 <code>3</code>）。</p>
+<blockquote>
 <p>The second parameter, <code>varargs</code>, are the arguments to use. It’s called <code>varargs</code> because you can have a variable number of them. But WebAssembly doesn’t provide a way to pass in a variable number of arguments to a function. So instead, the arguments are passed in via linear memory. This isn’t type safe, and it’s also slower than it would be if the arguments could be passed in using registers.</p>
 <p>That was fine for Emscripten running in the browser. But now runtimes are treating this as a de facto standard, implementing their own versions of the JS glue code. They are emulating an internal detail of an emulation layer of POSIX.</p>
 <p>This means they are re-implementing choices (like passing arguments in as heap values) that made sense based on Emscripten’s constraints, even though these constraints don’t apply in their environments.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/016-emulation.png" alt="A more convoluted Rube Goldberg machine, with the JS glue and browser being emulated by a WebAssembly runtime">  </p>
+</blockquote>
+<p>第二个参数，<code>varargs</code>，是要使用的参数。它被称为<code>varargs</code>是因为参数的数量是可变的。但 WebAssembly 没有提供向函数传递可变数量参数的方法。因此，参数是通过 linear memory 传递的。这不是类型安全的，而且比使用寄存器传递参数的情况要慢。</p>
+<p>对于在浏览器中运行的Emscripten来说，这没问题。但现在，runtimes 将此视为事实上的标准来实现他们自己版本的JS glue code。他们在模拟 POSIX 仿真层的一个内部细节。</p>
+<p>这意味着他们正在重复实现由于 Emscripten 本身的限制才需要去做的操作（例如将参数作为堆值传递），即使这些限制在他们的环境中并不存在。</p>
+<blockquote>
 <p>If we’re going to build a WebAssembly ecosystem that lasts for decades, we need solid foundations. This means <strong>our de facto standard can’t be an emulation of an emulation</strong>.</p>
+</blockquote>
+<p>如果我们要建立一个持续几十年的 WebAssembly 生态系统，我们需要坚实的基础。这意味着我们事实上的标准不能是一个仿真的仿真。  </p>
+<blockquote>
 <p>But what principles should we apply?</p>
 <h3 id="What-principles-does-a-WebAssembly-system-interface-need-to-uphold"><a href="#What-principles-does-a-WebAssembly-system-interface-need-to-uphold" class="headerlink" title="What principles does a WebAssembly system interface need to uphold?"></a>What principles does a WebAssembly system interface need to uphold?</h3><p>There are two important principles that are baked into WebAssembly :</p>
 <ul>
@@ -1296,28 +1384,69 @@
 </ul>
 <p>We need to maintain these key principles as we move to outside-the-browser use cases.</p>
 <p>As it is, POSIX and Unix’s Access Control approach to security don’t quite get us there. Let’s look at where they fall short.</p>
+</blockquote>
+<p>WebAssembly 中嵌入了两个重要原则：可移植性和安全性。</p>
+<p>当我们转向浏览器外的用例时，我们需要依然保有这些关键原则。</p>
+<p>就现在而言，POSIX 和 Unix 的访问控制安全方法并不能让我们完全达成这个目的。让我们来看看他们的不足。</p>
+<blockquote>
 <h4 id="Portability"><a href="#Portability" class="headerlink" title="Portability"></a>Portability</h4><p>POSIX provides source code portability. You can compile the same source code with different versions of libc to target different machines.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/017-portability.png" alt="One C source file being compiled to multiple binaries">  </p>
 <p>But WebAssembly needs to go one step beyond this. We need to be able to compile once and run across a whole bunch of different machines. We need portable binaries.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/018-portability-1.png" alt="One C source file being compiled to a single binary">  </p>
 <p>This kind of portability makes it much easier to distribute code to users.</p>
 <p>For example, if Node’s native modules were written in WebAssembly, then users wouldn’t need to run node-gyp when they install apps with native modules, and developers wouldn’t need to configure and distribute dozens of binaries.</p>
+</blockquote>
+<p>POSIX提供源代码的可移植性。你可以针对不同的机器、使用不同版本的 libc 来编译相同的源代码。</p>
+<p>但 WebAssembly 需要再领先一步。我们需要能够编译一次，并在一大堆不同的机器上运行。我们需要便携式二进制文件。</p>
+<p>这种可移植性使向用户分发代码变得更加容易。</p>
+<p>例如，如果 Node 的原生模块是在 WebAssembly 中编写的，那么用户在使用原生模块安装应用程序时不需要运行<code>node-gyp</code>，开发人员也不需要配置和分发数十个二进制文件。</p>
+<div class="inline-comment">
+POSIX：针对不同平台，编译出不同的 binaries，每个平台运行的 binary 不同（源代码可移植）；
+<br/>
+WebAssembly：由源代码编译出同一份 binary，不同平台运行的 binary 都相同（编译后的二进制文件可移植）。
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
 <h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><p>When a line of code asks the operating system to do some input or output, the OS needs to determine if it is safe to do what the code asks.</p>
 <p>Operating systems typically handle this with access control that is based on ownership and groups.</p>
 <p>For example, the program might ask the OS to open a file. A user has a certain set of files that they have access to.</p>
 <p>When the user starts the program, the program runs on behalf of that user. If the user has access to the file — either because they are the owner or because they are in a group with access — then the program has that same access, too.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/019-access-control.png" alt="An application asking to open a file that is relevant to what it&#39;s doing"></p>
-<p>This protects users from each other. That made a lot of sense when early operating systems were developed. Systems were often multi-user, and administrators controlled what software was installed. So the most prominent threat was other users taking a peek at your files.</p>
-<p>That has changed. Systems now are usually single user, but they are running code that pulls in lots of other, third party code of unknown trustworthiness. Now the biggest threat is that the code that you yourself are running will turn against you.</p>
+</blockquote>
+<p>当一行代码要求操作系统进行一些输入或输出时，操作系统需要确定该代码所要求的操作是否安全。</p>
+<p>操作系统通常基于所有权（ownership）和组（groups）的访问控制来处理这个问题。</p>
+<p>例如，程序可能会要求操作系统打开一个文件，某个用户有一组他们可以访问的特定文件。</p>
+<p>当该用户启动程序时，程序代表该用户运行。如果用户可以访问该文件——要么是因为他们是所有者，要么是因为他们处于具有访问权限的组中——那么程序也拥有相同的访问权限。</p>
+<blockquote>
+<p>This protects users from each other. That made a lot of sense when early operating systems were developed. Systems were often multi-user, and administrators controlled what software was installed. So the most prominent threat was other users taking a peek at your files.<br>That has changed. Systems now are usually single user, but they are running code that pulls in lots of other, third party code of unknown trustworthiness. Now the biggest threat is that the code that you yourself are running will turn against you.</p>
 <p>For example, let’s say that the library you’re using in an application gets a new maintainer (as often happens in open source). That maintainer might have your interest at heart… or they might be one of the bad guys. And if they have access to do anything on your system — for example, open any of your files and send them over the network — then their code can do a lot of damage.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/020-bitcoin.png" alt="An evil application asking for access to the users bitcoin wallet and opening up a network connection">  </p>
+</blockquote>
+<p>这可以防止用户彼此间的伤害。在开发早期操作系统时，这种设计非常合理。系统通常是多用户的，管理员可以控制安装的软件。因此，最突出的威胁是其他用户偷看你的文件。</p>
+<p>但现在，事情已经改变了。系统现在通常是单个用户，但它们正在运行的代码却会拉入许多其他未知可信度的第三方代码。现在最大的威胁是，你自己正在运行的代码将对你不利。</p>
+<p>例如，假设你在应用程序中使用的库获得了新的维护者（在开源中经常发生）。那个维护者可能对你感兴趣……或者他们可能是坏人之一。如果他们有权在你的系统上做任何事情——例如，打开你的任何文件并通过网络发送它们——那么这些第三方的代码可能会造成很大的损害。</p>
+<blockquote>
 <p>This is why using third-party libraries that can talk directly to the system can be dangerous.</p>
+</blockquote>
+<p>这就是为什么使用可以直接与系统对话的第三方库可能是危险的。</p>
+<blockquote>
 <p>WebAssembly’s way of doing security is different. <strong>WebAssembly is sandboxed.</strong></p>
 <p>This means that code can’t talk directly to the OS. But then how does it do anything with system resources? The host (<strong>which might be a browser, or might be a wasm runtime</strong>) puts functions in the sandbox that the code can use.</p>
 <p>This means that the host can limit what a program can do on a program-by-program basis. It doesn’t just let the program act on behalf of the user, calling any system call with the user’s full permissions.</p>
 <p>Just having a mechanism for sandboxing doesn’t make a system secure in and of itself — the host can still put all of the capabilities into the sandbox, in which case we’re no better off — but it at least gives hosts the option of creating a more secure system.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/021-sandbox.png" alt="A runtime placing safe functions into the sandbox with an application">  </p>
+</blockquote>
+<p>WebAssembly的实现安全性的方式是不同的。WebAssembly是被放在沙盒中的。</p>
+<p>这意味着代码不能直接与操作系统对话。那么它是怎么处理系统资源的呢？主机（可能是浏览器，也可能是wasm运行时）将代码可以使用的函数放在沙盒中。</p>
+<p>这意味着主机可以逐个程序限制某个程序可以做什么。它并不让程序代表用户行事、用用户的全部权限去进行任何系统调用。</p>
+<p>仅仅拥有沙盒机制并不能使系统本身安全——主机仍然可以将所有功能都放入沙盒中，在这种情况下，我们的情况并不会好转——但它至少让主机可以选择去创建一个更安全的系统。</p>
+<blockquote>
 <p>In any system interface we design, we need to uphold these two principles. Portability makes it easier to develop and distribute software, and providing the tools for hosts to secure themselves or their users is an absolute must.</p>
+</blockquote>
+<p>在我们设计的任何系统界面中，都需要坚持这两个原则。可移植性使开发和分发软件更加容易，为主机提供工具来保护它自己或它的用户也是绝对必须的。</p>
+<blockquote>
 <h3 id="What-should-this-system-interface-look-like"><a href="#What-should-this-system-interface-look-like" class="headerlink" title="What should this system interface look like?"></a>What should this system interface look like?</h3><p>Given those two key principles, what should the design of the WebAssembly system interface be?</p>
 <p>That’s what we’ll figure out through the standardization process. We do have a proposal to start with, though:</p>
 <ul>
@@ -1334,20 +1463,51 @@
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/024-open-imps.png" alt="The Rust and C implementations of openat with WASI">  </p>
 <p>We expect compilers like Clang to be ready to interface with the WASI API, and complete toolchains like the Rust compiler and Emscripten to use WASI as part of their system implementations</p>
 <h4 id="How-does-the-user’s-code-call-these-WASI-functions"><a href="#How-does-the-user’s-code-call-these-WASI-functions" class="headerlink" title="How does the user’s code call these WASI functions?"></a>How does the user’s code call these WASI functions?</h4><p>The runtime that is running the code passes the wasi-core functions in as imports.</p>
+</blockquote>
+<p>运行代码的 wasm 运行时将 wasi-core 函数作为 imports 传递进去。</p>
+<blockquote>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/025-imports.png" alt="A runtime placing an imports object into the sandbox">  </p>
+</blockquote>
+<div class="inline-comment">
+在使用 wasm runtime 来把 `.wasm` 文件实体化为一个 wasm module 时，可以把一些函数，比如 wasi-core 中的函数，作为 imports 导入，这样被编译成 wasm module 的用户代码（在 wasm 沙箱内部）就可以调用这些被导入的（外部）函数了。
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
 <p>This gives us portability, because each host can have their own implementation of wasi-core that is specifically written for their platform — from WebAssembly runtimes like Mozilla’s wasmtime and Fastly’s Lucet, to Node, or even the browser.</p>
+</blockquote>
+<p>这为我们提供了可移植性，因为每个主机都可以有自己的wasi-core实现，该实现是专门为其平台编写的——从WebAssembly运行时，如Mozilla的wasmtime和Fastly的Lucet，到Node，甚至浏览器。</p>
+<blockquote>
 <p>It also gives us sandboxing because the host can choose which wasi-core functions to pass in — so, which system calls to allow — on a program-by-program basis. This preserves security.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/026-sec-port.png" alt="Three runtimes—wastime, Node, and the browser—passing their own implementations of wasi_fd_open into the sandbox">  </p>
+</blockquote>
+<p>它还为我们提供了沙盒，因为主机可以逐个程序筛选要传递的wasi-core函数——即，哪个程序允许调用哪个system call。这保证了安全性。</p>
+<blockquote>
 <p>WASI gives us a way to extend this security even further. It brings in more concepts from capability-based security.</p>
 <p>Traditionally, if code needs to open a file, it calls <code>open</code> with a string, which is the path name. Then the OS does a check to see if the code has permission (based on the user who started the program).</p>
 <p>With WASI, if you’re calling a function that needs to access a file, you have to pass in a file descriptor, which has permissions attached to it. This could be for the file itself, or for a directory that contains the file.</p>
 <p>This way, you can’t have code that randomly asks to open <code>/etc/passwd</code>. Instead, the code can only operate on the directories that are passed in to it.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/027-openat-path.png" alt="Two evil apps in sandboxes. The one on the left is using POSIX and succeeds at opening a file it shouldn&#39;t have access to. The other is using WASI and can&#39;t open the file.">  </p>
+</blockquote>
+<p>WASI为我们提供了进一步扩展这种安全性的方法。它从基于能力的安全性中带来了更多概念。</p>
+<p>传统上，如果代码需要打开一个文件，它会传入一个代表路径名的字符串作为参数来调用 <code>open</code> 函数。然后，操作系统会检查代码是否有权限（基于启动该程序的用户的权限）。</p>
+<p>而使用WASI时，如果调用需要访问文件的函数，你必须传递一个文件描述符，操作权限会被附加在该文件描述符上。这可以是文件本身，也可以是包含该文件的目录。</p>
+<p>这样，程序中就不能有随机要求打开<code>/etc/passwd</code>的代码。相反，程序只能在已经给它传入的目录上操作。</p>
+<blockquote>
 <p>This makes it possible to safely give sandboxed code more access to different system calls — because the capabilities of these system calls can be limited.</p>
 <p>And this happens on a module-by-module basis. By default, a module doesn’t have any access to file descriptors. But if code in one module has a file descriptor, it can choose to pass that file descriptor to functions it calls in other modules. Or it can create more limited versions of the file descriptor to pass to the other functions.</p>
 <p>So the runtime passes in the file descriptors that an app can use to the top level code, and then file descriptors get propagated through the rest of the system on an as-needed basis.</p>
 <p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/028-file-perms.png" alt="The runtime passing a directory to the app, and then the app passing a file to a function">  </p>
+</blockquote>
+<p>这使得安全地让沙盒代码更多地访问不同的系统调用成为可能——因为这些系统调用的功能可以被限制。</p>
+<p>这是逐个模块发生的。默认情况下，wasm module 无法访问文件描述符。但是，如果一个模块中的代码有文件描述符，它可以选择将该文件描述符作为参数传递给它在其他模块中调用的函数。或者它可以创建更有限的文件描述符版本，以传递给其他函数。</p>
+<p>即，运行时将应用程序可以使用的文件描述符传递到顶层代码，然后文件描述符根据需要通过系统的其余部分传播。</p>
+<blockquote>
 <p>This gets WebAssembly closer to the principle of least privilege, where a module can only access the exact resources it needs to do its job.</p>
+</blockquote>
+<p>这使WebAssembly更接近于最小特权原则，即模块只能访问其完成工作所需的确切资源。</p>
+<blockquote>
 <p>These concepts come from capability-oriented systems, like CloudABI and Capsicum. One problem with capability-oriented systems is that it is often hard to port code to them. But we think this problem can be solved.</p>
 <p>If code already uses <code>openat</code> with relative file paths, compiling the code will just work.</p>
 <p>If code uses open and migrating to the <code>openat</code> style is too much up-front investment, WASI can provide an incremental solution. With libpreopen, you can create a list of file paths that the application legitimately needs access to. Then you can use <code>open</code>, but only with those paths.</p>
@@ -1360,7 +1520,7 @@
 </ul>
 <p>This is just the beginning, so if you have ideas for how to solve these problems, join us!</p>
 </blockquote>
-<h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WASI 前瞻：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/105902805">https://zhuanlan.zhihu.com/p/105902805</a><br>[2] Mozilla 发布 WASI 计划，可在所有设备上运行 WebAssembly：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/rkcuswctom5wc5*kowac">https://www.infoq.cn/article/rkcuswctom5wc5*kowac</a><br>[3] 上面文章英文原文：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a><br>[4] Standardizing WASI: A system interface to run WebAssembly outside the web：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/</a>  </p>
+<h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WASI 前瞻：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/105902805">https://zhuanlan.zhihu.com/p/105902805</a><br>[2] Mozilla 发布 WASI 计划，可在所有设备上运行 WebAssembly：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/rkcuswctom5wc5*kowac">https://www.infoq.cn/article/rkcuswctom5wc5*kowac</a><br>[3] 上面文章英文原文：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a><br>[4] Standardizing WASI: A system interface to run WebAssembly outside the web：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/</a><br>[5] 系统调用（维基百科）：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">https://zh.wikipedia.org/wiki/系统调用</a><br>[6] 系统调用：<a target="_blank" rel="noopener" href="https://hackmd.io/@combo-tw/BJPoAcqQS">https://hackmd.io/@combo-tw/BJPoAcqQS</a>  </p>
 
       
     </div>
