@@ -1264,7 +1264,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #0e691d;
+  background: #b5f900;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2880,4 +2880,23 @@ header.header {
   font-style: italic;
   border-bottom-style: solid;
   border-bottom-width: 1px;
+}
+.inline-quote {
+  font-size: 0.9em;
+  background: #f5f5f5;
+  border-left-style: solid;
+  border-left-width: 0.25em;
+  border-left-color: #808080;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+.inline-quote-link {
+  font-size: 0.8em;
+  color: #808080;
+  text-align: right;
+  font-weight: bold;
+  font-style: italic;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  margin-top: 2em;
 }

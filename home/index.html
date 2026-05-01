@@ -150,7 +150,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -161,7 +161,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -178,6 +178,96 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1042437339.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1042437339.html" class="post-title-link" itemprop="url">Wasm Component Model 简单实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-01 12:31:44 / 修改时间：12:54:18" itemprop="dateCreated datePublished" datetime="2026-05-01T12:31:44-04:00">2026-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          文档已加密。</br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/1042437339.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1750,382 +1840,6 @@ fn another() &#123;
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fmt::Display;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longest_with_an_announcement</span>&lt;<span class="symbol">&#x27;a</span>, T&gt;(</span><br><span class="line">    x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,</span><br><span class="line">    y: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>,</span><br><span class="line">    ann: T,</span><br><span class="line">) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span></span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    T: Display,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Announcement! &#123;&#125;&quot;</span>, ann);</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>ann</code>的类型是泛型<code>T</code>，它可以被放入任何实现了<code>where</code>从句中指定的<code>Display</code> trait的类型。这个额外的参数会使用<code>&#123;&#125;</code>打印，这也就是为什么<code>Display</code> trait bound 是必须的。因为生命周期也是泛型，所以生命周期参数<code>&#39;a</code>和泛型类型参数<code>T</code>都位于函数名后的同一尖括号列表中。</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>[1] 泛型、Trait 和生命周期：<a target="_blank" rel="noopener" href="https://kaisery.github.io/trpl-zh-cn/ch10-00-generics.html">https://kaisery.github.io/trpl-zh-cn/ch10-00-generics.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1010502636.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="Acosy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Acosy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Acosy">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/1010502636.html" class="post-title-link" itemprop="url">错误处理（Error Handling）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-08-02 11:13:04" itemprop="dateCreated datePublished" datetime="2022-08-02T11:13:04-04:00">2022-08-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-12 21:57:55" itemprop="dateModified" datetime="2024-05-12T21:57:55-04:00">2024-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">语言</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>本文大部分内容翻译自：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/stable/book/">The Rust Programming Language</a></strong></p>
-<p>Rust将错误分为两大类：可恢复的（recoverable）和 不可恢复的（unrecoverable）错误。</p>
-<ul>
-<li>可恢复的错误：比如文件未找到的错误，我们很可能只想向用户报告问题并重试操作。</li>
-<li>不可恢复的错误：bug出现的征兆，比如试图访问一个超过数组末端的位置，因此我们要立即停止程序。</li>
-</ul>
-<p>大多数语言并不区分这两种错误，并采用类似异常这样方式统一处理他们。Rust没有异常。与之相对的是，它有<code>Result&lt;T, E&gt;</code>类型，用于处理可恢复的错误，还有<code>panic!</code>宏，在程序遇到不可恢复的错误时停止执行。</p>
-<h1 id="1-用panic-处理不可恢复的错误"><a href="#1-用panic-处理不可恢复的错误" class="headerlink" title="1. 用panic!处理不可恢复的错误"></a>1. 用<code>panic!</code>处理不可恢复的错误</h1><p>执行<code>panic!</code>宏时，程序会打印出一个错误信息，展开并清理栈数据，然后退出。</p>
-<p>出现这种情况的场景通常是检测到一些类型的bug，而且程序员并不清楚该如何处理它。</p>
-<p>当出现panic时：</p>
-<ul>
-<li>程序默认会开始<strong>展开（unwinding）</strong>，即Rust会回溯栈，并清理它遇到的每一个函数的数据。这个回溯并清理的过程有很多工作。</li>
-<li>另一种选择是直接<strong>终止（abort）</strong>。这会不清理数据就退出程序，程序所使用的内存需要由操作系统来清理。<ul>
-<li>如果你需要项目的最终二进制文件越小越好，panic时通过在<code>Cargo.toml</code>的<code>[profile]</code>部分增加<code>panic = &#39;abort&#39;</code>，可以由展开切换为终止。例如，如果你想要在release模式中 panic时直接终止：<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[profile.release]</span></span><br><span class="line"><span class="attr">panic</span> = <span class="string">&#x27;abort&#x27;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h2 id="1-1-调用panic"><a href="#1-1-调用panic" class="headerlink" title="1.1. 调用panic!"></a>1.1. 调用<code>panic!</code></h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">panic!</span>(<span class="string">&quot;crash and burn&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行后的输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling panic v0.1.0 (file:///projects/panic)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.25s</span><br><span class="line">     Running `target/debug/panic`</span><br><span class="line">thread <span class="string">&#x27;main&#x27;</span> panicked at <span class="string">&#x27;crash and burn&#x27;</span>, src/main.rs:2:5</span><br><span class="line">note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</span><br></pre></td></tr></table></figure>
-
-<p>最后两行包含<code>panic!</code>调用造成的错误信息，第一行显示了<code>panic</code>提供的信息并指明了源码中<code>panic</code>出现的位置：</p>
-<ul>
-<li><code>src/main.rs:2:5</code>表明这是<code>src/main.rs</code>文件的第二行第五个字符</li>
-</ul>
-<p>在这个例子中，被指明的那一行是我们代码的一部分，而且查看这一行的话就会发现<code>panic!</code>宏的调用。在其他情况下，<code>panic!</code>可能会出现在我们的代码所调用的代码中。</p>
-<p>错误信息报告的文件名和行号可能指向别人代码中的<code>panic!</code>宏调用，我们可以使用<code>panic!</code>被调用的函数的backtrace来寻找代码中出问题的地方。</p>
-<h2 id="1-2-panic-的backtrace"><a href="#1-2-panic-的backtrace" class="headerlink" title="1.2. panic!的backtrace"></a>1.2. <code>panic!</code>的backtrace</h2><p>例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">    v[<span class="number">99</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码尝试访问vector的第一百个元素（这里的索引是99因为索引从0开始），不过它只有三个元素。这种情况下Rust会panic。<code>[]</code>应当返回一个元素，不过如果传递了一个无效索引，就没有可供Rust返回的正确的元素。</p>
-<p>C语言中，尝试读取数据结构末尾之后的值是未定义行为（undefined behavior）。即使该内存位置不属于这个数据结构，也可能得到该位置的值。这被称为<strong>缓冲区溢出（buffer overread）</strong>，可能会导致安全漏洞，比如攻击者可以像这样操作索引来读取储存在数据结构之后不被允许访问的数据。</p>
-<p>为了保护程序远离这类漏洞，当尝试读取一个索引不存在的元素，Rust会停止执行并拒绝继续。运行上面的程序会出现如下编译错误：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling panic v0.1.0 (file:///projects/panic)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.27s</span><br><span class="line">     Running `target/debug/panic`</span><br><span class="line">thread <span class="string">&#x27;main&#x27;</span> panicked at <span class="string">&#x27;index out of bounds: the len is 3 but the index is 99&#x27;</span>, src/main.rs:4:5</span><br><span class="line">note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</span><br></pre></td></tr></table></figure>
-
-<p>错误指向<code>main.rs</code>的第4行，这里我们尝试访问索引99。下面的说明（note）行提醒我们可以设置<code>RUST_BACKTRACE</code>环境变量来获得backtrace。</p>
-<p>backtrace是一个列表，显示执行到目前位置所有被调用的函数。Rust的backtrace跟其他语言中的一样，阅读backtrace的关键是从头开始读，直到发现你编写的文件。这就是问题的根源所在：这一行往上是你的代码所调用的代码，往下是调用你的代码的代码。这些行可能包含核心Rust代码，标准库代码或用到的crate代码。</p>
-<p>将<code>RUST_BACKTRACE</code>环境变量设置为任何不是0的值来获取backtrace，可以看到类似下面的输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ RUST_BACKTRACE=1 cargo run</span><br><span class="line">thread <span class="string">&#x27;main&#x27;</span> panicked at <span class="string">&#x27;index out of bounds: the len is 3 but the index is 99&#x27;</span>, src/main.rs:4:5</span><br><span class="line">stack backtrace:</span><br><span class="line">   0: rust_begin_unwind</span><br><span class="line">             at /rustc/7eac88abb2e57e752f3302f02be5f3ce3d7adfb4/library/std/src/panicking.rs:483</span><br><span class="line">   1: core::panicking::panic_fmt</span><br><span class="line">             at /rustc/7eac88abb2e57e752f3302f02be5f3ce3d7adfb4/library/core/src/panicking.rs:85</span><br><span class="line">   2: core::panicking::panic_bounds_check</span><br><span class="line">             at /rustc/7eac88abb2e57e752f3302f02be5f3ce3d7adfb4/library/core/src/panicking.rs:62</span><br><span class="line">   3: &lt;usize as core::slice::index::SliceIndex&lt;[T]&gt;&gt;::index</span><br><span class="line">             at /rustc/7eac88abb2e57e752f3302f02be5f3ce3d7adfb4/library/core/src/slice/index.rs:255</span><br><span class="line">   4: core::slice::index::&lt;impl core::ops::index::Index&lt;I&gt; <span class="keyword">for</span> [T]&gt;::index</span><br><span class="line">             at /rustc/7eac88abb2e57e752f3302f02be5f3ce3d7adfb4/library/core/src/slice/index.rs:15</span><br><span class="line">   5: &lt;alloc::vec::Vec&lt;T&gt; as core::ops::index::Index&lt;I&gt;&gt;::index</span><br><span class="line">             at /rustc/7eac88abb2e57e752f3302f02be5f3ce3d7adfb4/library/alloc/src/vec.rs:1982</span><br><span class="line">   6: panic::main</span><br><span class="line">             at ./src/main.rs:4</span><br><span class="line">   7: core::ops::<span class="keyword">function</span>::FnOnce::call_once</span><br><span class="line">             at /rustc/7eac88abb2e57e752f3302f02be5f3ce3d7adfb4/library/core/src/ops/function.rs:227</span><br><span class="line">note: Some details are omitted, run with `RUST_BACKTRACE=full` <span class="keyword">for</span> a verbose backtrace.</span><br></pre></td></tr></table></figure>
-
-<p>这里有大量的输出。为了获取含有这些信息的backtrace，必须启用debug标识。不使用<code>--release</code>参数运行<code>cargo build</code>或<code>cargo run</code>时debug标识会默认启用。</p>
-<p>上面输出的backtrace中， 第12行指向了我们项目中造成问题的行：<code>src/main.rs</code>的第4行。</p>
-<p>如果你不希望程序panic，<strong>第一个提到我们编写的代码行的位置是你应该开始调查的</strong>，以便查明是什么值，如何在这个地方引起了 panic。</p>
-<p>上例中，我们故意编写会panic的代码来演示如何使用backtrace，修复这个panic的方法就是不要尝试在一个只包含三个项的vector 中请求索引是100的元素。当将来你的代码出现了panic，你需要搞清楚在特定的场景下代码中执行了什么操作和什么值导致了panic，以及应当如何处理才能避免这个问题。</p>
-<h1 id="2-用Result处理可恢复的错误"><a href="#2-用Result处理可恢复的错误" class="headerlink" title="2. 用Result处理可恢复的错误"></a>2. 用<code>Result</code>处理可恢复的错误</h1><h2 id="2-1-Result枚举"><a href="#2-1-Result枚举" class="headerlink" title="2.1. Result枚举"></a>2.1. <code>Result</code>枚举</h2><p>大部分错误并没有严重到需要程序完全停止执行。例如，如果因为打开一个并不存在的文件而失败，我们可能想要创建这个文件，而不是终止进程。</p>
-<p><code>Result</code>枚举有两个成员，<code>Ok</code>和<code>Err</code>：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Result</span>&lt;T, E&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(T),</span><br><span class="line">    <span class="title function_ invoke__">Err</span>(E),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>T</code>和<code>E</code>是泛型类型参数：</p>
-<ul>
-<li><code>T</code>表示成功时返回的<code>Ok</code>成员中的数据的类型</li>
-<li><code>E</code>代表失败时返回的<code>Err</code>成员中的错误的类型</li>
-</ul>
-<p>因为<code>Result</code>有这些泛型类型参数，我们可以将<code>Result</code>类型和标准库中为其定义的函数用于很多不同的场景，这些情况中需要返回的成功值和失败值可能会各不相同。</p>
-<p>例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如何知道<code>File::open</code>返回一个<code>Result</code>呢？我们可以查看标准库API文档，或者可以直接问编译器：如果给<code>f</code>某个我们知道不是函数返回值类型的类型注解，然后尝试编译代码，编译器会告诉我们类型不匹配。然后错误信息会告诉我们<code>f</code>的类型应该是什么。</p>
-<p>例如：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">f</span>: <span class="type">u32</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p>编译会给出如下输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling error-handling v0.1.0 (file:///projects/error-handling)</span><br><span class="line">error[E0308]: mismatched types</span><br><span class="line"> --&gt; src/main.rs:4:18</span><br><span class="line">  |</span><br><span class="line">4 |     <span class="built_in">let</span> f: u32 = File::open(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line">  |            ---   ^^^^^^^^^^^^^^^^^^^^^^^ expected `u32`, found enum `Result`</span><br><span class="line">  |            |</span><br><span class="line">  |            expected due to this</span><br><span class="line">  |</span><br><span class="line">  = note: expected <span class="built_in">type</span> `u32`</span><br><span class="line">             found enum `Result&lt;File, std::io::Error&gt;`</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0308`.</span><br><span class="line">error: could not compile `error-handling` due to previous error</span><br></pre></td></tr></table></figure>
-<p>这就告诉我们了<code>File::open</code>函数的返回值类型是<code>Result&lt;T, E&gt;</code>：</p>
-<ul>
-<li>泛型参数<code>T</code>放入了成功值的类型<code>std::fs::File</code>，它是一个文件句柄</li>
-<li><code>E</code>被用在失败值上时，类型是<code>std::io::Error</code></li>
-</ul>
-<p>这个返回值类型说明<code>File::open</code>调用可能会成功并返回一个可以进行读写的文件句柄，也可能会失败，例如文件可能并不存在，或者可能没有访问文件的权限。</p>
-<p><code>File::open</code>需要一个方式告诉我们是成功还是失败，并同时提供给我们文件句柄或错误信息。而这些信息正是<code>Result</code>枚举可以提供的。</p>
-<p>当<code>File::open</code>成功的情况下，变量<code>f</code>的值将会是一个包含文件句柄的<code>Ok</code>实例；在失败的情况下，<code>f</code>的值会是一个包含更多关于出现了何种错误信息的<code>Err</code>实例。</p>
-<p>根据<code>File::open</code>返回值进行不同处理：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = <span class="keyword">match</span> f &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(file) =&gt; file,</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(error) =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Problem opening the file: &#123;:?&#125;&quot;</span>, error),</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里我们告诉Rust当结果是<code>Ok</code>时，返回<code>Ok</code>成员中的<code>file</code>值，然后将这个文件句柄赋值给变量<code>f</code>。match之后，我们可以利用这个文件句柄来进行读写。</p>
-<p>match的另一个分支处理从<code>File::open</code>得到<code>Err</code>值的情况。在这种情况下，我们选择调用<code>panic!</code>宏。如果当前目录没有一个叫做<code>hello.txt</code>的文件，当运行这段代码时会看到如下来自<code>panic!</code>宏的输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling error-handling v0.1.0 (file:///projects/error-handling)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.73s</span><br><span class="line">     Running `target/debug/error-handling`</span><br><span class="line">thread <span class="string">&#x27;main&#x27;</span> panicked at <span class="string">&#x27;Problem opening the file: Os &#123; code: 2, kind: NotFound, message: &quot;No such file or directory&quot; &#125;&#x27;</span>, src/main.rs:8:23</span><br><span class="line">note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</span><br></pre></td></tr></table></figure>
-
-<p>与<code>Option</code>枚举一样，<code>Result</code>枚举和其成员也被导入到了<code>prelude</code>中，所以就不需要在<code>match</code>分支中的<code>Ok</code>和<code>Err</code>之前指定 <code>Result::</code>。</p>
-<h2 id="2-2-匹配不同的错误"><a href="#2-2-匹配不同的错误" class="headerlink" title="2.2. 匹配不同的错误"></a>2.2. 匹配不同的错误</h2><p>商界中的代码不管<code>File::open</code>因为什么原因失败都会<code>panic!</code>。我们真正希望的是对不同的错误原因采取不同的行为：</p>
-<ul>
-<li>如果<code>File::open</code>因为文件不存在而失败，我们希望创建这个文件并返回新文件的句柄</li>
-<li>如果<code>File::open</code>因为任何其他原因失败，例如没有打开文件的权限，我们仍然希望<code>panic!</code></li>
-</ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io::ErrorKind;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = <span class="keyword">match</span> f &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(file) =&gt; file,</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(error) =&gt; <span class="keyword">match</span> error.<span class="title function_ invoke__">kind</span>() &#123;</span><br><span class="line">            ErrorKind::NotFound =&gt; <span class="keyword">match</span> File::<span class="title function_ invoke__">create</span>(<span class="string">&quot;hello.txt&quot;</span>) &#123;</span><br><span class="line">                <span class="title function_ invoke__">Ok</span>(fc) =&gt; fc,</span><br><span class="line">                <span class="title function_ invoke__">Err</span>(e) =&gt; <span class="built_in">panic!</span>(<span class="string">&quot;Problem creating the file: &#123;:?&#125;&quot;</span>, e),</span><br><span class="line">            &#125;,</span><br><span class="line">            other_error =&gt; &#123;</span><br><span class="line">                <span class="built_in">panic!</span>(<span class="string">&quot;Problem opening the file: &#123;:?&#125;&quot;</span>, other_error)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>File::open</code>返回的<code>Err</code>成员中的值类型<code>io::Error</code>，它是一个标准库中提供的结构体。这个结构体有一个返回 <code>io::ErrorKind</code>值的<code>kind</code>方法可供调用。</p>
-<p><code>io::ErrorKind</code>是标准库提供的枚举，它的成员对应<code>io</code>操作可能导致的不同错误类型。我们感兴趣的成员是 <code>ErrorKind::NotFound</code>，它表示尝试打开的文件并不存在。</p>
-<p><code>error.kind()</code>还有一个内层match。我们希望在内层match中检查的条件是<code>error.kind()</code>的返回值是否为<code>ErrorKind</code>的 <code>NotFound</code>成员。如果是，则尝试通过<code>File::create</code>创建文件。因为<code>File::create</code>也可能会失败，还需要增加一个内层 match语句。</p>
-<p>外层 match的最后一个分支保持不变，当文件不能被打开，会打印出一个不同的错误信息。</p>
-<hr>
-<p><strong>闭包（Closure）与<code>unwrap_or_else</code>方法</strong></p>
-<p>上面用来很多match。</p>
-<p>match确实很强大，不过也非常的基础。闭包（closure）可用于很多<code>Result&lt;T, E&gt;</code>定义的方法。在处理代码中的<code>Result&lt;T, E&gt;</code>值时这些方法可能会更加简洁。</p>
-<p>例如：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io::ErrorKind;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>).<span class="title function_ invoke__">unwrap_or_else</span>(|error| &#123;</span><br><span class="line">        <span class="keyword">if</span> error.<span class="title function_ invoke__">kind</span>() == ErrorKind::NotFound &#123;</span><br><span class="line">            File::<span class="title function_ invoke__">create</span>(<span class="string">&quot;hello.txt&quot;</span>).<span class="title function_ invoke__">unwrap_or_else</span>(|error| &#123;</span><br><span class="line">                <span class="built_in">panic!</span>(<span class="string">&quot;Problem creating the file: &#123;:?&#125;&quot;</span>, error);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">panic!</span>(<span class="string">&quot;Problem opening the file: &#123;:?&#125;&quot;</span>, error);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码与前一个例子有一样的行为，但并没有包含任何match表达式，且更容易阅读。在处理错误时，还有很多这类方法可以消除大量嵌套的match表达式。</p>
-<hr>
-<h2 id="2-3-失败时panic的简写：unwrap和expect"><a href="#2-3-失败时panic的简写：unwrap和expect" class="headerlink" title="2.3. 失败时panic的简写：unwrap和expect"></a>2.3. 失败时<code>panic</code>的简写：<code>unwrap</code>和<code>expect</code></h2><h3 id="2-3-1-upwrap"><a href="#2-3-1-upwrap" class="headerlink" title="2.3.1. upwrap"></a>2.3.1. <code>upwrap</code></h3><p>match能够胜任它的工作，不过它可能有点冗长，并且不总是能很好的表明其意图。<code>Result&lt;T, E&gt;</code>类型定义了很多辅助方法来处理各种情况，其中之一叫做<code>unwrap</code>，它的实现就类似于之前例子中的match语句：</p>
-<ul>
-<li>如果<code>Result</code>是成员<code>Ok</code>，<code>unwrap</code>会返回<code>Ok</code>中的值</li>
-<li>如果<code>Result</code>是成员<code>Err</code>，<code>unwrap</code>会为我们调用<code>panic!</code></li>
-</ul>
-<p>例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果调用这段代码时不存在<code>hello.txt</code>文件，我们将会看到<code>unwrap</code>调用<code>panic!</code>时提供的错误信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">thread <span class="string">&#x27;main&#x27;</span> panicked at <span class="string">&#x27;called `Result::unwrap()` on an `Err` value: Error &#123;</span></span><br><span class="line"><span class="string">repr: Os &#123; code: 2, message: &quot;No such file or directory&quot; &#125; &#125;&#x27;</span>,</span><br><span class="line">src/libcore/result.rs:906:4</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3-2-expect"><a href="#2-3-2-expect" class="headerlink" title="2.3.2. expect"></a>2.3.2. <code>expect</code></h3><p>还有另一个类似于<code>unwrap</code>的方法，它还允许我们提供<code>panic!</code>的错误信息：<code>expect</code>。</p>
-<p>使用<code>expect</code>而不是<code>unwrap</code>，并提供一个好的错误信息，可以表明你的意图并更易于追踪panic的根源。</p>
-<p>例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to open hello.txt&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>expect</code>与<code>unwrap</code>的使用方式一样：返回文件句柄或调用<code>panic!</code>宏。<code>expect</code>在调用<code>panic!</code>时使用的错误信息是我们传递给<code>expect</code>的参数，而不像<code>unwrap</code>那样使用默认的<code>panic!</code>信息。</p>
-<p>例如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">thread <span class="string">&#x27;main&#x27;</span> panicked at <span class="string">&#x27;Failed to open hello.txt: Error &#123; repr: Os &#123; code:</span></span><br><span class="line"><span class="string">2, message: &quot;No such file or directory&quot; &#125; &#125;&#x27;</span>, src/libcore/result.rs:906:4</span><br></pre></td></tr></table></figure>
-<p>因为这个错误信息以我们指定的文本开始，<code>Failed to open hello.txt</code>，将会更容易找到代码中的错误信息来自何处。如果在多处使用<code>unwrap</code>，则需要花更多的时间来分析到底是哪一个<code>unwrap</code>造成了 panic，因为所有的<code>unwrap</code>调用都打印相同的信息。</p>
-<h3 id="2-3-3-传播错误"><a href="#2-3-3-传播错误" class="headerlink" title="2.3.3. 传播错误"></a>2.3.3. 传播错误</h3><p>当程序中会调用一些可能操作失败的函数时，除了在这个函数中处理错误外，还可以选择让调用者知道这个错误并决定该如何处理。这被称为<strong>传播（propagating）</strong>错误。这样能更好的控制代码调用，因为比起你代码所拥有的上下文，调用者可能拥有更多信息或逻辑来决定应该如何处理错误。</p>
-<p>例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io::&#123;<span class="keyword">self</span>, Read&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">read_username_from_file</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">String</span>, io::Error&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">f</span> = <span class="keyword">match</span> f &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(file) =&gt; file,</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(e) =&gt; <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(e),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> f.<span class="title function_ invoke__">read_to_string</span>(&amp;<span class="keyword">mut</span> s) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(_) =&gt; <span class="title function_ invoke__">Ok</span>(s),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(e) =&gt; <span class="title function_ invoke__">Err</span>(e),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>函数的返回值：<code>Result&lt;String, io::Error&gt;</code></p>
-<ul>
-<li>这意味着函数返回一个<code>Result&lt;T, E&gt;</code>类型的值，其中泛型参数<code>T</code>的具体类型是String，<code>E</code>的具体类型是<code>io::Error</code>。<ul>
-<li>如果这个函数没有出任何错误成功返回，函数的调用者会收到一个包含String的<code>Ok</code>值。</li>
-<li>如果函数遇到任何错误，函数的调用者会收到<code>Err</code>值，它储存了一个与这个问题相关信息的<code>io::Error</code>实例。这里选择 <code>io::Error</code>作为函数的返回值，是因为它正好是函数体中那两个可能会失败的操作的错误返回值：<code>File::open</code>函数和<code>read_to_string</code>方法。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>函数体以调用<code>File::open</code>函数开始，接着使用match处理返回值<code>Result</code></p>
-<ul>
-<li>如果<code>File::open</code>成功了，模式变量<code>file</code>中的文件句柄就变成了可变变量<code>f</code>中的值，接着函数继续执行。</li>
-<li>在<code>Err</code>的情况下，我们没有调用<code>panic!</code>，而是使用<code>return</code>关键字提前结束整个函数，并将来自<code>File::open</code>的错误值（现在在模式变量<code>e</code>中）作为函数的错误值传回给调用者。</li>
-</ul>
-</li>
-<li><p><code>f</code>中有了一个文件句柄，函数接着在变量<code>s</code>中创建一个新String，并调用文件句柄<code>f</code>的<code>read_to_string</code>方法来将文件的内容读取到<code>s</code>中。</p>
-<ul>
-<li><code>read_to_string</code>方法也返回一个<code>Result</code>，因为它也可能会失败（哪怕<code>File::open</code>已经成功了）。所以我们需要另一个 match来处理这个<code>Result</code>：<ul>
-<li>如果<code>read_to_string</code>成功了，那么这个函数就成功了，并返回文件中的内容，会被封装进<code>Ok</code>的<code>s</code>中。</li>
-<li>如果<code>read_to_string</code>失败了，则像之前处理<code>File::open</code>的返回值的match那样返回错误值。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>调用这个函数的代码最终会得到一个包含文件内容的<code>Ok</code>值，或包含<code>io::Error</code>的<code>Err</code>值。我们没有足够的信息知晓调用者具体会如何处理这些值，所以将所有的成功或失败信息向上传播，让他们选择合适的处理方法。</p>
-<p>这种传播错误的模式在Rust中非常常见，因此Rust提供了<code>?</code>问号运算符来使其更易于处理。</p>
-<h2 id="2-4-传播错误的简写：-运算符"><a href="#2-4-传播错误的简写：-运算符" class="headerlink" title="2.4. 传播错误的简写：?运算符"></a>2.4. 传播错误的简写：<code>?</code>运算符</h2><h3 id="2-4-1-运算符"><a href="#2-4-1-运算符" class="headerlink" title="2.4.1. ?运算符"></a>2.4.1. <code>?</code>运算符</h3><p>例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"><span class="keyword">use</span> std::io::Read;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">read_username_from_file</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">String</span>, io::Error&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    f.<span class="title function_ invoke__">read_to_string</span>(&amp;<span class="keyword">mut</span> s)?;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>File::open</code>调用结尾的<code>?</code>，把<code>Ok</code>中的值返回给变量<code>f</code></li>
-<li>如果出现了错误，<code>?</code>运算符会提早返回整个函数，并将一些<code>Err</code>值传播给调用者</li>
-<li>同理也适用于<code>read_to_string</code>调用结尾的<code>?</code></li>
-</ul>
-<p><code>Result</code>值之后的<code>?</code>与之前例子中处理<code>Result</code>值的match表达式有完全相同的工作方式：</p>
-<ul>
-<li>如果<code>Result</code>的值是<code>Ok</code>，这个表达式将会返回<code>Ok</code>中的值，程序继续执行。</li>
-<li>如果值是<code>Err</code>，<code>Err</code>中的值将作为整个函数的返回值，就好像使用了<code>return</code>关键字一样，这样错误值就被传播给了调用者。</li>
-</ul>
-<p>之前例子中的<code>match</code>表达式与问号运算符所做的有一点不同：<code>?</code>运算符所使用的错误值被传递给了<code>from</code>函数。</p>
-<ul>
-<li><code>from</code>函数定义于标准库的 <code>From</code> trait中，用来将错误从一种类型转换为另一种类型。</li>
-<li>当<code>?</code>运算符调用<code>from</code>函数时，收到的错误类型被转换为“当前函数的返回类型所指定的错误类型”。<ul>
-<li>当使用函数返回的单个错误类型，来代表所有可能失败的方式时，这很有用。</li>
-<li>只要每一个错误类型都实现了<code>from</code>函数，即定义了如何将自身转换为返回的错误类型，<code>?</code>运算符就会自动处理这些转换。</li>
-</ul>
-</li>
-</ul>
-<p><code>?</code>运算符消除了大量样板代码，使函数的实现更简单。我们甚至可以在<code>?</code>之后使用链式方法调用来进一步缩短代码：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"><span class="keyword">use</span> std::io::Read;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">read_username_from_file</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">String</span>, io::Error&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>)?.<span class="title function_ invoke__">read_to_string</span>(&amp;<span class="keyword">mut</span> s)?;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面代码中：</p>
-<ul>
-<li><code>File::open(&quot;hello.txt&quot;)?</code>的结果直接链式调用了<code>read_to_string</code>，而不再创建变量<code>f</code></li>
-<li>仍然需要<code>read_to_string</code>调用结尾的<code>?</code></li>
-<li>当<code>File::open</code>和<code>read_to_string</code>都成功时，返回包含文件内容<code>s</code>的<code>Ok</code>值</li>
-</ul>
-<p>甚至还有一个更短的写法：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs;</span><br><span class="line"><span class="keyword">use</span> std::io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">read_username_from_file</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">String</span>, io::Error&gt; &#123;</span><br><span class="line">    fs::<span class="title function_ invoke__">read_to_string</span>(<span class="string">&quot;hello.txt&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>将文件读取到一个字符串是相当常见的操作，所以Rust提供了名为<code>fs::read_to_string</code>的函数，它会：</p>
-<ul>
-<li>打开文件</li>
-<li>新建一个String</li>
-<li>读取文件的内容，并将内容放入String</li>
-<li>接着返回String</li>
-</ul>
-<h3 id="2-4-2-哪里可以使用-运算符"><a href="#2-4-2-哪里可以使用-运算符" class="headerlink" title="2.4.2. 哪里可以使用?运算符"></a>2.4.2. 哪里可以使用<code>?</code>运算符</h3><p><code>?</code>运算符被定义为从函数中提早返回一个值，它只能被用于返回值与<code>?</code>作用的值相兼容的函数。</p>
-<p>例如之前的例子：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io::&#123;<span class="keyword">self</span>, Read&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">read_username_from_file</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;<span class="type">String</span>, io::Error&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">f</span> = <span class="keyword">match</span> f &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(file) =&gt; file,</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(e) =&gt; <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(e),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> f.<span class="title function_ invoke__">read_to_string</span>(&amp;<span class="keyword">mut</span> s) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(_) =&gt; <span class="title function_ invoke__">Ok</span>(s),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(e) =&gt; <span class="title function_ invoke__">Err</span>(e),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>match作用于一个<code>Result</code>值，提早返回的分支返回了一个<code>Err(e)</code>值。函数的返回值必须是<code>Result</code>才能与这个<code>return</code>相兼容。</p>
-<p>但在下面示例中，<code>main</code>函数的返回值与<code>?</code>作用的值不兼容，就会有编译错误：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>)?;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码打开一个文件，这可能会失败。<code>?</code>运算符作用于<code>File::open</code>返回的<code>Result</code>值，但<code>main</code>函数的返回类型是<code>()</code>，而不是<code>Result</code>。当编译这段代码，会得到如下错误信息：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling error-handling v0.1.0 (file:///projects/error-handling)</span><br><span class="line">error[E0277]: the `?` operator can only be used <span class="keyword">in</span> a <span class="keyword">function</span> that returns `Result` or `Option` (or another <span class="built_in">type</span> that implements `FromResidual`)</span><br><span class="line"> --&gt; src/main.rs:4:36</span><br><span class="line">  |</span><br><span class="line">3 | / fn <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">4 | |     <span class="built_in">let</span> f = File::open(<span class="string">&quot;hello.txt&quot;</span>)?;</span><br><span class="line">  | |                                    ^ cannot use the `?` operator <span class="keyword">in</span> a <span class="keyword">function</span> that returns `()`</span><br><span class="line">5 | | &#125;</span><br><span class="line">  | |_- this <span class="keyword">function</span> should <span class="built_in">return</span> `Result` or `Option` to accept `?`</span><br><span class="line">  |</span><br><span class="line">  = <span class="built_in">help</span>: the trait `FromResidual&lt;Result&lt;Infallible, std::io::Error&gt;&gt;` is not implemented <span class="keyword">for</span> `()`</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0277`.</span><br><span class="line">error: could not compile `error-handling` due to previous error</span><br></pre></td></tr></table></figure>
-
-<p>这个错误指出，只能在返回<code>Result</code>，或者其它实现了<code>FromResidual</code>的类型的函数中使用<code>?</code>运算符。</p>
-<p>为了修复这个错误，有两个选择：</p>
-<ul>
-<li>如果没有限制的话将函数的返回值改为<code>Result&lt;T, E&gt;</code></li>
-<li>使用match或<code>Result&lt;T, E&gt;</code>的方法中合适的一个来处理<code>Result&lt;T, E&gt;</code></li>
-</ul>
-<p>错误信息也提到<code>?</code>可用于<code>Option&lt;T&gt;</code>值。就像对<code>Result</code>使用<code>?</code>一样，只能在返回<code>Option</code>的函数中对<code>Option</code>使用<code>?</code>。在 <code>Option&lt;T&gt;</code>上调用<code>?</code>运算符的行为与<code>Result&lt;T, E&gt;</code>类似：</p>
-<ul>
-<li>如果值是<code>None</code>，<code>None</code>会从函数中提前返回</li>
-<li>如果值是<code>Some</code>，<code>Some</code>中的值作为表达式的返回值，同时函数继续</li>
-</ul>
-<p>例：从给定文本中返回第一行最后一个字符</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">last_char_of_first_line</span>(text: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="type">char</span>&gt; &#123;</span><br><span class="line">    text.<span class="title function_ invoke__">lines</span>().<span class="title function_ invoke__">next</span>()?.<span class="title function_ invoke__">chars</span>().<span class="title function_ invoke__">last</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这个函数返回<code>Option&lt;char&gt;</code>。</li>
-<li>代码获取<code>text</code> string slice作为参数，并调用<code>lines</code>方法，返回一个字符串中每一行的迭代器。因为函数希望检查第一行，所以调用了迭代器<code>next</code>来获取迭代器中第一个值。<ul>
-<li>如果<code>text</code>是空字符串，<code>next</code>调用会返回<code>None</code>，此时我们可以使用<code>?</code>来停止，并从<code>last_char_of_first_line</code>返回 <code>None</code>。</li>
-<li>如果<code>text</code>不是空字符串，<code>next</code>会返回一个包含<code>text</code>中第一行的string slice的<code>Some</code>值。</li>
-</ul>
-</li>
-<li><code>?</code>会提取这个string slice，然后可以在string slice上调用<code>chars</code>来获取字符的迭代器。</li>
-<li>我们感兴趣的是第一行的最后一个字符，所以可以调用<code>last</code>来返回迭代器的最后一项。这是一个<code>Option</code>，因为有可能第一行是一个空字符串。</li>
-</ul>
-<p>注意你可以在返回<code>Result</code>的函数中对<code>Result</code>使用<code>?</code>运算符，可以在返回<code>Option</code>的函数中对<code>Option</code>使用<code>?</code>运算符，但是不可以混合搭配。<code>?</code>运算符不会自动将<code>Result</code>转化为<code>Option</code>，反之亦然。在这些情况下，可以使用类似<code>Result</code>的<code>ok</code>方法或者 <code>Option</code>的<code>ok_or</code>方法来显式转换。</p>
-<p>目前为止，我们所使用的所有<code>main</code>函数都返回<code>()</code>。<code>main</code>函数是特殊的，因为它是可执行程序的入口点和退出点，为了使程序能正常工作，其可以返回的类型是有限制的。</p>
-<p>幸运的是，<code>main</code>函数也可以返回<code>Result&lt;(), E&gt;</code>，例如：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::error::Error;</span><br><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), <span class="type">Box</span>&lt;<span class="keyword">dyn</span> Error&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>)?;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>Box&lt;dyn Error&gt;</code>类型是一个trait对象，可以理解为“任何类型的错误”。在返回<code>Box&lt;dyn Error&gt;</code>错误类型的<code>main</code>函数中对 <code>Result</code>使用<code>?</code>是允许的，因为它允许任何<code>Err</code>值提前返回。</p>
-<p>当<code>main</code>函数返回<code>Result&lt;(), E&gt;</code>类型时：</p>
-<ul>
-<li>如果<code>main</code>返回<code>Ok(())</code>，可执行程序会以<code>0</code>值退出</li>
-<li>如果<code>main</code>返回<code>Err</code>，则会以非零值退出</li>
-</ul>
-<p>成功退出的程序会返回整数0，运行错误的程序会返回非0的整数。Rust也会从二进制程序中返回与这个惯例相兼容的整数。</p>
-<p><code>main</code>函数也可以返回任何实现了<code>std::process::Termination</code> trait的类型。Termination trait是一个不稳定功能（unstable feature）（截至2022-02-24），只能用于Nightly Rust中，所以你不能在稳定版Rust（Stable Rust）中用自己的类型去实现，不过有朝一日应该可以！</p>
-<h1 id="3-要不要panic"><a href="#3-要不要panic" class="headerlink" title="3. 要不要panic!"></a>3. 要不要<code>panic!</code></h1><ul>
-<li>如果代码panic，就没有恢复的可能。你可以选择对任何错误场景都调用<code>panic!</code>，不管是否有可能恢复，不过这样就是你代替调用者决定了这是不可恢复的。</li>
-<li>选择返回<code>Result</code>值的话，就将选择权交给了调用者，而不是代替他们做出决定。调用者可能会选择符合他们场景的方式尝试恢复，或者也可能干脆就认为<code>Err</code>是不可恢复的，所以他们也可能会调用<code>panic!</code>并将可恢复的错误变成了不可恢复的错误。因此返回<code>Result</code>是定义可能会失败的函数的一个好的默认选择。</li>
-</ul>
-<h2 id="3-1-示例、代码原型和测试都非常适合panic"><a href="#3-1-示例、代码原型和测试都非常适合panic" class="headerlink" title="3.1. 示例、代码原型和测试都非常适合panic"></a>3.1. 示例、代码原型和测试都非常适合<code>panic</code></h2><p>当编写一个示例来解释一些概念时，拥有健壮的错误处理代码可能会使得例子不那么明确。例如，调用一个类似<code>unwrap</code>这样可能<code>panic!</code>的方法，其实是作为以后的错误处理程序的占位符，在真正实现错误处理的时候可能根据代码的具体功能来设计不同的处理方式。</p>
-<p>类似地，在我们准备好决定如何处理错误之前，<code>unwrap</code>和<code>expect</code>方法非常方便。当我们准备好让程序更加健壮时，它们会在代码中留下清晰的标记。</p>
-<p>如果方法调用在测试中失败了，我们希望这个测试都失败，即便这个方法并不是需要测试的功能。因为<code>panic!</code>会将测试标记为失败，此时调用<code>unwrap</code>或<code>expect</code>是恰当的。</p>
-<h2 id="3-2-当我们比编译器知道更多的情况"><a href="#3-2-当我们比编译器知道更多的情况" class="headerlink" title="3.2. 当我们比编译器知道更多的情况"></a>3.2. 当我们比编译器知道更多的情况</h2><p>当你有一些其他的逻辑来确保<code>Result</code>会是<code>Ok</code>时，仍然可以调用<code>unwrap</code>。即便在你的特定情况下，逻辑上不可能出现<code>Err</code>，但总体上讲，执行操作都有失败的可能，所以仍然要去处理<code>Result</code>值。</p>
-<p>如果通过人工检查代码来确保永远也不会出现<code>Err</code>值，调用<code>unwrap</code>仍是完全可以接受的，例如：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::net::IpAddr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">home</span>: IpAddr = <span class="string">&quot;127.0.0.1&quot;</span>.<span class="title function_ invoke__">parse</span>().<span class="title function_ invoke__">unwrap</span>();</span><br></pre></td></tr></table></figure>
-<p>我们通过解析一个硬编码的字符来创建一个<code>IpAddr</code>实例。可以看出<code>127.0.0.1</code>是一个有效的IP地址，所以这里使用<code>unwrap</code>是可以接受的。但拥有一个硬编码的有效的字符串也不能改变<code>parse</code>方法的返回值类型：它仍然是一个<code>Result</code>值。编译器仍然会要求我们处理这个<code>Result</code>，好像还有可能出现<code>Err</code>那样。这是因为编译器还没有智能到可以识别出这个字符串总是一个有效的IP地址。如果IP地址字符串来源于用户而不是硬编码进程序中的话，那么就确实有失败的可能，这时就绝对需要我们以一种更健壮的方式处理<code>Result</code>了。</p>
-<h2 id="3-3-错误处理指导原则"><a href="#3-3-错误处理指导原则" class="headerlink" title="3.3. 错误处理指导原则"></a>3.3. 错误处理指导原则</h2><p>在有可能会导致有害状态的情况下，建议使用<code>panic!</code></p>
-<ul>
-<li>有害状态是指一些假设、保证、协议或不可变性被打破的状态，例如无效的值、自相矛盾的值或者被传递了不存在的值，外加如下几种情况：<ul>
-<li>有害状态是非预期的行为，而不是偶尔会发生的行为（例如用户输入了错误格式的数据）</li>
-<li>在此之后代码的运行需要依赖于非有害状态，而不是在每一步都检查是否有问题</li>
-<li>没有可行的手段来将有害状态信息编码进所使用的类型中</li>
-</ul>
-</li>
-</ul>
-<p>如果别人调用你的代码并传递了一个没有意义的值，最好的情况也许就是<code>panic!</code>，并警告使用你的库的人他的代码中有bug，以便他能在开发时就修复它。类似的，如果你正在调用不受你控制的外部代码，并且它返回了一个你无法修复的无效状态，那么<code>panic!</code>往往是合适的。</p>
-<p>但当错误预期会出现时，返回<code>Result</code>仍要比调用<code>panic!</code>更为合适。例如解析器接收到格式错误的数据，或者HTTP请求返回了一个表明触发了限流的状态。在这些例子中，应该通过返回<code>Result</code>来表明失败预期是可能的，这样将有害状态向上传播，调用者就可以决定该如何处理这个问题。使用<code>panic!</code>来处理这些情况就不是最好的选择。</p>
-<p>当代码对值进行操作时，应该首先验证值是有效的，并在其无效时<code>panic!</code>。这主要是出于安全的原因：尝试操作无效数据会暴露代码漏洞，这就是标准库在尝试越界访问数组时会<code>panic!</code>的主要原因：尝试访问不属于当前数据结构的内存是一个常见的安全隐患。</p>
-<p>函数通常都遵循契约（contracts），他们的行为只有在输入满足特定条件时才能得到保证。当违反契约时panic是有道理的，因为这通常代表调用方的bug，而且这也不是那种你希望所调用的代码必须处理的错误。事实上所调用的代码也没有合理的方式来恢复，而是需要调用方的程序员修复其代码。函数的契约，尤其是违反它会造成panic的契约，应该在函数的API文档中得到解释。</p>
-<p>虽然在所有函数中都拥有许多错误检查是冗长而烦人的，但可以利用Rust的类型系统（以及编译器的类型检查）为你进行很多检查。如果函数有一个特定类型的参数，可以在知晓编译器已经确保它拥有一个有效值的前提下进行你的代码逻辑。例如，如果你使用了一个非<code>Option</code>的类型，那么程序期望它是<em>有值</em>的，并且不是<em>空值</em>。你的代码无需处理<code>Some</code>和<code>None</code>这两种情况，它只会有一种情况，就是绝对会有一个值。尝试向函数传递空值的代码甚至根本不能编译，所以你的函数在运行时没有必要判空。另外一个例子是使用像 <code>u32</code>这样的无符号整型，也会确保它永远不为负。</p>
-<h2 id="3-4-创建自定义类型进行有效性验证"><a href="#3-4-创建自定义类型进行有效性验证" class="headerlink" title="3.4. 创建自定义类型进行有效性验证"></a>3.4. 创建自定义类型进行有效性验证</h2><p>让我们使用Rust类型系统的思想来进一步确保值的有效性，并尝试创建一个自定义类型以进行验证。</p>
-<p>在之前的<a href="/2022/07/25/Rust/Rust-Guessing-Game/">Guessing Game</a>中，代码要求用户猜测一个1到100之间的数字，在将其与秘密数字做比较之前，我们从未验证用户的猜测是否介于这两个数字之间，我们只验证它是否为正。在这种情况下，这种处理的影响并不是很严重，“Too high”或“Too low”的输出仍然是正确的。但是，引导用户进行有效的猜测、对不同的情况作出不同的处理，会更有用。比如在用户猜测超出范围的数字时，与用户键入非法值（比如字母）时，显示出不同的提示信息。</p>
-<p>一种实现方式是将猜测解析成<code>i32</code>而不是<code>u32</code>，来默许输入负数，接着检查数字是否在范围内：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">loop</span> &#123;</span><br><span class="line">    <span class="comment">// --snip--</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">guess</span>: <span class="type">i32</span> = <span class="keyword">match</span> guess.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">parse</span>() &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(num) =&gt; num,</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; <span class="keyword">continue</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> guess &lt; <span class="number">1</span> || guess &gt; <span class="number">100</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;The secret number will be between 1 and 100.&quot;</span>);</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> guess.<span class="title function_ invoke__">cmp</span>(&amp;secret_number) &#123;</span><br><span class="line">        <span class="comment">// --snip--</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>if表达式检查了值是否超出范围，告诉用户出了什么问题，并调用<code>continue</code>开始下一次循环，请求另一个猜测。if表达式之后，就可以在知道<code>guess</code>在1到100之间的情况下与秘密数字作比较了。</p>
-<p>但这并不是一个理想的解决方案：如果只允许1到100之间的值是一个绝对需要满足的要求，而且程序中的很多函数都有这样的要求，在每个函数中都有这样的检查将是非常冗余的（并可能潜在的影响性能）。</p>
-<p>此时，我们可以创建一个新类型，然后将验证放入创建实例的函数中，而不是到处重复这些检查。这样就可以安全地在函数签名中使用新类型并相信他们接收到的值。下面例子展示了一个定义<code>Guess</code>类型的方法，只有在<code>new</code>函数接收到1到100之间的值时才会创建<code>Guess</code>的实例：</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Guess</span> &#123;</span><br><span class="line">    value: <span class="type">i32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Guess</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">new</span>(value: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> Guess &#123;</span><br><span class="line">        <span class="keyword">if</span> value &lt; <span class="number">1</span> || value &gt; <span class="number">100</span> &#123;</span><br><span class="line">            <span class="built_in">panic!</span>(<span class="string">&quot;Guess value must be between 1 and 100, got &#123;&#125;.&quot;</span>, value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Guess &#123; value &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">value</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>首先，我们定义了一个包含<code>i32</code>类型字段<code>value</code>的结构体<code>Guess</code>。这里是储存猜测值的地方。</p>
-</li>
-<li><p>接着在<code>Guess</code>上实现了一个叫做<code>new</code>的关联函数来创建<code>Guess</code>的实例。</p>
-<ul>
-<li><code>new</code>接收一个<code>i32</code>类型的参数<code>value</code>并返回一个<code>Guess</code>。<code>new</code>函数中代码的测试确保了其值是在1到100之间。<ul>
-<li>如果 <code>value</code>没有通过测试则调用<code>panic!</code>，这会警告调用这个函数的程序员有一个需要修改的bug，因为创建一个<code>value</code>超出范围的 <code>Guess</code>将会违反<code>Guess::new</code>所遵循的契约。<code>Guess::new</code>会出现panic的条件应该在其公有API文档中被提及。</li>
-<li>如果<code>value</code>通过了测试，我们新建一个<code>Guess</code>，其字段<code>value</code>将被设置为参数<code>value</code>的值，接着返回这个<code>Guess</code>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>接着，我们实现了一个借用了<code>self</code>的方法<code>value</code>，它没有任何其他参数，返回一个<code>i32</code>。</p>
-<ul>
-<li>这类方法有时被称为<code>getter</code>，因为它的目的就是返回对应字段的数据。</li>
-<li>这样的公有方法是必要的，因为<code>Guess</code>结构体的 <code>value</code>字段是私有的。私有的字段<code>value</code>是很重要的，这样使用<code>Guess</code>结构体的代码将不允许直接设置<code>value</code>的值：调用者 必须使用<code>Guess::new</code>方法来创建一个<code>Guess</code>的实例，这就确保了不会存在一个<code>value</code>没有通过<code>Guess::new</code>函数的条件检查的<code>Guess</code>。</li>
-</ul>
-</li>
-</ul>
-<p>于是，一个接收（或返回）1到100之间数字的函数就可以声明为接收（或返回）Guess的实例，而不是<code>i32</code>，同时其函数体中也无需进行任何额外的检查。</p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p>[1] 错误处理：<a target="_blank" rel="noopener" href="https://kaisery.github.io/trpl-zh-cn/ch09-00-error-handling.html">https://kaisery.github.io/trpl-zh-cn/ch09-00-error-handling.html</a></p>
 
       
     </div>
