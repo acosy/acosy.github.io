@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer&#x2F;article&#x2F;2649623 咱们干运维的，天天跟 Nginx 打交道，配置文件写得飞起，upstream、location 闭着眼睛都能配。但你要是问我，这玩意儿到底为啥能抗住几万甚至十几万的并发连接？以前我可能也就背背面试题：“哦，因为是异步非阻塞，基于事件驱动。” 这话没毛病，但">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 为啥这么牛？深入聊聊事件驱动和非阻塞 I&#x2F;O，看完这篇你就懂了">
+<meta property="og:url" content="https://acosy.github.io/3323251271.html">
+<meta property="og:site_name" content="Acosy">
+<meta property="og:description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer&#x2F;article&#x2F;2649623 咱们干运维的，天天跟 Nginx 打交道，配置文件写得飞起，upstream、location 闭着眼睛都能配。但你要是问我，这玩意儿到底为啥能抗住几万甚至十几万的并发连接？以前我可能也就背背面试题：“哦，因为是异步非阻塞，基于事件驱动。” 这话没毛病，但">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://acosy.github.io/imgs/Nginx%20%E4%B8%BA%E5%95%A5%E8%BF%99%E4%B9%88%E7%89%9B%EF%BC%9F%E6%B7%B1%E5%85%A5%E8%81%8A%E8%81%8A%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E%20IO%EF%BC%8C%E7%9C%8B%E5%AE%8C%E8%BF%99%E7%AF%87%E4%BD%A0%E5%B0%B1%E6%87%82%E4%BA%86/0.png">
+<meta property="article:published_time" content="2026-05-03T22:03:27.000Z">
+<meta property="article:modified_time" content="2026-05-03T22:21:16.302Z">
+<meta property="article:author" content="Acosy">
+<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="非阻塞IO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/Nginx%20%E4%B8%BA%E5%95%A5%E8%BF%99%E4%B9%88%E7%89%9B%EF%BC%9F%E6%B7%B1%E5%85%A5%E8%81%8A%E8%81%8A%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E%20IO%EF%BC%8C%E7%9C%8B%E5%AE%8C%E8%BF%99%E7%AF%87%E4%BD%A0%E5%B0%B1%E6%87%82%E4%BA%86/0.png">
+
+
+<link rel="canonical" href="https://acosy.github.io/3323251271.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/3323251271.html","path":"3323251271.html","title":"Nginx 为啥这么牛？深入聊聊事件驱动和非阻塞 I/O，看完这篇你就懂了"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Nginx 为啥这么牛？深入聊聊事件驱动和非阻塞 I/O，看完这篇你就懂了 | Acosy</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Acosy</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+    
+    
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%92%B1%E4%BB%AC%E5%85%88%E4%BB%8E%E2%80%9C%E5%82%BB%E7%AD%89%E2%80%9D%E8%AF%B4%E8%B5%B7"><span class="nav-text">咱们先从“傻等”说起</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8D%A2%E4%B8%AA%E6%80%9D%E8%B7%AF%EF%BC%9A%E9%9D%9E%E9%98%BB%E5%A1%9E-I-O"><span class="nav-text">换个思路：非阻塞 I&#x2F;O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%A4%A7%E6%8B%9B%EF%BC%9A%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%9C%BA%E5%88%B6"><span class="nav-text">真正的大招：事件驱动机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E5%95%A5%E8%BF%99%E5%B0%B1%E8%83%BD%E6%8A%97%E9%AB%98%E5%B9%B6%E5%8F%91%EF%BC%9F"><span class="nav-text">为啥这就能抗高并发？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%B9%E6%98%93%E8%B8%A9%E7%9A%84%E5%9D%91%EF%BC%9A%E9%98%BB%E5%A1%9E%E6%93%8D%E4%BD%9C"><span class="nav-text">一个容易踩的坑：阻塞操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%8D%E8%81%8A%E8%81%8A-Nginx-%E7%9A%84%E7%BB%86%E8%8A%82%E4%BC%98%E5%8C%96"><span class="nav-text">再聊聊 Nginx 的细节优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#worker-processes"><span class="nav-text">worker_processes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#worker-connections"><span class="nav-text">worker_connections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-epoll"><span class="nav-text">use epoll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#accept-mutex"><span class="nav-text">accept_mutex</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9C%9F%E5%AE%9E%E6%A1%88%E4%BE%8B%EF%BC%9A%E4%B8%80%E6%AC%A1%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5"><span class="nav-text">真实案例：一次故障排查</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B"><span class="nav-text">总结一下</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Acosy"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">Acosy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/3323251271.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Nginx 为啥这么牛？深入聊聊事件驱动和非阻塞 I/O，看完这篇你就懂了 | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nginx 为啥这么牛？深入聊聊事件驱动和非阻塞 I/O，看完这篇你就懂了
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-03 18:03:27 / 修改时间：18:21:16" itemprop="dateCreated datePublished" datetime="2026-05-03T18:03:27-04:00">2026-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/Nginx/" itemprop="url" rel="index"><span itemprop="name">Nginx</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<p>来源：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2649623">https://cloud.tencent.com/developer/article/2649623</a></p>
+<p>咱们干运维的，天天跟 Nginx 打交道，配置文件写得飞起，upstream、location 闭着眼睛都能配。但你要是问我，这玩意儿到底为啥能抗住几万甚至十几万的并发连接？以前我可能也就背背面试题：“哦，因为是异步非阻塞，基于事件驱动。”</p>
+<p>这话没毛病，但总觉得像隔靴搔痒，没说到点子上。今天咱们就撇开那些枯燥的教科书定义，用大白话，结合着咱们生产环境的实际情况，好好把这个事儿给唠透了。不然下次面试官问你“为什么 Nginx 不用多线程”，你总不能说“因为官方文档这么写的”吧。</p>
+<h1 id="咱们先从“傻等”说起"><a href="#咱们先从“傻等”说起" class="headerlink" title="咱们先从“傻等”说起"></a>咱们先从“傻等”说起</h1><p>要搞懂 Nginx 的牛X之处，得先看看它的“前辈”或者说是反面教材是怎么干的。咱们以前用 Apache，或者自己写个简单的 Socket 服务器，最传统的模型是啥？就是 BIO（Blocking I&#x2F;O），阻塞式 I&#x2F;O。</p>
+<p>想象一下，你是个服务员（服务器进程），负责给客人点菜。</p>
+<p>传统的阻塞模式是这样的：</p>
+<ul>
+<li><p>你走到 1 号桌，拿着小本本准备点菜。1 号桌的大哥还在看菜单，没理你。这时候你干啥？你只能傻站在那儿等，手里的小本本也不能给别人用，整个人的状态就是“阻塞”了。这时候 2 号桌喊：“服务员，点菜！”你听到了吗？听到了，但你走不开啊，你被 1 号桌占用了。</p>
+</li>
+<li><p>这就尴尬了。老板（系统管理者）一看这不行啊，一个服务员根本忙不过来，于是就开始招人。来一个客人，我就派一个专门的服务员盯着。这就是所谓的“多进程”或“多线程”模型。</p>
+</li>
+</ul>
+<p>在早期的 Web 服务里，Apache 的 prefork 模式就是这么干的。来一个连接，fork 一个子进程。这招虽然解决了“一人一桌”的问题，但代价太大了。进程是啥？是资源的大户。每个进程都要占内存，都要占 CPU 时间片。你要是来个 1 万个并发，好家伙，1 万个进程在系统里跑，CPU 光忙着在这些进程之间切换上下文了，真正干活的时间没多少。这就好比饭店里挤满了服务员，客人没几个，服务员之间还互相撞来撞去，这生意还怎么做？</p>
+<p>这就是著名的 C10K 问题的根源。服务器资源是有限的，你用“人海战术”去堆连接，肯定得崩。</p>
+<h1 id="换个思路：非阻塞-I-O"><a href="#换个思路：非阻塞-I-O" class="headerlink" title="换个思路：非阻塞 I&#x2F;O"></a>换个思路：非阻塞 I&#x2F;O</h1><p>既然“傻等”效率低，那咱们能不能不等？</p>
+<p>还是那个服务员的例子。这次你学聪明了，你走到 1 号桌，大哥还在看菜单。你这次不傻等了，你说：“大哥您先看，看好了喊我。”然后你立马转身去 2 号桌。这就是<strong>非阻塞 I&#x2F;O</strong>。</p>
+<p>你尝试去读取数据（点菜），如果没有数据（客人没想好），你不阻塞在那儿，而是直接返回一个错误（EAGAIN&#x2F;EWOULDBLOCK），告诉你“现在没数据，待会儿再来”。</p>
+<p>这听起来挺美好，但有个问题。你虽然不等了，可你不知道谁想好了啊。于是你只能像个没头苍蝇一样，一会儿跑去 1 号桌问“想好了吗？”，一会儿跑去 2 号桌问“想好了吗？”，一会儿跑去 3 号桌……如果你有 1 万桌客人，你光是跑路就把腿跑断了，CPU 也在不停地轮询，空转，这也是一种浪费。这叫非阻塞 I&#x2F;O 的忙轮询。</p>
+<h1 id="真正的大招：事件驱动机制"><a href="#真正的大招：事件驱动机制" class="headerlink" title="真正的大招：事件驱动机制"></a>真正的大招：事件驱动机制</h1><p><img src="/../imgs/Nginx%20%E4%B8%BA%E5%95%A5%E8%BF%99%E4%B9%88%E7%89%9B%EF%BC%9F%E6%B7%B1%E5%85%A5%E8%81%8A%E8%81%8A%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E%20IO%EF%BC%8C%E7%9C%8B%E5%AE%8C%E8%BF%99%E7%AF%87%E4%BD%A0%E5%B0%B1%E6%87%82%E4%BA%86/0.png">  </p>
+<p>这时候，如果有个大堂经理（操作系统内核），手里拿个大喇叭，这事儿就解决了。</p>
+<p>你不用一个个去问了。你就在那儿站着喝茶。哪桌客人想好了，经理就喊一声：“5 号桌要点菜！”这时候你过去处理一下。这就是<strong>事件驱动</strong>。</p>
+<p>在计算机的世界里，这个“大堂经理”就是操作系统内核提供的 I&#x2F;O 多路复用机制。在 Linux 上，这玩意儿叫 epoll；在 BSD&#x2F;Mac 上叫 kqueue；在老一点的系统上还有 select 和 poll。</p>
+<p>Nginx 之所以牛，核心就在这儿。它不搞人海战术，它搞的是“精英战术”。一个 worker 进程，就能处理成千上万个连接。</p>
+<p>咱们来拆解一下 Nginx 的工作流，看看它是怎么把这几个概念揉在一起的。</p>
+<ol>
+<li><p><strong>Master 和 Worker 的分工</strong></p>
+<p> Nginx 启动后，你会看到一个 master 进程和多个 worker 进程。Master 就像饭店老板，他负责管理 Worker，比如读取配置、绑定端口、平滑重启这些管理活儿，他不具体接客。真正干活的是 Worker 进程。</p>
+<p> 重点来了，Worker 进程通常只有几个，一般咱们配置成跟 CPU 核心数一样多。为啥？因为少了浪费多核性能，多了反而增加上下文切换的开销。</p>
+</li>
+<li><p><strong>抢占式处理</strong></p>
+<p> Worker 进程是怎么工作的？它们都监听着同一个端口（比如 80 或 443）。当一个新连接来了，谁去接？</p>
+<p> 这里有个细节，Nginx 利用了一把锁。当连接进来时，哪个 Worker 进程抢到了锁，哪个就去处理这个连接。一旦连接建立好了，这个连接后续的所有读写操作，都由这个 Worker 全权负责。这就避免了多个进程瞎抢一个连接导致的“惊群效应”。所谓惊群，就是一嗓子喊过来，所有 Worker 都醒过来抢，结果只有一个能抢到，其他的白醒了，这很伤性能。Nginx 处理得很漂亮。</p>
+</li>
+<li><p><strong>事件循环</strong></p>
+<p> 这是 Nginx 的灵魂。每个 Worker 进程里，都跑着一个死循环，大概逻辑是这样的：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="comment">// 1. 等待事件发生</span></span><br><span class="line">    events = <span class="title function_">epoll_wait</span>(连接池, 超时时间);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 遍历处理事件</span></span><br><span class="line">    <span class="keyword">for</span> (event <span class="keyword">in</span> events) &#123;</span><br><span class="line">        <span class="keyword">if</span> (event.<span class="property">type</span> == <span class="string">&#x27;读事件&#x27;</span>) &#123;</span><br><span class="line">            <span class="comment">// 处理读数据，比如接收 HTTP 请求</span></span><br><span class="line">            <span class="title function_">handle_read</span>(event);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (event.<span class="property">type</span> == <span class="string">&#x27;写事件&#x27;</span>) &#123;</span><br><span class="line">            <span class="comment">// 处理写数据，比如返回 HTML 页面</span></span><br><span class="line">            <span class="title function_">handle_write</span>(event);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 你看懂了吗？它不是傻等某一个连接，而是通过 <code>epoll_wait</code> 这个系统调用，一次性问操作系统：“大哥，这 1 万个连接里，有哪些是有动静的？”</p>
+<p> 操作系统内核维护着一个红黑树（存储所有连接）和一个链表（存储就绪的连接）。当网卡收到数据包，内核一看，哎，这是 8888 端口的连接，就把这个连接塞进就绪链表里。然后 Nginx 的 Worker 进程醒来，拿到的就是这一小撮“有事儿”的连接。</p>
+<p> 这就好比大堂经理手里有个名单，他只喊那些举手的客人。你不需要去摇每个客人的肩膀问“吃不吃”，效率直接起飞。</p>
+</li>
+</ol>
+<h1 id="为啥这就能抗高并发？"><a href="#为啥这就能抗高并发？" class="headerlink" title="为啥这就能抗高并发？"></a>为啥这就能抗高并发？</h1><p>咱们得算笔账。</p>
+<p>假设你有一台 8 核的服务器，跑了 8 个 Nginx Worker 进程。此时有 10,000 个并发连接。</p>
+<p>如果是 Apache (prefork)，你可能需要维护几千个进程。每个进程占 10MB 内存（假设），那就是几十 GB 的内存。CPU 在这几千个进程间切换，缓存命中率低得令人发指。</p>
+<p>而在 Nginx 模型下：</p>
+<ol>
+<li><strong>内存占用极低</strong>： 只有 8 个进程。每个连接只需要一点点内存来存状态（比如 socket 描述符、请求头 buffer）。这 10,000 个连接，大部分可能都是闲着的（比如用户在看网页，没点下一页），它们不占 CPU，只占一点点内存。这叫“闲连接不费电”。</li>
+<li><strong>CPU 利用率极高</strong>： Worker 进程醒过来，就是干活。处理完一个事件，立马处理下一个，绝无空闲。没有无谓的上下文切换。<br>这就像一个超级服务员，手里拿着对讲机。哪个桌按了服务铃，对讲机里就会响，他直接过去处理。处理完按个钮，继续等下一个。你说这效率能不高吗？</li>
+</ol>
+<h1 id="一个容易踩的坑：阻塞操作"><a href="#一个容易踩的坑：阻塞操作" class="headerlink" title="一个容易踩的坑：阻塞操作"></a>一个容易踩的坑：阻塞操作</h1><p>说到这儿，可能有人会问：“既然 Nginx 这么强，为啥我有时候看 CPU 飙升，或者服务卡死？”</p>
+<p>这就得提提事件驱动模型的一个天敌：<strong>阻塞调用</strong>。</p>
+<p>Nginx 的 Worker 是单线程的（虽然可以多线程，但主要逻辑是单线程事件循环）。这意味着，一旦这个线程被卡住了，这Worker 管理的几万个连接就全废了。</p>
+<p>比如说，你在 Nginx 里写了个 Lua 脚本，或者用了某个第三方模块，里面搞了个长时间的数学计算，或者更糟糕的，去调了一个阻塞式的磁盘 I&#x2F;O（虽然 Nginx 对文件 I&#x2F;O 有处理，但在高并发下，磁盘慢也是大坑）。</p>
+<p>想象一下，那个超级服务员正在处理 5 号桌的点菜，突然 5 号桌让他帮忙算个“圆周率后一万位”。服务员要是真在那儿算，后面举手的 100 桌客人谁管？</p>
+<p>所以，Nginx 的设计哲学里，所有的操作都必须是非阻塞的。DNS 解析、磁盘读取、网络请求，能异步的全异步。如果必须阻塞，那也得尽量快，或者扔给别的线程池去干。</p>
+<p>这就是为什么我们在生产环境里，尽量别在 Nginx 里搞复杂的逻辑运算，除非你用 OpenResty 这种把 LuaJIT 集成得很好的方案，而且还得确保你用的库都是非阻塞的。</p>
+<h1 id="再聊聊-Nginx-的细节优化"><a href="#再聊聊-Nginx-的细节优化" class="headerlink" title="再聊聊 Nginx 的细节优化"></a>再聊聊 Nginx 的细节优化</h1><p>光懂原理还不够，生产环境里咱们得落地。</p>
+<p>咱们看 Nginx 配置里几个跟这模型相关的参数，改好了性能翻倍。</p>
+<h2 id="worker-processes"><a href="#worker-processes" class="headerlink" title="worker_processes"></a>worker_processes</h2><p>这个参数通常设为 <code>auto</code>。以前咱们喜欢设成具体的数字，比如 4 或者 8。现在 Nginx 聪明了，设成 auto 它自己会检测 CPU 核心数。这对应了咱们上面说的，一个核心跑一个 Worker，减少 CPU 切换开销。</p>
+<h2 id="worker-connections"><a href="#worker-connections" class="headerlink" title="worker_connections"></a>worker_connections</h2><p>这个是单个 Worker 进程能处理的最大连接数。默认好像是 1024，这肯定不够看。咱们生产环境一般设成 65535，甚至更高。这取决于你的系统文件句柄限制。</p>
+<p>这里有个公式：<code>最大并发连接数 = worker_processes * worker_connections</code>。</p>
+<p>但是！注意这个但是。如果你开启了 keepalive（长连接），一个连接可能占用的资源时间更长。而且，如果做反向代理，每个请求进来，Nginx 还要跟后端服务器建立一个连接，所以实际上一个客户端请求可能占用 2 个连接数（前端一个，后端一个）。算并发量的时候心里得有数，别配小了导致 502 错误，那就尴尬了。</p>
+<h2 id="use-epoll"><a href="#use-epoll" class="headerlink" title="use epoll"></a>use epoll</h2><p>在配置文件的 <code>events</code> 块里，咱们经常会看到 <code>use epoll;</code>。其实在 Linux 2.6+ 内核上，Nginx 默认就会用 epoll。写上这行主要是图个心安，显式指定一下。如果你是在 BSD 系统上，那就得用 kqueue。这就是告诉 Nginx：“嘿，用那个最高效的大堂经理模式。”</p>
+<h2 id="accept-mutex"><a href="#accept-mutex" class="headerlink" title="accept_mutex"></a>accept_mutex</h2><p>这个就是刚才说的“锁”。默认是开启的。如果你的连接并发量特别特别大，瞬间涌进来几万个，这时候开锁反而可能成为瓶颈。但在绝大多数普通场景下，开着它能防止惊群，保护 CPU，建议保持默认或者按需关闭测试一下。</p>
+<h1 id="真实案例：一次故障排查"><a href="#真实案例：一次故障排查" class="headerlink" title="真实案例：一次故障排查"></a>真实案例：一次故障排查</h1><p>前两年有个金融客户，系统上线前压测。他们买的机器挺贵，配置特高，32 核 64G 内存。结果一压测，QPS（每秒查询率）死活上不去，卡在 5000 左右，CPU 使用率才 30%，看着让人抓狂。</p>
+<p>我上去一看，Nginx 的 error.log 里没报错，系统负载也低。这就典型的“有劲使不出”。</p>
+<p>后来排查发现，他们的后端服务响应特别慢，要 200ms。而 Nginx 的 <code>worker_connections</code> 设置得特别小，才 1024。</p>
+<p>咱们算算账。QPS 5000，每个请求耗时 200ms。那意味着同一时刻，系统里积压的请求数大概是 5000 * 0.2 &#x3D; 1000 个。如果 Nginx 只有几个 Worker，每个 Worker 连接数才 1024，眼看就要爆了。而且因为后端慢，Nginx 的 Worker 进程虽然不费 CPU，但是占用的连接槽位被填满了，新的请求进不来，只能在队列里排队或者被丢弃。</p>
+<p>解决办法很简单，把系统的 <code>ulimit</code> 打开，文件句柄数设到 65535，然后把 Nginx 的 <code>worker_connections</code> 调到 3 万左右。</p>
+<p>重载配置，再压。QPS 瞬间飙到 2 万，CPU 这才呼呼地转起来。这就是典型的配置没跟上模型原理，硬件再好也白搭。</p>
+<h1 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h1><p>说了这么多，咱们总结回顾一下。</p>
+<p>Nginx 之所以能成为 Web 服务器的扛把子，核心就在于它打破了传统的“一个进程处理一个请求”的线性思维。它采用了<strong>事件驱动</strong>和<strong>非阻塞 I&#x2F;O</strong> 模型。</p>
+<p>它不再傻傻地等待 I&#x2F;O 操作完成，而是利用操作系统的 <code>epoll</code> 机制，像那个精明的大堂经理一样，只关注“有事儿”的连接。这让它在处理海量并发连接时，能够用极少的 CPU 和内存资源，维持住极高的吞吐量。</p>
+<p>对于咱们运维来说，理解这个模型不仅仅是面试需要。在排查性能瓶颈、调优参数、甚至做架构选型的时候，这些底层的知识才是咱们判断问题的依据。</p>
+<p>别光盯着配置文件里的 <code>server_name</code> 和 <code>root</code> 指令，多看看 <code>events</code> 块里的东西，那才是 Nginx 的心脏。下次如果再遇到服务器负载不高但请求超时的情况，不妨往这方面想想，是不是连接数满了？是不是哪里阻塞了？</p>
+<p>技术这东西，原理通了，很多现象就解释得通了。希望这篇大白话能帮兄弟们把这些概念彻底嚼碎了咽下去。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+              <a href="/tags/%E9%9D%9E%E9%98%BB%E5%A1%9EIO/" rel="tag"># 非阻塞IO</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1042437339.html" rel="prev" title="Wasm Component Model 简单实例">
+                  <i class="fa fa-angle-left"></i> Wasm Component Model 简单实例
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
