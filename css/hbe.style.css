@@ -84,12 +84,12 @@
 .hbe-button {
   width: 130px;
   height: 40px;
-  background: #828282; /* W3C */
+  background: #b9b9b9; /* W3C */
   border: none;
   border-radius: 5px;
   position: relative;
   border-bottom: 4px solid #979596;
-  color: #fbfbfb;
+  color: black;
   font-weight: 600;
   font-family: 'Open Sans', sans-serif;
   text-shadow: 1px 1px 1px rgba(222, 219, 219, 0.4);
@@ -101,14 +101,15 @@
 
   display: block;
   margin: 0 auto;
+  margin-top: 10em;
   margin-bottom: 20px;
 }
 
-.hbe-button:hover {
+/*.hbe-button:hover {
   background: #1c1c1c;
   color: #fbfbfb;
   box-shadow: 0px 3px 0px 0px rgba(0,0,0,.2);
-}
+}*/
 
 .hbe-button:active {
   box-shadow: 0px 2px 0px 0px rgba(0,0,0,.2);
@@ -776,12 +777,13 @@ display: contents;
 .hbe-button {
 display: inline-block;
 margin: 0.5em 1em;
+margin-top: 10em;
 padding: 0.7em 1.6em;
 font-size: 16px;
 font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-weight: 600;
-color: #fbfbfb;
-background: #828282;
+color: black;
+background: #b9b9b9;
 border: none;
 border-bottom: 4px solid #979596;
 border-radius: 4px;
