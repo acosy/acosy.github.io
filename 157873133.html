@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="1. 语法1.1. Rust中的r#&quot;&quot;#字符串字面值开头的r不是一个操作符，而是一个前缀。 在普通的字符串文字中，需要对某些字符进行转义才能使它们成为字符串的一部分，例如&quot;和\：  需要对&quot;字符进行转义，否则它将终止字符串 需要对\进行转义，因为它是转义字符  在Rust中，如果字符串中有需要转义的字符，可以在字符串前面加r前缀，然后放置任意数量的#符号，">
 <meta property="og:type" content="article">
@@ -295,7 +295,7 @@
 </li>
 </ul>
 <h1 id="2-Crates使用"><a href="#2-Crates使用" class="headerlink" title="2. Crates使用"></a>2. Crates使用</h1><h2 id="2-1-serde"><a href="#2-1-serde" class="headerlink" title="2.1. serde"></a>2.1. serde</h2><h3 id="2-1-1-serde介绍"><a href="#2-1-1-serde介绍" class="headerlink" title="2.1.1. serde介绍"></a>2.1.1. serde介绍</h3><p>Rust中有一个99%的程序员或许都会用到的组件，那就是序列化组件: serde。</p>
-<p>众所周知，rust是静态语言，这让我们在序列化上繁琐了很多，但是serde能帮助我们更好地序列化结构体，生产对应的数据。它实现了各种<strong>声明宏（declarative macros）</strong>以及<strong>过程宏（procedural macros）</strong>来协助我们序列化。</p>
+<p>众所周知，rust是静态语言，这让我们在序列化上繁琐了很多，但是serde能帮助我们更好地序列化结构体，生产对应的数据。它实现了各种**声明宏（declarative macros）<strong>以及</strong>过程宏（procedural macros）**来协助我们序列化。</p>
 <p>serde是Rust语言用来序列化和反序列化数据的一个非常高效的解决方案。本质上，serde提供了一个序列化层的概念。可以将任何支持的数据格式反序列化成中间格式，然后序列化成任何一种支持的数据格式。</p>
 <p>同其他语言通过反射来实现序列化方案不同，serde基于Rust的trait系统来实现自己的序列化，每种数据结构<strong>通过实现serde的Serialize和Deserialize接口</strong>来实现序列化功能，这种实现方案可以有效避免反射的性能开销。Rust编译器可以在很多场景下对序列化进行高度优化，甚至可以达到一个资深工程师手写序列化代码的性能。  </p>
 <p>目前围绕serde支持的序列化的数据格式组件有：</p>
