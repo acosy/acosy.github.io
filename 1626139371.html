@@ -16,20 +16,34 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;27327515233 MCP逐渐被接受，是因为MCP是开放标准。在智能体应用项目开发中可以发现，集成AI模型复杂，现有框架如LangChain Tools、LlamaIndex和Vercel AI SDK存在问题。LangChain和LlamaIndex代码抽象高，商业化过重；Vercel AI S">
+<meta property="og:type" content="article">
 <meta property="og:title" content="一文看懂：MCP(大模型上下文协议)">
 <meta property="og:url" content="https://acosy.github.io/1626139371.html">
 <meta property="og:site_name" content="Acosy">
+<meta property="og:description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;27327515233 MCP逐渐被接受，是因为MCP是开放标准。在智能体应用项目开发中可以发现，集成AI模型复杂，现有框架如LangChain Tools、LlamaIndex和Vercel AI SDK存在问题。LangChain和LlamaIndex代码抽象高，商业化过重；Vercel AI S">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/0.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/1.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/2.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/3.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/4.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/5.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/6.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/7.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/8.jpg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/9.jpg">
 <meta property="article:published_time" content="2026-04-25T08:23:47.000Z">
-<meta property="article:modified_time" content="2026-05-04T16:52:03.394Z">
+<meta property="article:modified_time" content="2026-05-04T20:11:51.743Z">
 <meta property="article:author" content="Acosy">
 <meta property="article:tag" content="MCP">
 <meta property="article:tag" content="AI">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/0.jpg">
 
 
 <link rel="canonical" href="https://acosy.github.io/1626139371.html">
@@ -127,7 +141,7 @@
     
     
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -140,6 +154,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%88Model-Context-Protocol%EF%BC%89"><span class="nav-text">一、什么是MCP（Model Context Protocol）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-%E7%9A%84%E4%BB%B7%E5%80%BC"><span class="nav-text">MCP 的价值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-%E4%B8%8E-Function-Calling-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">MCP 与 Function Calling 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-text">数据安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84"><span class="nav-text">MCP 核心架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-Client"><span class="nav-text">MCP Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-Server"><span class="nav-text">MCP Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E6%9C%BA%E5%88%B6"><span class="nav-text">通信机制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81MCP%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8%EF%BC%9A"><span class="nav-text">二、MCP的功能与应用：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-MCP"><span class="nav-text">如何使用 MCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-text">MCP的功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8%E5%92%8C%E5%BC%80%E5%8F%91MCP-Server"><span class="nav-text">三、怎么使用和开发MCP Server</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Claude-Desktop-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">Claude Desktop 使用示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cursor%E4%B8%AD-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">Cursor中 使用示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MCP-%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"><span class="nav-text">MCP 如何工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-Server-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">MCP Server 的工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB"><span class="nav-text">一些经验分享</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="nav-text">参考资源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP-%E5%AE%98%E6%96%B9%E8%B5%84%E6%BA%90"><span class="nav-text">MCP 官方资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BE%E5%8C%BA%E7%9A%84-MCP-Server-%E7%9A%84%E5%88%97%E8%A1%A8"><span class="nav-text">社区的 MCP Server 的列表</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -154,7 +169,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -228,7 +243,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-04 12:52:03" itemprop="dateModified" datetime="2026-05-04T12:52:03-04:00">2026-05-04</time>
+      <time title="修改时间：2026-05-04 16:11:51" itemprop="dateModified" datetime="2026-05-04T16:11:51-04:00">2026-05-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -253,7 +268,282 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27327515233">https://zhuanlan.zhihu.com/p/27327515233</a></p>
+<p><strong>MCP逐渐被接受，是因为MCP是开放标准。在智能体应用项目开发中可以发现，集成AI模型复杂，现有框架如LangChain Tools、LlamaIndex和Vercel AI SDK存在问题。LangChain和LlamaIndex代码抽象高，商业化过重；Vercel AI SDK与Nextjs绑定过深。</strong></p>
+<p>MCP的优势：一是开放标准利于服务商开发API，二是避免重复造轮子，可利用现有MCP服务增强Agent。</p>
+<blockquote>
+<p>本文部分参考 <a target="_blank" rel="noopener" href="https://guangzhengli.com/blog/zh/model-context-protocol/">https://guangzhengli.com/blog/zh/model-context-protocol/</a></p>
+</blockquote>
+<h1 id="一、什么是MCP（Model-Context-Protocol）"><a href="#一、什么是MCP（Model-Context-Protocol）" class="headerlink" title="一、什么是MCP（Model Context Protocol）"></a>一、什么是MCP（Model Context Protocol）</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>MCP（Model Context Protocol，模型上下文协议） ，2024年11月底，由 Anthropic 推出的一种开放标准，旨在统一大模型与外部数据源和工具之间的通信协议。MCP 的主要目的在于解决当前 AI 模型因数据孤岛限制而无法充分发挥潜力的难题，MCP 使得 AI 应用能够安全地访问和操作本地及远程数据，为 AI 应用提供了连接万物的接口。</p>
+<blockquote>
+<p>Function Calling是AI模型调用函数的机制，MCP是一个标准协议，使大模型与API无缝交互，而AI Agent是一个自主运行的智能系统，利用Function Calling和MCP来分析和执行任务，实现特定目标。</p>
+</blockquote>
+<h2 id="MCP-的价值"><a href="#MCP-的价值" class="headerlink" title="MCP 的价值"></a>MCP 的价值</h2><p>举个栗子，在过去，为了让大模型等 AI 应用使用数据，要么复制粘贴，要么上传知识库，非常局限。</p>
+<p>即使是最强大模型也会受到数据隔离的限制，形成信息孤岛，要做出更强的大模型，每个新数据源都需要自己重新定制实现，使真正互联的系统难以扩展，存在很多的局限性。</p>
+<p>现在，MCP 可以直接在 AI 与数据（包括本地数据和互联网数据）之间架起一座桥梁，通过 MCP 服务器和 MCP 客户端，大家只要都遵循这套协议，就能实现“万物互联”。</p>
+<p>有了MCP，可以和数据和文件系统、开发工具、Web 和浏览器自动化、生产力和通信、各种社区生态能力全部集成，实现强大的协作工作能力，它的价值远不可估量。</p>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/0.jpg">  </p>
+<h2 id="MCP-与-Function-Calling-的区别"><a href="#MCP-与-Function-Calling-的区别" class="headerlink" title="MCP 与 Function Calling 的区别"></a>MCP 与 Function Calling 的区别</h2><ul>
+<li>MCP（Model Context Protocol），模型上下文协议</li>
+<li>Function Calling，函数调用</li>
+</ul>
+<p>这两种技术都旨在增强 AI 模型与外部数据的交互能力，但 MCP 不止可以增强 AI 模型，还可以连接其他的应用系统。</p>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/1.jpg">  </p>
+<h2 id="数据安全性"><a href="#数据安全性" class="headerlink" title="数据安全性"></a>数据安全性</h2><p>这样一个理想的“万物互联”生态系统看着很让人着迷。</p>
+<p>但是大家是不是担心通过 MCP Server 暴露出来的数据会泄露或被非法访问，这个头疼的问题 MCP 也考虑到了。</p>
+<p>MCP 通过标准化的数据访问接口，大大减少了直接接触敏感数据的环节，降低了数据泄露的风险。</p>
+<p>还有，MCP 内置了安全机制，确保只有经过验证的请求才能访问特定资源，相当于在数据安全又加上了一道防线。同时，MCP协议还支持多种加密算法，以确保数据在传输过程中的安全性。</p>
+<p>例如，MCP 服务器自己控制资源，不需要将 API 密钥等敏感信息提供给 LLM 提供商。这样一来，即使 LLM 提供商受到攻击，攻击者也无法获取到这些敏感信息。</p>
+<p>不过，MCP 这套协议&#x2F;标准的强大，不仅仅是因为他的理念，还因为其生态的繁荣。</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>MCP 协议采用了一种独特的架构设计，它将 LLM 与资源之间的通信划分为三个主要部分：客户端、服务器和资源。</p>
+<p>客户端负责发送请求给 MCP 服务器，服务器则将这些请求转发给相应的资源。这种分层的设计使得 MCP 协议能够更好地控制访问权限，确保只有经过授权的用户才能访问特定的资源。</p>
+<p>以下是 MCP 的基本工作流程：</p>
+<ul>
+<li>初始化连接：客户端向服务器发送连接请求，建立通信通道。</li>
+<li>发送请求：客户端根据需求构建请求消息，并发送给服务器。</li>
+<li>处理请求：服务器接收到请求后，解析请求内容，执行相应的操作（如查询数据库、读取文件等）。</li>
+<li>返回结果：服务器将处理结果封装成响应消息，发送回客户端。</li>
+<li>断开连接：任务完成后，客户端可以主动关闭连接或等待服务器超时关闭。</li>
+</ul>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/2.jpg">  </p>
+<h2 id="MCP-核心架构"><a href="#MCP-核心架构" class="headerlink" title="MCP 核心架构"></a>MCP 核心架构</h2><p>MCP 遵循客户端-服务器架构（client-server），其中包含以下几个核心概念：</p>
+<ul>
+<li>MCP 主机（MCP Hosts）：发起请求的 LLM 应用程序（例如 Claude Desktop、IDE 或 AI 工具）。</li>
+<li>MCP 客户端（MCP Clients）：在主机程序内部，与 MCP server 保持 1:1 的连接。</li>
+<li>MCP 服务器（MCP Servers）：为 MCP client 提供上下文、工具和 prompt 信息。</li>
+<li>本地资源（Local Resources）：本地计算机中可供 MCP server 安全访问的资源（例如文件、数据库）。</li>
+<li>远程资源（Remote Resources）：MCP server 可以连接到的远程资源（例如通过 API）。</li>
+</ul>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/3.jpg">  </p>
+<h3 id="MCP-Client"><a href="#MCP-Client" class="headerlink" title="MCP Client"></a>MCP Client</h3><p>MCP client 充当 LLM 和 MCP server 之间的桥梁，MCP client 的工作流程如下：</p>
+<ul>
+<li>MCP client 首先从 MCP server 获取可用的工具列表。</li>
+<li>将用户的查询连同工具描述通过 function calling 一起发送给 LLM。</li>
+<li>LLM 决定是否需要使用工具以及使用哪些工具。</li>
+<li>如果需要使用工具，MCP client 会通过 MCP server 执行相应的工具调用。</li>
+<li>工具调用的结果会被发送回 LLM。</li>
+<li>LLM 基于所有信息生成自然语言响应。</li>
+<li>最后将响应展示给用户。</li>
+</ul>
+<p>Claude Desktop 和Cursor都支持了MCP Server接入能力，它们就是作为 MCP client来连接某个MCP Server感知和实现调用。</p>
+<h3 id="MCP-Server"><a href="#MCP-Server" class="headerlink" title="MCP Server"></a>MCP Server</h3><p>MCP server 是 MCP 架构中的关键组件，它可以提供 3 种主要类型的功能：</p>
+<ul>
+<li>资源（Resources）：类似文件的数据，可以被客户端读取，如 API 响应或文件内容。</li>
+<li>工具（Tools）：可以被 LLM 调用的函数（需要用户批准）。</li>
+<li>提示（Prompts）：预先编写的模板，帮助用户完成特定任务。</li>
+</ul>
+<p>这些功能使 MCP server 能够为 AI 应用提供丰富的上下文信息和操作能力，从而增强 LLM 的实用性和灵活性。</p>
+<p>你可以在 MCP Servers Repository 和 Awesome MCP Servers 这两个 repo 中找到许多由社区实现的 MCP server。使用 TypeScript 编写的 MCP server 可以通过 npx 命令来运行，使用 Python 编写的 MCP server 可以通过 uvx 命令来运行。</p>
+<h2 id="通信机制"><a href="#通信机制" class="headerlink" title="通信机制"></a>通信机制</h2><p>MCP 协议支持两种主要的通信机制：基于标准输入输出的本地通信和基于SSE（Server-Sent Events）的远程通信。</p>
+<p>这两种机制都使用 JSON-RPC 2.0 格式进行消息传输，确保了通信的标准化和可扩展性。</p>
+<ul>
+<li>本地通信：通过 stdio 传输数据，适用于在同一台机器上运行的客户端和服务器之间的通信。</li>
+<li>远程通信：利用 SSE 与 HTTP 结合，实现跨网络的实时数据传输，适用于需要访问远程资源或分布式部署的场景。</li>
+</ul>
+<h1 id="二、MCP的功能与应用："><a href="#二、MCP的功能与应用：" class="headerlink" title="二、MCP的功能与应用："></a>二、MCP的功能与应用：</h1><h2 id="如何使用-MCP"><a href="#如何使用-MCP" class="headerlink" title="如何使用 MCP"></a>如何使用 MCP</h2><p>如果你还没有尝试过如何使用 MCP 的话，我们可以考虑用 Cursor(本人只尝试过 Cursor)，Claude Desktop 或者 Cline 来体验一下。</p>
+<p>当然，我们并不需要自己开发 MCP Servers，MCP 的好处就是通用、标准，所以开发者并不需要重复造轮子（但是学习可以重复造轮子）。</p>
+<p>首先推荐的是官方组织的一些 Server：<a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/servers">官方的 MCP Server 列表</a>。</p>
+<p>目前社区的 MCP Server 还是比较混乱，有很多缺少教程和文档，很多的代码功能也有问题，我们可以自行尝试一下 <a target="_blank" rel="noopener" href="https://cursor.directory/">Cursor Directory</a> 的一些例子，具体的配置和实战笔者就不细讲了，大家可以参考官方文档。</p>
+<h2 id="MCP的功能"><a href="#MCP的功能" class="headerlink" title="MCP的功能"></a>MCP的功能</h2><p>MCP通过引入多样化的MCP Server能力，显著增强了AI工具的功能，例如我们常用的Cursor和Claude。以下是一些官方参考服务器，展示了MCP的核心功能和SDK的应用：</p>
+<p>数据与文件系统：</p>
+<ul>
+<li>文件系统：提供安全文件操作，带可配置的访问控制。</li>
+<li>PostgreSQL：提供只读数据库访问，具备架构检查功能。</li>
+<li>SQLite：支持数据库交互和商业智能功能。</li>
+<li>Google Drive：实现Google Drive的文件访问和搜索功能。</li>
+</ul>
+<p>开发工具：</p>
+<ul>
+<li>Git：工具用于读取、搜索和操作Git仓库。</li>
+<li>GitHub：集成仓库管理、文件操作和GitHub API。</li>
+<li>GitLab：支持项目管理的GitLab API集成。</li>
+<li>Sentry：从 <a target="_blank" rel="noopener" href="http://sentry.io/">http://Sentry.io</a> 获取并分析问题。</li>
+</ul>
+<p>网络与浏览器自动化：</p>
+<ul>
+<li>Brave Search：利用Brave的搜索API进行网络和本地搜索。</li>
+<li>Fetch：为LLM优化的网络内容获取和转换。</li>
+<li>Puppeteer：提供浏览器自动化和网页抓取功能。</li>
+</ul>
+<p>生产力和通信：</p>
+<ul>
+<li>Slack：支持频道管理和消息功能。</li>
+<li>Google Maps：提供位置服务、路线和地点详情。</li>
+<li>Memory：基于知识图谱的持久记忆系统。</li>
+</ul>
+<p>AI与专业工具：</p>
+<ul>
+<li>EverArt：使用多种模型进行AI图像生成。</li>
+<li>Sequential Thinking：通过思维序列进行动态问题解决。</li>
+<li>AWS KB Retrieval：使用Bedrock Agent Runtime从AWS知识库检索。</li>
+</ul>
+<p>官方集成工具：</p>
+<p>这些MCP服务器由公司维护，用于其平台：</p>
+<ul>
+<li>Axiom：使用自然语言查询和分析日志、跟踪和事件数据。</li>
+<li>Browserbase：云端自动化浏览器交互。</li>
+<li>Cloudflare：在Cloudflare开发者平台上部署和管理资源。</li>
+<li>E2B：在安全的云沙箱中执行代码。</li>
+<li>Neon：与Neon无服务器Postgres平台交互。</li>
+<li>Obsidian Markdown Notes：读取和搜索Obsidian知识库中的Markdown笔记。</li>
+<li>Qdrant：使用Qdrant向量搜索引擎实现语义记忆。</li>
+<li>Raygun：访问崩溃报告和监控数据。</li>
+<li>Search1API：统一的API用于搜索、爬虫和网站地图。</li>
+<li>Tinybird：与Tinybird无服务器ClickHouse平台交互。</li>
+</ul>
+<p>集成工具：</p>
+<ul>
+<li>Docker：管理容器、镜像、卷和网络。</li>
+<li>Kubernetes：管理pod、部署和服务。</li>
+<li>Linear：项目管理和问题跟踪。</li>
+<li>Snowflake：与Snowflake数据库交互。</li>
+<li>Spotify：控制Spotify播放和管理播放列表。</li>
+<li>Todoist：任务管理集成。</li>
+</ul>
+<h1 id="三、怎么使用和开发MCP-Server"><a href="#三、怎么使用和开发MCP-Server" class="headerlink" title="三、怎么使用和开发MCP Server"></a>三、怎么使用和开发MCP Server</h1><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>目前支持的部分工具列表（更多见<a target="_blank" rel="noopener" href="https://www.pulsemcp.com/clients">这里</a>）：</p>
+<table>
+<thead>
+<tr>
+<th>客户端</th>
+<th>资源</th>
+<th>提示</th>
+<th>工具</th>
+<th>采样</th>
+<th>根目录</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Claude 桌面应用</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>所有MCP 功能</td>
+</tr>
+<tr>
+<td>Zed</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>提示以斜杠命令形式出现</td>
+</tr>
+<tr>
+<td>Sourcegraph Cody</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>通过OpenCTX 支持资源</td>
+</tr>
+<tr>
+<td>Firebase Genkit</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>支持资源列表和查找</td>
+</tr>
+<tr>
+<td>Continue</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>支持所有MCP功能</td>
+</tr>
+<tr>
+<td>GenAIScript</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>支持工具</td>
+</tr>
+<tr>
+<td>Cursor</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>支持工具</td>
+</tr>
+</tbody></table>
+<h2 id="Claude-Desktop-使用示例"><a href="#Claude-Desktop-使用示例" class="headerlink" title="Claude Desktop 使用示例"></a>Claude Desktop 使用示例</h2><p>以 Claude Desktop 为例，配置 MCP 客户端的步骤如下：</p>
+<ol>
+<li><p>安装 Claude Desktop： 确保已在 macOS 或 Windows 系统上安装最新版本的 Claude Desktop。</p>
+</li>
+<li><p>配置 MCP 服务器： 在 Claude Desktop 的配置文件中，配置入口Claude Desktop—&gt;菜单—&gt;Settings—&gt;Developer—&gt;Edit Config：<br> <img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/4.jpg">  </p>
+<p> 添加所需的 MCP 服务器信息，例如：</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"><span class="attr">&quot;mcpServers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;filesystem&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npx&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;-y&quot;</span><span class="punctuation">,</span> <span class="string">&quot;@modelcontextprotocol/server-filesystem&quot;</span><span class="punctuation">,</span> <span class="string">&quot;/path/to/allowed/files&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;git&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;uvx&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;mcp-server-git&quot;</span><span class="punctuation">,</span> <span class="string">&quot;--repository&quot;</span><span class="punctuation">,</span> <span class="string">&quot;path/to/git/repo&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p> 这里的@modelcontextprotocol&#x2F;server-filesystem、mcp-server-git是对应的一些MCP Server，可以是开源找来的，也可以是你自己开发的。</p>
+<p> 配置完后，在主界面对话题右下角就有个锤子出现了，有几个锤子就是配置几个，然后对话中如果涉及使用该工具的，claude就会自动调用<br> <img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/5.jpg"></p>
+</li>
+</ol>
+<h2 id="Cursor中-使用示例"><a href="#Cursor中-使用示例" class="headerlink" title="Cursor中 使用示例"></a>Cursor中 使用示例</h2><p>Cursor工具中集成mcp server功能对开发增加效率非常明显，配置入口在：文件—&gt;首选项—&gt;Cursor Settings—&gt;Features—&gt;MCP Server—&gt;Add new MCP Server</p>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/6.jpg">  </p>
+<p>配置完后，你需要画图的地方给它提要求就行了，它会自动感知，按上下文生成prompt并调用工具生成图片：</p>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/7.jpg">  </p>
+<p>生成的图片质量还不错，符合开发需要的图片</p>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/8.jpg">  </p>
+<h1 id="MCP-如何工作"><a href="#MCP-如何工作" class="headerlink" title="MCP 如何工作"></a>MCP 如何工作</h1><p>那我们来介绍一下 MCP 的工作原理。首先我们看一下<a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/introduction">官方的 MCP 架构图</a>。  </p>
+<p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/9.jpg">  </p>
+<p>总共分为了下面五个部分：</p>
+<ul>
+<li>MCP Hosts: Hosts 是指 LLM 启动连接的应用程序，像 Cursor, Claude Desktop、Cline 这样的应用程序。</li>
+<li>MCP Clients: 客户端是用来在 Hosts 应用程序内维护与 Server 之间 1:1 连接。</li>
+<li>MCP Servers: 通过标准化的协议，为 Client 端提供上下文、工具和提示。</li>
+<li>Local Data Sources: 本地的文件、数据库和 API。</li>
+<li>Remote Services: 外部的文件、数据库和 API。</li>
+</ul>
+<p>整个 MCP 协议核心的在于 Server，因为 Host 和 Client 相信熟悉计算机网络的都不会陌生，非常好理解，但是 Server 如何理解呢？</p>
+<p>看看 Cursor 的 AI Agent 发展过程，我们会发现整个 AI 自动化的过程发展会是从 Chat 到 Composer 再进化到完整的 AI Agent。</p>
+<p>AI Chat 只是提供建议，如何将 AI 的 response 转化为行为和最终的结果，全部依靠人类，例如手动复制粘贴，或者进行某些修改。</p>
+<p>AI Composer 是可以自动修改代码，但是需要人类参与和确认，并且无法做到除了修改代码之外的其它操作。</p>
+<p>AI Agent 是一个完全的自动化程序，未来完全可以做到自动读取 Figma 的图片，自动生产代码，自动读取日志，自动调试代码，自动 push 代码到 GitHub。</p>
+<p>而 MCP Server 就是为了实现 AI Agent 的自动化而存在的，它是一个中间层，告诉 AI Agent 目前存在哪些服务，哪些 API，哪些数据源，AI Agent 可以根据 Server 提供的信息来决定是否调用某个服务，然后通过 Function Calling 来执行函数。</p>
+<h2 id="MCP-Server-的工作原理"><a href="#MCP-Server-的工作原理" class="headerlink" title="MCP Server 的工作原理"></a>MCP Server 的工作原理</h2><p>我们先来看一个简单的例子，假设我们想让 AI Agent 完成自动搜索 GitHub Repository，接着搜索 Issue，然后再判断是否是一个已知的 bug，最后决定是否需要提交一个新的 Issue 的功能。</p>
+<p>那么我们就需要创建一个 Github MCP Server，这个 Server 需要提供查找 Repository、搜索 Issues 和创建 Issue 三种能力。</p>
+<p>我们直接来看看代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">const server = new Server(</span><br><span class="line">  &#123;</span><br><span class="line">    name: &quot;github-mcp-server&quot;,</span><br><span class="line">    version: VERSION,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    capabilities: &#123;</span><br><span class="line">      tools: &#123;&#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">server.setRequestHandler(ListToolsRequestSchema, async () =&gt; &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    tools: [</span><br><span class="line">      &#123;</span><br><span class="line">        name: &quot;search_repositories&quot;,</span><br><span class="line">        description: &quot;Search for GitHub repositories&quot;,</span><br><span class="line">        inputSchema: zodToJsonSchema(repository.SearchRepositoriesSchema),</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        name: &quot;create_issue&quot;,</span><br><span class="line">        description: &quot;Create a new issue in a GitHub repository&quot;,</span><br><span class="line">        inputSchema: zodToJsonSchema(issues.CreateIssueSchema),</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        name: &quot;search_issues&quot;,</span><br><span class="line">        description: &quot;Search for issues and pull requests across GitHub repositories&quot;,</span><br><span class="line">        inputSchema: zodToJsonSchema(search.SearchIssuesSchema),</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.setRequestHandler(CallToolRequestSchema, async (request) =&gt; &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    if (!request.params.arguments) &#123;</span><br><span class="line">      throw new Error(&quot;Arguments are required&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    switch (request.params.name) &#123;</span><br><span class="line">      case &quot;search_repositories&quot;: &#123;</span><br><span class="line">        const args = repository.SearchRepositoriesSchema.parse(request.params.arguments);</span><br><span class="line">        const results = await repository.searchRepositories(</span><br><span class="line">          args.query,</span><br><span class="line">          args.page,</span><br><span class="line">          args.perPage</span><br><span class="line">        );</span><br><span class="line">        return &#123;</span><br><span class="line">          content: [&#123; type: &quot;text&quot;, text: JSON.stringify(results, null, 2) &#125;],</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      case &quot;create_issue&quot;: &#123;</span><br><span class="line">        const args = issues.CreateIssueSchema.parse(request.params.arguments);</span><br><span class="line">        const &#123; owner, repo, ...options &#125; = args;</span><br><span class="line">        const issue = await issues.createIssue(owner, repo, options);</span><br><span class="line">        return &#123;</span><br><span class="line">          content: [&#123; type: &quot;text&quot;, text: JSON.stringify(issue, null, 2) &#125;],</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      case &quot;search_issues&quot;: &#123;</span><br><span class="line">        const args = search.SearchIssuesSchema.parse(request.params.arguments);</span><br><span class="line">        const results = await search.searchIssues(args);</span><br><span class="line">        return &#123;</span><br><span class="line">          content: [&#123; type: &quot;text&quot;, text: JSON.stringify(results, null, 2) &#125;],</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      default:</span><br><span class="line">        throw new Error(`Unknown tool: $&#123;request.params.name&#125;`);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; catch (error) &#123;&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">async function runServer() &#123;</span><br><span class="line">  const transport = new StdioServerTransport();</span><br><span class="line">  await server.connect(transport);</span><br><span class="line">  console.error(&quot;GitHub MCP Server running on stdio&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">runServer().catch((error) =&gt; &#123;</span><br><span class="line">  console.error(&quot;Fatal error in main():&quot;, error);</span><br><span class="line">  process.exit(1);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>可以很清晰的看到，我们最终实现是通过了 <a target="_blank" rel="noopener" href="https://api.github.com/">https://api.github.com</a> 的 API 来实现和 Github 交互的，我们通过 githubRequest 函数来调用 GitHub 的 API，最后返回结果。</p>
+<p>在调用 Github 官方的 API 之前，MCP 的主要工作是描述 Server 提供了哪些能力(给 LLM 提供)，需要哪些参数(参数具体的功能是什么)，最后返回的结果是什么。</p>
+<p>所以 MCP Server 并不是一个新颖的、高深的东西，它只是一个具有共识的协议。</p>
+<p>如果我们想要实现一个更强大的 AI Agent，例如我们想让 AI Agent 自动的根据本地错误日志，自动搜索相关的 GitHub Repository，然后搜索 Issue，最后将结果发送到 Slack。</p>
+<p>那么我们可能需要创建三个不同的 MCP Server，一个是 Local Log Server，用来查询本地日志；一个是 GitHub Server，用来搜索 Issue；还有一个是 Slack Server，用来发送消息。</p>
+<p>AI Agent 在用户输入 我需要查询本地错误日志，将相关的 Issue 发送到 Slack 指令后，自行判断需要调用哪些 MCP Server，并决定调用顺序，最终根据不同 MCP Server 的返回结果来决定是否需要调用下一个 Server，以此来完成整个任务。</p>
+<h1 id="一些经验分享"><a href="#一些经验分享" class="headerlink" title="一些经验分享"></a>一些经验分享</h1><p>实际做过MCP Server的几个坑：</p>
+<ol>
+<li><p>Streamable HTTP transport的session要在handleRequest之后存，不能提前，因为sessionId是在处理过程中才设置的；</p>
+</li>
+<li><p>扣子等国内平台不发Accept header，必须nginx层proxy_set_header补上，否则SDK直接拒绝；</p>
+</li>
+<li><p>要兼容所有client得同时支持Streamable HTTP + Legacy SSE双协议。MCP Server（quanttogo-mcp），同一套tool定义跑在npm&#x2F;stdio、远程SSE、Streamable HTTP三种transport上，一次开发全平台可用，这确实是MCP最大的实际价值。</p>
+</li>
+</ol>
+<h1 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h1><p>下面是个人推荐的一些 MCP 的资源，大家可以参考一下。  </p>
+<h2 id="MCP-官方资源"><a href="#MCP-官方资源" class="headerlink" title="MCP 官方资源"></a>MCP 官方资源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol">官方的开源组织 Model Context Protocol</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://guangzhengli.com/blog/zh/model-context-protocol/%255Bmodelcontextprotocol%255D%28https%3A//modelcontextprotocol.io/introduction%29">官方的文档 modelcontextprotocol</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/servers">官方的 MCP Server 列表</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.anthropic.com/news/model-context-protocol">Claude Blog</a></li>
+</ul>
+<h2 id="社区的-MCP-Server-的列表"><a href="#社区的-MCP-Server-的列表" class="headerlink" title="社区的 MCP Server 的列表"></a>社区的 MCP Server 的列表</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://cursor.directory/">Cursor Directory</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.pulsemcp.com/">Pulsemcp</a></li>
+<li><a target="_blank" rel="noopener" href="https://glama.ai/mcp/servers">Glama MCP Servers</a></li>
+</ul>
+
     </div>
 
     
@@ -326,6 +616,7 @@
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
@@ -334,6 +625,7 @@
 
 
 
+  <script src="/js/third-party/fancybox.js"></script>
 
 
 

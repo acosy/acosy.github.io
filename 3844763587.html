@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;www.aliyun.com&#x2F;getting-started&#x2F;what-is&#x2F;what-is-mcp MCP即模型上下文协议（Model Context Protocol），是一种开放的通信协议，是人工智能领域的 “USB 接口”。MCP在大模型和外部数据源（数据、工具、开发环境等）之间建立了双向且更加安全的连接，使用单一的标准协议取代碎片化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是MCP？">
+<meta property="og:url" content="https://acosy.github.io/3844763587.html">
+<meta property="og:site_name" content="Acosy">
+<meta property="og:description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;www.aliyun.com&#x2F;getting-started&#x2F;what-is&#x2F;what-is-mcp MCP即模型上下文协议（Model Context Protocol），是一种开放的通信协议，是人工智能领域的 “USB 接口”。MCP在大模型和外部数据源（数据、工具、开发环境等）之间建立了双向且更加安全的连接，使用单一的标准协议取代碎片化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/0.svg">
+<meta property="og:image" content="https://acosy.github.io/imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/1.svg">
+<meta property="article:published_time" content="2026-05-04T20:22:24.000Z">
+<meta property="article:modified_time" content="2026-05-04T20:29:50.551Z">
+<meta property="article:author" content="Acosy">
+<meta property="article:tag" content="MCP">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/0.svg">
+
+
+<link rel="canonical" href="https://acosy.github.io/3844763587.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/3844763587.html","path":"3844763587.html","title":"什么是MCP？"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>什么是MCP？ | Acosy</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Acosy</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+    
+    
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8-MCP-%E5%87%BA%E7%8E%B0%E5%89%8D%EF%BC%8C%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%95%B0%E6%8D%AE%E6%BA%90%E4%B9%8B%E9%97%B4%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%9E%E6%8E%A5%E7%9A%84%EF%BC%9F"><span class="nav-text">在 MCP 出现前，大模型和数据源之间是如何连接的？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MCP-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84"><span class="nav-text">MCP 的核心架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MCP-%E7%9A%84%E8%BF%90%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="nav-text">MCP 的运作机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-MCP%EF%BC%9F"><span class="nav-text">为什么需要 MCP？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BF%E9%87%8C%E4%BA%91%E5%A6%82%E4%BD%95%E5%B8%AE%E6%82%A8%E5%AE%9E%E7%8E%B0MCP%E7%9B%B8%E5%85%B3%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%9F"><span class="nav-text">阿里云如何帮您实现MCP相关的需求？</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Acosy"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">Acosy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/3844763587.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="什么是MCP？ | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          什么是MCP？
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-04 16:22:24 / 修改时间：16:29:50" itemprop="dateCreated datePublished" datetime="2026-05-04T16:22:24-04:00">2026-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/MCP/" itemprop="url" rel="index"><span itemprop="name">MCP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<p>来源：<a target="_blank" rel="noopener" href="https://www.aliyun.com/getting-started/what-is/what-is-mcp">https://www.aliyun.com/getting-started/what-is/what-is-mcp</a></p>
+<p>MCP即模型上下文协议（Model Context Protocol），是一种开放的通信协议，是人工智能领域的 “USB 接口”。MCP在大模型和外部数据源（数据、工具、开发环境等）之间建立了双向且更加安全的连接，使用单一的标准协议取代碎片化的集成方式。如果把 LLM 比作人的大脑，MCP 就是手脚。LLM 不断提升智能下限，MCP 则是不断提升创意上限。</p>
+<h1 id="在-MCP-出现前，大模型和数据源之间是如何连接的？"><a href="#在-MCP-出现前，大模型和数据源之间是如何连接的？" class="headerlink" title="在 MCP 出现前，大模型和数据源之间是如何连接的？"></a>在 MCP 出现前，大模型和数据源之间是如何连接的？</h1><ul>
+<li>利用 API 接口：如果数据源提供了 API 接口，开源大模型可以通过调用 API 来获取数据，包括数据的读取和写入等操作。</li>
+<li>基于特定代码编写：开发者针对具体的开源大模型和数据源，依据其各自的接口规范与数据格式要求，使用编程语言（如 Python）编写连接代码。以连接 MySQL 数据库与开源大模型为例，可利用 Python 的pymysql库来建立数据库连接，获取数据后进行处理和转换，使其能被大模型理解和使用。</li>
+<li>AI 应用开发平台&amp;编程框架<ul>
+<li>LangChain：是一个用于开发由语言模型驱动的应用程序的框架，能将开源大模型与各种数据源集成。如可以通过 LangChain 的SQLDatabaseChain将大模型与关系型数据库连接，实现基于数据库数据的问答等功能。</li>
+<li>LlamaIndex：主要用于构建向量数据库索引，方便大模型高效检索和利用数据。能将文本数据等处理成向量形式存入向量数据库，如 Pinecone 等，大模型在运行时可快速从向量数据库中获取相关上下文信息。</li>
+<li>Dify&amp;百炼：低代码 AI 应用开发平台，支持将开源大模型与多种数据源连接。用户通过简单的配置和少量代码，就能让大模型访问数据库、文件存储等数据源中的数据。</li>
+</ul>
+</li>
+<li>采用插件系统：部分大模型有插件系统，类似于 OpenAI 的 ChatGPT 插件。开发者可开发插件来连接特定数据源，比如开发一个连接企业内部知识库的插件，使大模型能获取知识库中的信息进行回答。</li>
+</ul>
+<p>MCP 的出现给开发者们提供了更多的选项，省去了接口代码的编写和维护工作。</p>
+<h1 id="MCP-的核心架构"><a href="#MCP-的核心架构" class="headerlink" title="MCP 的核心架构"></a>MCP 的核心架构</h1><p>MCP 采用客户端-服务端架构，以下是 MCP 官方展示的架构：  </p>
+<p><img src="/../imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/0.svg">  </p>
+<ul>
+<li>MCP Client（客户端）：作为调用方，是用户与 MCP 生态的交互入口。<br>例如，聊天应用类，提供自然语言交互服务，让用户通过对话调用 AI 能力；编码工具类，在 IDE 里调用外部应用和系统的能力；任务自动化类，帮用户自动化执行重复性任务，如数据处理、流程调度，以提升效率。</li>
+<li>MCP Server（服务端）：作为被调用方，提供后端服务支撑，包含各类核心功能模块。<br>例如，数据库类（如 ClickHouse、Supabase）负责数据存储、查询与管理；设计类（如 Figma、Blender）支撑设计创作、文件协作等功能；生产力工具类（如 Notion、Obsidian）提供笔记管理、知识整理等办公协作服务；支付类（如 Stripe），处理在线支付交易，支持商业场景的资金流转。<ul>
+<li>Local MCP Server（本地数据源）：MCP 服务器可以安全访问本地计算机上的文件、数据库和服务。</li>
+<li>Remote MCP Server（远程服务源）：MCP 服务器可以通过互联网（例如通过 API）连接到外部系统。</li>
+</ul>
+</li>
+</ul>
+<h1 id="MCP-的运作机制"><a href="#MCP-的运作机制" class="headerlink" title="MCP 的运作机制"></a>MCP 的运作机制</h1><p><img src="/../imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/1.svg">  </p>
+<p>如上图所示，一次基于MCP的调用，一共有6个核心的步骤。我们先拟定一个前提：</p>
+<ul>
+<li>我要开发一个获取时间的AI Agent，用户在使用这个AI Agent时，只需要问类似“现在几点了？”这种问题即可。</li>
+<li>我已经有了一个关于处理时间的MCP Server，这个MCP Server里有2个MCP Tool，一个负责获取当前时区，一个负责获取当前时间。</li>
+</ul>
+<p>调用步骤解析：  </p>
+<ul>
+<li>第一步：用户向AI Agent提问“现在几点了？”，此时AI Agent就是MCP Client，它会把用户的问题和处理时间的MCP Server以及MCP Tool的信息一起发送给LLM。</li>
+<li>第二步：LLM拿到信息后开始推理，基于用户的问题和MCP Server的信息，选出解决用户问题最合适的MCP Server和MCP Tool，然后返回给AI Agent（MCP Client）。<br>LLM返回给AI Agent的信息是：“你可以使用time这个MCP Server里的get_current_time这个MCP Tool，它可以解决用户的问题”。</li>
+<li>第三步：AI Agent（MCP Client）现在知道应该使用哪个MCP Server里的哪个MCP Tool了，直接调用该MCP Tool，获取结果。<br>调用名称为time的MCP Server里的get_current_time MCP Tool。</li>
+<li>第四步：Time MCP Server返回结果（当前的时间）给AI Agent（MCP Client）。</li>
+<li>第五步：AI Agent（MCP Client）把用户的问题和从Time MCP Server处拿到的结果再一次给了LLM，目的是让LLM结合问题和答案再规整一下内容。</li>
+<li>第六步：LLM把整理后的内容返回给AI Agent（MCP Client），最后AI Agent（MCP Client）再原封不动地返回给用户。</li>
+</ul>
+<p>在MCP的整个调用过程中有一个非常关键之处就是 <strong>MCP Server</strong> 以及 <strong>MCP Tool</strong> 的信息。从第一步、第二步可以看出，这个信息非常关键，是它让LLM知道了该如何解决用户的问题，这个信息就是MCP中最重要的System Prompt，本质上就是PE工程。</p>
+<h1 id="为什么需要-MCP？"><a href="#为什么需要-MCP？" class="headerlink" title="为什么需要 MCP？"></a>为什么需要 MCP？</h1><p>MCP 模型上下文协议有以下优势：</p>
+<ul>
+<li>标准化与通用性<ul>
+<li>统一规范：MCP 是一种开放标准，提供了统一的协议规范，如同 AI 应用程序的 “USB - C 接口”，使 AI 模型连接不同数据源和工具时遵循相同标准，而其他方式如特定代码编写、插件系统、API 接口等，通常需针对不同数据源和模型单独处理。</li>
+<li>跨系统兼容：能实现不同类型数据源与 AI 模型的无缝连接，无论是本地资源（如数据库、文件），还是远程资源（如 Slack 或 GitHub）等 API，都可通过统一协议处理。</li>
+</ul>
+</li>
+<li>开发效率与便捷性<ul>
+<li>简化开发流程：开发者无需为每种数据类型或服务编写专门接口代码，利用 MCP 的 SDK 可快速在系统中实现连接，如开发智能家居系统时，采用 MCP 协议可将所有设备数据通过 MCP 服务器统一管理。</li>
+<li>预构建服务器支持：Anthropic 提供了针对 Google Drive、Slack、GitHub 和 Postgres 等流行系统的预构建 MCP 服务器，开发者可直接使用，无需从零搭建。</li>
+</ul>
+</li>
+<li>上下文管理与交互能力<ul>
+<li>分布式上下文管理：对 “上下文状态” 进行抽象化处理，让上下文状态可通过协议标准化传递，不再局限于 prompt 本身，使交互更轻量化。</li>
+<li>双向通信：支持数据源与 AI 模型间的双向数据流动，数据源可向 AI 模型传输信息，AI 模型也能将输出反馈给数据源，形成更高效的交互闭环。</li>
+</ul>
+</li>
+<li>安全性与可扩展性<ul>
+<li>安全机制完善：提供强访问控制、详细权限设置和审计跟踪，内置安全监测工具，降低数据泄露风险，保障敏感数据安全。</li>
+<li>灵活扩展：具有良好的扩展性，开发者可轻松为其应用构建新的 plugin 或模块，能方便地添加新数据源或功能，快速适应不同业务需求。</li>
+</ul>
+</li>
+</ul>
+<h1 id="阿里云如何帮您实现MCP相关的需求？"><a href="#阿里云如何帮您实现MCP相关的需求？" class="headerlink" title="阿里云如何帮您实现MCP相关的需求？"></a>阿里云如何帮您实现MCP相关的需求？</h1><p>MCP 作为一种模型上下文的通信协议，上下游生态至关重要。MCP 正逐渐从一种协议规范，演进成 MCP 开发者生态，涌现了 MCP Marketplace、MCP Server Hosting等角色，从而形成了 MCP Market Map，类似 CNCF Landscape，提供了一系列开源项目或服务，大幅降低开发者构建 MCP Server 的时间和人力成本。</p>
+<ul>
+<li>MCP Marketplace：扮演生态枢纽角色，聚合与分发 MCP 相关工具，类似 “应用商店”。一方面，开发者可在此发布 MCP 客户端、服务器工具；另一方面，用户能便捷发现和使用各类 MCP 工具，促进生态内资源的流通与共享。例如，百炼推出了 MCP 市场，首期上线了 50 多款 MCP Server。</li>
+<li>MCP Server Hosting：为 MCP Server 提供运行环境支持。借助云计算等基础设施，托管服务器代码与数据，负责服务器的运维、扩容、安全防护，保障服务器持续稳定运行。例如：阿里云 API 网关支持 MCP 服务器的托管，既可以将存量 API 服务高效的批量转化为 MCP Server，并进行 Server 的配置调试，以提升大模型的识别和输出效果，还可以提供服务调用的统一认证授权、精细化流量控制、审计日志、协议卸载、快速扩展的能力。</li>
+<li>MCP Registry：扮演控制面的角色，不仅管理 Tool 的元信息，还可以把存量 API 转化成 MCP 协议。例如，阿里云微服务引擎 MSE Nacos 支持在存量接口不改动的情况下，将存量的服务调用逻辑，动态生效成 MCP 协议能识别的信息，从而实现大模型对外部数据源的调用。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MCP/" rel="tag"># MCP</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1042437339.html" rel="prev" title="Wasm Component Model 简单实例">
+                  <i class="fa fa-angle-left"></i> Wasm Component Model 简单实例
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
