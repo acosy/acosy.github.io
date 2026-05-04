@@ -218,7 +218,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-05-04 16:22:24 / 修改时间：16:29:50" itemprop="dateCreated datePublished" datetime="2026-05-04T16:22:24-04:00">2026-05-04</time>
+      <time title="创建时间：2026-05-04 16:22:24 / 修改时间：16:59:56" itemprop="dateCreated datePublished" datetime="2026-05-04T16:22:24-04:00">2026-05-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -260,7 +260,7 @@
 </ul>
 <p>MCP 的出现给开发者们提供了更多的选项，省去了接口代码的编写和维护工作。</p>
 <h1 id="MCP-的核心架构"><a href="#MCP-的核心架构" class="headerlink" title="MCP 的核心架构"></a>MCP 的核心架构</h1><p>MCP 采用客户端-服务端架构，以下是 MCP 官方展示的架构：  </p>
-<p><img src="/../imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/0.svg">  </p>
+<p><img src="/../imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/0.png">  </p>
 <ul>
 <li>MCP Client（客户端）：作为调用方，是用户与 MCP 生态的交互入口。<br>例如，聊天应用类，提供自然语言交互服务，让用户通过对话调用 AI 能力；编码工具类，在 IDE 里调用外部应用和系统的能力；任务自动化类，帮用户自动化执行重复性任务，如数据处理、流程调度，以提升效率。</li>
 <li>MCP Server（服务端）：作为被调用方，提供后端服务支撑，包含各类核心功能模块。<br>例如，数据库类（如 ClickHouse、Supabase）负责数据存储、查询与管理；设计类（如 Figma、Blender）支撑设计创作、文件协作等功能；生产力工具类（如 Notion、Obsidian）提供笔记管理、知识整理等办公协作服务；支付类（如 Stripe），处理在线支付交易，支持商业场景的资金流转。<ul>
@@ -269,7 +269,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="MCP-的运作机制"><a href="#MCP-的运作机制" class="headerlink" title="MCP 的运作机制"></a>MCP 的运作机制</h1><p><img src="/../imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/1.svg">  </p>
+<h1 id="MCP-的运作机制"><a href="#MCP-的运作机制" class="headerlink" title="MCP 的运作机制"></a>MCP 的运作机制</h1><p><img src="/../imgs/%E4%BB%80%E4%B9%88%E6%98%AFMCP%EF%BC%9F/1.png">  </p>
 <p>如上图所示，一次基于MCP的调用，一共有6个核心的步骤。我们先拟定一个前提：</p>
 <ul>
 <li>我要开发一个获取时间的AI Agent，用户在使用这个AI Agent时，只需要问类似“现在几点了？”这种问题即可。</li>
@@ -466,7 +466,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-04 16:11:51" itemprop="dateModified" datetime="2026-05-04T16:11:51-04:00">2026-05-04</time>
+      <time title="修改时间：2026-05-04 17:31:24" itemprop="dateModified" datetime="2026-05-04T17:31:24-04:00">2026-05-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -508,6 +508,8 @@
 <p>现在，MCP 可以直接在 AI 与数据（包括本地数据和互联网数据）之间架起一座桥梁，通过 MCP 服务器和 MCP 客户端，大家只要都遵循这套协议，就能实现“万物互联”。</p>
 <p>有了MCP，可以和数据和文件系统、开发工具、Web 和浏览器自动化、生产力和通信、各种社区生态能力全部集成，实现强大的协作工作能力，它的价值远不可估量。</p>
 <p><img src="/../imgs/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%9AMCP(%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE)/0.jpg">  </p>
+<img src="https://picx.zhimg.com/v2-fa3cdcd616cd3dc22732fa3f529cc7f7_1440w.jpg" data-rawwidth="1080" data-rawheight="612" data-size="normal" data-caption="" data-original-token="v2-029b77febce2cecb09ea2e9798c95677" class="origin_image zh-lightbox-thumb" width="1080" data-original="https://picx.zhimg.com/v2-fa3cdcd616cd3dc22732fa3f529cc7f7_r.jpg">
+
 <h2 id="MCP-与-Function-Calling-的区别"><a href="#MCP-与-Function-Calling-的区别" class="headerlink" title="MCP 与 Function Calling 的区别"></a>MCP 与 Function Calling 的区别</h2><ul>
 <li>MCP（Model Context Protocol），模型上下文协议</li>
 <li>Function Calling，函数调用</li>
