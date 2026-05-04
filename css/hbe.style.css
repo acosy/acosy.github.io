@@ -777,11 +777,11 @@ display: contents;
 display: inline-block;
 margin: 0.5em 1em;
 padding: 0.7em 1.6em;
-font-size: 1rem;
+font-size: 16px;
 font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-weight: 600;
-color: #fff;
-background: #2a7ae2;
+color: black;
+background: #b7b7b7;
 border: none;
 border-radius: 4px;
 cursor: pointer;
@@ -789,12 +789,12 @@ cursor: pointer;
 transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 
-.hbe-button:hover,
+/*.hbe-button:hover,
 .hbe-button:focus {
 background: #1c5db8;
 outline: none;
 box-shadow: 0 0 0 3px rgba(42, 122, 226, 0.35);
-}
+}*/
 
 .hbe-button:disabled,
 .hbe-button[aria-busy="true"] {
