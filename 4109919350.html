@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;github.com&#x2F;sggmico&#x2F;build-blog&#x2F;blob&#x2F;main&#x2F;2025&#x2F;008_初识%20MCP：打破%20AI%20孤岛的标准化协议.md 初识 MCP：打破 AI 孤岛的标准化协议Jan 13, 2025  关键词： MCP · Model Context Protocol · AI协议 · 数据集成 · 工具调用 ·">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识 MCP：打破 AI 孤岛的标准化协议">
+<meta property="og:url" content="https://acosy.github.io/4109919350.html">
+<meta property="og:site_name" content="Acosy">
+<meta property="og:description" content="本文不含原创，只是知识的搬运工。 来源：https:&#x2F;&#x2F;github.com&#x2F;sggmico&#x2F;build-blog&#x2F;blob&#x2F;main&#x2F;2025&#x2F;008_初识%20MCP：打破%20AI%20孤岛的标准化协议.md 初识 MCP：打破 AI 孤岛的标准化协议Jan 13, 2025  关键词： MCP · Model Context Protocol · AI协议 · 数据集成 · 工具调用 ·">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-13T15:37:21.000Z">
+<meta property="article:modified_time" content="2026-05-05T02:35:59.781Z">
+<meta property="article:author" content="Acosy">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="MCP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://acosy.github.io/4109919350.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/4109919350.html","path":"4109919350.html","title":"初识 MCP：打破 AI 孤岛的标准化协议"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>初识 MCP：打破 AI 孤岛的标准化协议 | Acosy</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Acosy</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+    
+    
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E8%AF%86-MCP%EF%BC%9A%E6%89%93%E7%A0%B4-AI-%E5%AD%A4%E5%B2%9B%E7%9A%84%E6%A0%87%E5%87%86%E5%8C%96%E5%8D%8F%E8%AE%AE"><span class="nav-text">初识 MCP：打破 AI 孤岛的标准化协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%97%9B%E7%82%B9%EF%BC%9AAI-%E5%8A%A9%E6%89%8B%E7%9A%84%E4%B8%89%E5%A4%A7%E5%9B%B0%E5%A2%83"><span class="nav-text">痛点：AI 助手的三大困境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE%E9%9A%9C%E7%A2%8D"><span class="nav-text">1. 数据访问障碍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%9B%86%E6%88%90%E6%96%B9%E6%A1%88%E7%A2%8E%E7%89%87%E5%8C%96"><span class="nav-text">2. 集成方案碎片化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E9%9A%BE%E6%8E%A7"><span class="nav-text">3. 安全风险难控</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP%EF%BC%9AAI-%E8%BF%9E%E6%8E%A5%E4%B8%96%E7%95%8C%E7%9A%84-USB-C-%E6%A0%87%E5%87%86"><span class="nav-text">MCP：AI 连接世界的 USB-C 标准</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%90%86%E5%BF%B5"><span class="nav-text">核心理念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E6%A0%B8%E5%BF%83%E4%BB%B7%E5%80%BC"><span class="nav-text">三大核心价值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%EF%BC%9A%E4%B8%89%E5%B1%82%E7%BB%84%E4%BB%B6%E6%A8%A1%E5%9E%8B"><span class="nav-text">技术架构：三层组件模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6-1%EF%BC%9AMCP-Host%EF%BC%88%E4%B8%BB%E6%9C%BA%E7%AB%AF%EF%BC%89"><span class="nav-text">组件 1：MCP Host（主机端）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6-2%EF%BC%9AMCP-Server%EF%BC%88%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%EF%BC%89"><span class="nav-text">组件 2：MCP Server（服务器端）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6-3%EF%BC%9AMCP-Protocol%EF%BC%88%E5%8D%8F%E8%AE%AE%E5%B1%82%EF%BC%89"><span class="nav-text">组件 3：MCP Protocol（协议层）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9A%E4%BB%8E%E6%8F%90%E9%97%AE%E5%88%B0%E5%93%8D%E5%BA%94"><span class="nav-text">工作流程：从提问到响应</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E6%84%8F%E5%9B%BE%E7%90%86%E8%A7%A3"><span class="nav-text">步骤 1：意图理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E5%B7%A5%E5%85%B7%E5%8F%91%E7%8E%B0"><span class="nav-text">步骤 2：工具发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E8%AF%B7%E6%B1%82%E6%9E%84%E5%BB%BA"><span class="nav-text">步骤 3：请求构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4-4%EF%BC%9A%E5%AE%89%E5%85%A8%E6%89%A7%E8%A1%8C"><span class="nav-text">步骤 4：安全执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4-5%EF%BC%9A%E6%99%BA%E8%83%BD%E5%93%8D%E5%BA%94"><span class="nav-text">步骤 5：智能响应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E8%AF%A6%E8%A7%A3"><span class="nav-text">三大核心能力详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E5%8A%9B-1%EF%BC%9AResources%EF%BC%88%E8%B5%84%E6%BA%90%EF%BC%89"><span class="nav-text">能力 1：Resources（资源）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E5%8A%9B-2%EF%BC%9ATools%EF%BC%88%E5%B7%A5%E5%85%B7%EF%BC%89"><span class="nav-text">能力 2：Tools（工具）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E5%8A%9B-3%EF%BC%9APrompts%EF%BC%88%E6%8F%90%E7%A4%BA%E6%A8%A1%E6%9D%BF%EF%BC%89"><span class="nav-text">能力 3：Prompts（提示模板）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90%EF%BC%9AMCP-vs-%E4%BC%A0%E7%BB%9F%E6%96%B9%E6%A1%88"><span class="nav-text">对比分析：MCP vs 传统方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E5%AF%B9%E6%AF%94%E8%A1%A8"><span class="nav-text">技术对比表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%9C%BA%E6%99%AF%E5%AF%B9%E6%AF%94"><span class="nav-text">具体场景对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">实际应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF-1%EF%BC%9A%E6%99%BA%E8%83%BD%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5"><span class="nav-text">场景 1：智能代码审查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF-2%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%8A%A9%E6%89%8B"><span class="nav-text">场景 2：数据分析助手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF-3%EF%BC%9A%E7%9F%A5%E8%AF%86%E5%BA%93%E7%AE%A1%E7%90%86"><span class="nav-text">场景 3：知识库管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E5%AE%9E%E8%B7%B5"><span class="nav-text">快速上手实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87"><span class="nav-text">前置准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA-MCP-Server"><span class="nav-text">创建第一个 MCP Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Claude-Desktop"><span class="nav-text">配置 Claude Desktop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%95%88%E6%9E%9C"><span class="nav-text">测试效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97"><span class="nav-text">最佳实践指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-text">设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99"><span class="nav-text">1. 单一职责原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%B8%85%E6%99%B0%E7%9A%84%E5%91%BD%E5%90%8D%E7%BA%A6%E5%AE%9A"><span class="nav-text">2. 清晰的命名约定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%AE%8C%E6%95%B4%E7%9A%84%E6%96%87%E6%A1%A3%E8%AF%B4%E6%98%8E"><span class="nav-text">3. 完整的文档说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E5%AE%9E%E8%B7%B5"><span class="nav-text">安全实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%BE%93%E5%85%A5%E9%AA%8C%E8%AF%81"><span class="nav-text">1. 输入验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="nav-text">2. 权限控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-text">3. 错误处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-text">性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%BC%93%E5%AD%98%E7%AD%96%E7%95%A5"><span class="nav-text">1. 缓存策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C"><span class="nav-text">2. 批量操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%B5%81%E5%BC%8F%E5%93%8D%E5%BA%94"><span class="nav-text">3. 流式响应</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94"><span class="nav-text">常见问题解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Q1%EF%BC%9AMCP-%E5%8F%AA%E8%83%BD%E5%9C%A8-Claude-%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%90%97%EF%BC%9F"><span class="nav-text">Q1：MCP 只能在 Claude 中使用吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q2%EF%BC%9AMCP-Server-%E5%BF%85%E9%A1%BB%E7%94%A8-TypeScript-%E5%BC%80%E5%8F%91%E5%90%97%EF%BC%9F"><span class="nav-text">Q2：MCP Server 必须用 TypeScript 开发吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q3%EF%BC%9AMCP-%E5%92%8C-Function-Calling-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">Q3：MCP 和 Function Calling 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q4%EF%BC%9AMCP-%E4%BC%9A%E6%98%BE%E8%91%97%E5%A2%9E%E5%8A%A0%E5%BB%B6%E8%BF%9F%E5%90%97%EF%BC%9F"><span class="nav-text">Q4：MCP 会显著增加延迟吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q5%EF%BC%9A%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95-MCP-Server%EF%BC%9F"><span class="nav-text">Q5：如何调试 MCP Server？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E8%AF%9D%E9%A2%98"><span class="nav-text">进阶话题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MCP-Server-%E5%BC%80%E5%8F%91%E8%BF%9B%E9%98%B6"><span class="nav-text">1. MCP Server 开发进阶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E5%85%A8%E4%B8%8E%E5%90%88%E8%A7%84"><span class="nav-text">2. 安全与合规</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-text">3. 性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F"><span class="nav-text">4. 生态系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%BA%90"><span class="nav-text">参考资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E8%B5%84%E6%BA%90"><span class="nav-text">官方资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="nav-text">学习资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90"><span class="nav-text">工具推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BE%E5%8C%BA%E7%94%9F%E6%80%81"><span class="nav-text">社区生态</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Acosy"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">Acosy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/4109919350.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="初识 MCP：打破 AI 孤岛的标准化协议 | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识 MCP：打破 AI 孤岛的标准化协议
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-13 10:37:21" itemprop="dateCreated datePublished" datetime="2025-01-13T10:37:21-05:00">2025-01-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-04 22:35:59" itemprop="dateModified" datetime="2026-05-04T22:35:59-04:00">2026-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/MCP/" itemprop="url" rel="index"><span itemprop="name">MCP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<p>来源：<a target="_blank" rel="noopener" href="https://github.com/sggmico/build-blog/blob/main/2025/008_%E5%88%9D%E8%AF%86%20MCP%EF%BC%9A%E6%89%93%E7%A0%B4%20AI%20%E5%AD%A4%E5%B2%9B%E7%9A%84%E6%A0%87%E5%87%86%E5%8C%96%E5%8D%8F%E8%AE%AE.md">https://github.com/sggmico/build-blog/blob/main/2025/008_初识%20MCP：打破%20AI%20孤岛的标准化协议.md</a></p>
+<h1 id="初识-MCP：打破-AI-孤岛的标准化协议"><a href="#初识-MCP：打破-AI-孤岛的标准化协议" class="headerlink" title="初识 MCP：打破 AI 孤岛的标准化协议"></a>初识 MCP：打破 AI 孤岛的标准化协议</h1><p>Jan 13, 2025</p>
+<blockquote>
+<p><strong>关键词：</strong> <code>MCP</code> · <code>Model Context Protocol</code> · <code>AI协议</code> · <code>数据集成</code> · <code>工具调用</code> · <code>标准化</code> · <code>Claude</code> · <code>Anthropic</code></p>
+</blockquote>
+<hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 AI 应用快速发展的今天，大语言模型展现出了惊人的理解和生成能力。然而，这些”聪明的大脑”却被困在一个封闭的环境中：无法访问实时数据、无法操作外部工具、无法与业务系统交互。Model Context Protocol（MCP）应运而生，它为 AI 模型连接外部世界提供了一套标准化的解决方案。</p>
+<p>本文将深入解析 MCP 的核心概念、技术架构和实际应用，帮助你理解这个正在重塑 AI 应用开发的协议标准。</p>
+<h2 id="痛点：AI-助手的三大困境"><a href="#痛点：AI-助手的三大困境" class="headerlink" title="痛点：AI 助手的三大困境"></a>痛点：AI 助手的三大困境</h2><p>在探讨 MCP 之前,先来看一个典型场景：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">开发者：Claude，帮我查询公司数据库中上周的销售数据</span><br><span class="line">Claude：抱歉，无法直接访问您的数据库</span><br><span class="line"></span><br><span class="line">开发者：那帮我读取本地的 Excel 报表</span><br><span class="line">Claude：无法访问您的本地文件系统</span><br><span class="line"></span><br><span class="line">开发者：好吧，调用天气 API 查询明天的天气</span><br><span class="line">Claude：没有权限调用外部 API</span><br></pre></td></tr></table></figure>
+
+<p>这个场景暴露了传统 AI 助手面临的核心问题：<strong>信息孤岛</strong>。具体表现为三个方面：</p>
+<h3 id="1-数据访问障碍"><a href="#1-数据访问障碍" class="headerlink" title="1. 数据访问障碍"></a>1. 数据访问障碍</h3><p>AI 模型无法直接访问：</p>
+<ul>
+<li>企业数据库系统</li>
+<li>本地文件系统</li>
+<li>实时 API 服务</li>
+<li>业务应用数据</li>
+</ul>
+<p>所有信息都需要人工复制粘贴，效率低下且容易出错。</p>
+<h3 id="2-集成方案碎片化"><a href="#2-集成方案碎片化" class="headerlink" title="2. 集成方案碎片化"></a>2. 集成方案碎片化</h3><p>每个开发者都在重复造轮子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开发者 A 的方案</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">connectDatabase</span>(<span class="params">config</span>) &#123; <span class="comment">/* 自定义实现 */</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 开发者 B 的方案</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DatabaseConnector</span> &#123; <span class="comment">/* 另一套实现 */</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 开发者 C 的方案</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">dbQuery</span>(<span class="params">sql</span>) &#123; <span class="comment">/* 又一套方案 */</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果是 100 个开发者写出 100 个互不兼容的方案，维护成本极高。</p>
+<h3 id="3-安全风险难控"><a href="#3-安全风险难控" class="headerlink" title="3. 安全风险难控"></a>3. 安全风险难控</h3><p>没有统一的安全标准，各种危险的做法层出不穷：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 危险示例：直接执行 AI 生成的代码</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">executeAICommand</span>(<span class="params">command</span>) &#123;</span><br><span class="line">  <span class="built_in">eval</span>(command); <span class="comment">// SQL 注入、代码注入等风险</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>权限管理、数据加密、操作审计等安全机制各自为政，难以保障。</p>
+<h2 id="MCP：AI-连接世界的-USB-C-标准"><a href="#MCP：AI-连接世界的-USB-C-标准" class="headerlink" title="MCP：AI 连接世界的 USB-C 标准"></a>MCP：AI 连接世界的 USB-C 标准</h2><p><strong>Model Context Protocol（MCP）</strong> 是 Anthropic 于 2024 年推出的开放标准协议，专门解决 AI 模型与外部系统的连接问题。</p>
+<h3 id="核心理念"><a href="#核心理念" class="headerlink" title="核心理念"></a>核心理念</h3><p>MCP 的设计思想可以用一个简单的比喻来理解：</p>
+<p><strong>传统方案</strong> 就像硬件接口的混乱时代：</p>
+<ul>
+<li>数据库用 Micro-USB 接口</li>
+<li>文件系统用 Lightning 接口</li>
+<li>API 服务用 Type-C 接口</li>
+<li>每个工具都需要专门的”转接头”</li>
+</ul>
+<p><strong>MCP 标准</strong> 则像 USB-C 统一接口：</p>
+<ul>
+<li>所有工具都实现标准的 MCP 协议</li>
+<li>AI 模型天生支持 MCP 连接</li>
+<li>任何符合 MCP 的工具都可以即插即用</li>
+</ul>
+<h3 id="三大核心价值"><a href="#三大核心价值" class="headerlink" title="三大核心价值"></a>三大核心价值</h3><p><strong>1. 标准化连接</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">数据库　 ─┐</span><br><span class="line">文件系统 ─┼─► MCP 协议 ─► AI 模型</span><br><span class="line">API服务 ─┤</span><br><span class="line">业务系统 ─┘</span><br></pre></td></tr></table></figure>
+
+<p>统一的协议消除了适配成本，让 AI 能够无缝连接各类系统。</p>
+<p><strong>2. 开箱即用</strong></p>
+<p>官方和社区提供了丰富的 MCP Server：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PostgreSQL 数据库</span></span><br><span class="line">npm install @modelcontextprotocol/server-postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件系统访问</span></span><br><span class="line">npm install @modelcontextprotocol/server-filesystem</span><br><span class="line"></span><br><span class="line"><span class="comment"># GitHub 集成</span></span><br><span class="line">npm install @modelcontextprotocol/server-github</span><br></pre></td></tr></table></figure>
+
+<p>开发者可以直接使用现成方案，无需从零开发。</p>
+<p><strong>3. 安全可控</strong></p>
+<ul>
+<li>明确的权限控制机制</li>
+<li>标准化的认证流程</li>
+<li>完整的操作审计日志</li>
+<li>AI 模型本身不持有敏感凭证</li>
+</ul>
+<h2 id="技术架构：三层组件模型"><a href="#技术架构：三层组件模型" class="headerlink" title="技术架构：三层组件模型"></a>技术架构：三层组件模型</h2><p>MCP 采用经典的客户端-服务器架构，核心由三个组件构成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│             MCP Architecture            │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│                                         │</span><br><span class="line">│   ┌──────────┐         ┌──────────┐     │</span><br><span class="line">│   │   MCP    │ ◄─────► │   MCP    │     │</span><br><span class="line">│   │   Host   │         │  Server  │     │</span><br><span class="line">│   └──────────┘         └──────────┘     │</span><br><span class="line">│        ▲                     ▲          │</span><br><span class="line">│        │                     │          │</span><br><span class="line">│        ▼                     ▼          │</span><br><span class="line">│   ┌──────────┐         ┌──────────┐     │</span><br><span class="line">│   │  AI 模型　│         │ 数据/工具 │　 　 │</span><br><span class="line">│   └──────────┘         └──────────┘     │</span><br><span class="line">│                                         │</span><br><span class="line">└─────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="组件-1：MCP-Host（主机端）"><a href="#组件-1：MCP-Host（主机端）" class="headerlink" title="组件 1：MCP Host（主机端）"></a>组件 1：MCP Host（主机端）</h3><p><strong>定义</strong>：运行 AI 模型的应用程序</p>
+<p><strong>典型实现</strong>：</p>
+<ul>
+<li>Claude Desktop 应用</li>
+<li>IDE 插件（VS Code、Cursor 等）</li>
+<li>自定义 AI 应用</li>
+</ul>
+<p><strong>核心职责</strong>：</p>
+<ul>
+<li>管理与多个 MCP Server 的连接</li>
+<li>协调 AI 模型与外部资源的交互</li>
+<li>处理用户请求和响应展示</li>
+</ul>
+<h3 id="组件-2：MCP-Server（服务器端）"><a href="#组件-2：MCP-Server（服务器端）" class="headerlink" title="组件 2：MCP Server（服务器端）"></a>组件 2：MCP Server（服务器端）</h3><p><strong>定义</strong>：连接特定数据源或工具的桥梁</p>
+<p><strong>实现示例</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PostgreSQL MCP Server</span></span><br><span class="line"><span class="keyword">const</span> server = <span class="keyword">new</span> <span class="title class_">Server</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;postgres-mcp&#x27;</span>,</span><br><span class="line">  <span class="attr">version</span>: <span class="string">&#x27;1.0.0&#x27;</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册数据库查询工具</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;query_sales&#x27;</span>,</span><br><span class="line">  <span class="attr">description</span>: <span class="string">&#x27;查询销售数据&#x27;</span>,</span><br><span class="line">  <span class="attr">inputSchema</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span>,</span><br><span class="line">    <span class="attr">properties</span>: &#123;</span><br><span class="line">      <span class="attr">start_date</span>: &#123; <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span> &#125;,</span><br><span class="line">      <span class="attr">end_date</span>: &#123; <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> results = <span class="keyword">await</span> db.<span class="title function_">query</span>(</span><br><span class="line">      <span class="string">&#x27;SELECT * FROM sales WHERE date BETWEEN $1 AND $2&#x27;</span>,</span><br><span class="line">      [params.<span class="property">start_date</span>, params.<span class="property">end_date</span>]</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> results;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>核心职责</strong>：</p>
+<ul>
+<li>封装特定资源的访问逻辑</li>
+<li>提供标准化的 MCP 接口</li>
+<li>处理权限验证和安全控制</li>
+</ul>
+<h3 id="组件-3：MCP-Protocol（协议层）"><a href="#组件-3：MCP-Protocol（协议层）" class="headerlink" title="组件 3：MCP Protocol（协议层）"></a>组件 3：MCP Protocol（协议层）</h3><p><strong>技术基础</strong>：基于 JSON-RPC 2.0 标准</p>
+<p><strong>通信特点</strong>：</p>
+<ul>
+<li>双向通信支持</li>
+<li>流式数据传输</li>
+<li>异步请求处理</li>
+</ul>
+<p><strong>消息格式</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tools/call&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;query_sales&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;arguments&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;start_date&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2024-01-01&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_date&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2024-01-07&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="工作流程：从提问到响应"><a href="#工作流程：从提问到响应" class="headerlink" title="工作流程：从提问到响应"></a>工作流程：从提问到响应</h2><p>让我们通过一个完整案例来理解 MCP 的工作原理。</p>
+<p><strong>场景</strong>：用户询问”上周的销售额是多少？”</p>
+<h3 id="步骤-1：意图理解"><a href="#步骤-1：意图理解" class="headerlink" title="步骤 1：意图理解"></a>步骤 1：意图理解</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用户提问: &quot;上周的销售额是多少？&quot;</span><br><span class="line">       ↓</span><br><span class="line">MCP Host 接收</span><br><span class="line">       ↓</span><br><span class="line">AI 模型分析：需要查询数据库</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-2：工具发现"><a href="#步骤-2：工具发现" class="headerlink" title="步骤 2：工具发现"></a>步骤 2：工具发现</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AI 检测到可用的 MCP Server:</span><br><span class="line">- postgres-mcp (PostgreSQL 数据库)</span><br><span class="line">  └─ 工具: query_sales</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-3：请求构建"><a href="#步骤-3：请求构建" class="headerlink" title="步骤 3：请求构建"></a>步骤 3：请求构建</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tools/call&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;query_sales&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;arguments&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;start_date&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2024-01-01&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;end_date&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2024-01-07&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-4：安全执行"><a href="#步骤-4：安全执行" class="headerlink" title="步骤 4：安全执行"></a>步骤 4：安全执行</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MCP Host</span><br><span class="line">  ↓ 发送请求</span><br><span class="line">MCP Server (postgres-mcp)</span><br><span class="line">  ↓ 权限验证</span><br><span class="line">  ↓ 执行数据库查询</span><br><span class="line">  ↓ 返回结果</span><br><span class="line">&#123; total: 150000, orders: 320 &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-5：智能响应"><a href="#步骤-5：智能响应" class="headerlink" title="步骤 5：智能响应"></a>步骤 5：智能响应</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AI 模型处理数据:</span><br><span class="line">  - 总销售额: 150,000 元</span><br><span class="line">  - 订单数: 320 笔</span><br><span class="line">  - 计算平均客单价: 468.75 元</span><br><span class="line">       ↓</span><br><span class="line">生成回复: &quot;上周销售额为 15 万元，共 320 笔订单，</span><br><span class="line">          平均客单价 468.75 元，相比前一周增长 12%。&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键特点</strong>：</p>
+<ul>
+<li>整个过程对用户透明</li>
+<li>AI 自动选择合适的工具</li>
+<li>数据实时获取而非预加载</li>
+<li>安全性由 MCP Server 保障</li>
+</ul>
+<h2 id="三大核心能力详解"><a href="#三大核心能力详解" class="headerlink" title="三大核心能力详解"></a>三大核心能力详解</h2><p>MCP 提供三种类型的能力，分别对应不同的使用场景。</p>
+<h3 id="能力-1：Resources（资源）"><a href="#能力-1：Resources（资源）" class="headerlink" title="能力 1：Resources（资源）"></a>能力 1：Resources（资源）</h3><p><strong>定义</strong>：服务器暴露的可读取数据</p>
+<p><strong>类比</strong>：文件系统中的文件，或 HTTP GET 端点</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>读取配置文件</li>
+<li>查看文档内容</li>
+<li>获取系统状态</li>
+<li>检索历史记录</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注册应用配置资源</span></span><br><span class="line">server.<span class="title function_">registerResource</span>(&#123;</span><br><span class="line">  <span class="attr">uri</span>: <span class="string">&#x27;config://app/settings&#x27;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;应用配置&#x27;</span>,</span><br><span class="line">  <span class="attr">mimeType</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">theme</span>: <span class="string">&#x27;dark&#x27;</span>,</span><br><span class="line">      <span class="attr">language</span>: <span class="string">&#x27;zh-CN&#x27;</span>,</span><br><span class="line">      <span class="attr">maxConnections</span>: <span class="number">100</span>,</span><br><span class="line">      <span class="attr">features</span>: &#123;</span><br><span class="line">        <span class="attr">caching</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">logging</span>: <span class="string">&#x27;verbose&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>访问示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">用户: 当前应用配置是什么？</span><br><span class="line">AI: [读取 config://app/settings 资源]</span><br><span class="line">    当前配置：主题为深色模式，语言为中文，</span><br><span class="line">    最大连接数 100，已启用缓存和详细日志。</span><br></pre></td></tr></table></figure>
+
+<h3 id="能力-2：Tools（工具）"><a href="#能力-2：Tools（工具）" class="headerlink" title="能力 2：Tools（工具）"></a>能力 2：Tools（工具）</h3><p><strong>定义</strong>：服务器提供的可执行操作</p>
+<p><strong>类比</strong>：函数调用，或 HTTP POST&#x2F;PUT&#x2F;DELETE 端点</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>执行数据库操作</li>
+<li>调用外部 API</li>
+<li>文件系统操作</li>
+<li>触发自动化任务</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注册发送通知工具</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;send_notification&#x27;</span>,</span><br><span class="line">  <span class="attr">description</span>: <span class="string">&#x27;发送系统通知给指定用户&#x27;</span>,</span><br><span class="line">  <span class="attr">inputSchema</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span>,</span><br><span class="line">    <span class="attr">properties</span>: &#123;</span><br><span class="line">      <span class="attr">userId</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;用户 ID&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">message</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;通知内容&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">priority</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">enum</span>: [<span class="string">&#x27;low&#x27;</span>, <span class="string">&#x27;medium&#x27;</span>, <span class="string">&#x27;high&#x27;</span>],</span><br><span class="line">        <span class="attr">default</span>: <span class="string">&#x27;medium&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">required</span>: [<span class="string">&#x27;userId&#x27;</span>, <span class="string">&#x27;message&#x27;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params) =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> notificationService.<span class="title function_">send</span>(&#123;</span><br><span class="line">      <span class="attr">to</span>: params.<span class="property">userId</span>,</span><br><span class="line">      <span class="attr">content</span>: params.<span class="property">message</span>,</span><br><span class="line">      <span class="attr">priority</span>: params.<span class="property">priority</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">timestamp</span>: <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">toISOString</span>(),</span><br><span class="line">      <span class="attr">notificationId</span>: <span class="title function_">generateId</span>()</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>调用示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">用户: 给用户 user123 发送高优先级通知：&quot;服务器维护将在 10 分钟后开始&quot;</span><br><span class="line">AI: [调用 send_notification 工具]</span><br><span class="line">    通知已成功发送给用户 user123，</span><br><span class="line">    通知 ID: notif_abc123，发送时间: 2024-01-13T10:30:00Z</span><br></pre></td></tr></table></figure>
+
+<h3 id="能力-3：Prompts（提示模板）"><a href="#能力-3：Prompts（提示模板）" class="headerlink" title="能力 3：Prompts（提示模板）"></a>能力 3：Prompts（提示模板）</h3><p><strong>定义</strong>：预定义的提示词模板</p>
+<p><strong>类比</strong>：快捷指令或聊天机器人的预设对话</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>标准化工作流程</li>
+<li>复杂任务模板化</li>
+<li>团队协作共享</li>
+<li>最佳实践固化</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注册周报生成模板</span></span><br><span class="line">server.<span class="title function_">registerPrompt</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;weekly_report&#x27;</span>,</span><br><span class="line">  <span class="attr">description</span>: <span class="string">&#x27;生成项目周报&#x27;</span>,</span><br><span class="line">  <span class="attr">arguments</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;week&#x27;</span>,</span><br><span class="line">      <span class="attr">description</span>: <span class="string">&#x27;周数（格式：2024-W01）&#x27;</span>,</span><br><span class="line">      <span class="attr">required</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;project&#x27;</span>,</span><br><span class="line">      <span class="attr">description</span>: <span class="string">&#x27;项目名称&#x27;</span>,</span><br><span class="line">      <span class="attr">required</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (args) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> salesData = <span class="keyword">await</span> <span class="title function_">getSalesData</span>(args.<span class="property">week</span>);</span><br><span class="line">    <span class="keyword">const</span> userGrowth = <span class="keyword">await</span> <span class="title function_">getUserGrowth</span>(args.<span class="property">week</span>);</span><br><span class="line">    <span class="keyword">const</span> metrics = <span class="keyword">await</span> <span class="title function_">getKeyMetrics</span>(args.<span class="property">week</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">messages</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">role</span>: <span class="string">&#x27;user&#x27;</span>,</span><br><span class="line">          <span class="attr">content</span>: <span class="string">`请为项目 &quot;<span class="subst">$&#123;args.project&#125;</span>&quot; 生成第 <span class="subst">$&#123;args.week&#125;</span> 周的周报。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">数据概览：</span></span><br><span class="line"><span class="string">- 销售额：<span class="subst">$&#123;salesData.total&#125;</span> 元</span></span><br><span class="line"><span class="string">- 订单数：<span class="subst">$&#123;salesData.orders&#125;</span> 笔</span></span><br><span class="line"><span class="string">- 新增用户：<span class="subst">$&#123;userGrowth.<span class="keyword">new</span>&#125;</span> 人</span></span><br><span class="line"><span class="string">- 活跃用户：<span class="subst">$&#123;userGrowth.active&#125;</span> 人</span></span><br><span class="line"><span class="string">- 关键指标：<span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(metrics)&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">要求：</span></span><br><span class="line"><span class="string">1. 突出重点数据和变化趋势</span></span><br><span class="line"><span class="string">2. 分析异常数据的可能原因</span></span><br><span class="line"><span class="string">3. 提供下周的优化建议</span></span><br><span class="line"><span class="string">4. 格式清晰，适合向管理层汇报`</span></span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">用户: 生成 2024-W02 周的项目周报，项目名称为&quot;电商平台&quot;</span><br><span class="line">AI: [使用 weekly_report 模板]</span><br><span class="line">    [自动获取数据并生成结构化周报]</span><br><span class="line"></span><br><span class="line">    ## 电商平台 2024-W02 周报</span><br><span class="line"></span><br><span class="line">    ### 一、核心数据</span><br><span class="line">    - 销售额：¥1,250,000（环比 +12%）</span><br><span class="line">    - 订单数：3,200 笔（环比 +8%）</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<h2 id="对比分析：MCP-vs-传统方案"><a href="#对比分析：MCP-vs-传统方案" class="headerlink" title="对比分析：MCP vs 传统方案"></a>对比分析：MCP vs 传统方案</h2><h3 id="技术对比表"><a href="#技术对比表" class="headerlink" title="技术对比表"></a>技术对比表</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>传统 API 调用</th>
+<th>Function Calling</th>
+<th>MCP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>标准化程度</strong></td>
+<td>各自实现，无统一标准</td>
+<td>依赖特定模型 API</td>
+<td>开放标准协议</td>
+</tr>
+<tr>
+<td><strong>代码复用性</strong></td>
+<td>难以跨项目复用</td>
+<td>需要每次定义</td>
+<td>一次开发到处使用</td>
+</tr>
+<tr>
+<td><strong>安全保障</strong></td>
+<td>开发者自行处理</td>
+<td>开发者自行处理</td>
+<td>协议内置安全机制</td>
+</tr>
+<tr>
+<td><strong>维护成本</strong></td>
+<td>高（每个项目独立维护）</td>
+<td>中等</td>
+<td>低（社区共同维护）</td>
+</tr>
+<tr>
+<td><strong>生态系统</strong></td>
+<td>碎片化</td>
+<td>平台锁定</td>
+<td>开放生态</td>
+</tr>
+<tr>
+<td><strong>学习曲线</strong></td>
+<td>陡峭</td>
+<td>中等</td>
+<td>平缓</td>
+</tr>
+</tbody></table>
+<h3 id="具体场景对比"><a href="#具体场景对比" class="headerlink" title="具体场景对比"></a>具体场景对比</h3><p><strong>场景</strong>：让 AI 查询数据库</p>
+<p><strong>传统方式</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 用户提问</span></span><br><span class="line"><span class="comment">// 2. AI 生成 SQL（可能存在安全风险）</span></span><br><span class="line"><span class="keyword">const</span> sql = <span class="string">&quot;SELECT * FROM users WHERE id = &quot;</span> + userId; <span class="comment">// SQL 注入风险</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 开发者手动执行</span></span><br><span class="line"><span class="keyword">const</span> results = <span class="keyword">await</span> db.<span class="title function_">query</span>(sql);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 复制结果给 AI</span></span><br><span class="line"><span class="comment">// 5. AI 生成回答</span></span><br><span class="line"></span><br><span class="line">问题：</span><br><span class="line">- 需要人工中转</span><br><span class="line">- <span class="variable constant_">SQL</span> 注入风险</span><br><span class="line">- 无法实时交互</span><br><span class="line">- 效率低下</span><br></pre></td></tr></table></figure>
+
+<p><strong>MCP 方式</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MCP Server 预先定义安全的查询接口</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;query_user&#x27;</span>,</span><br><span class="line">  <span class="attr">inputSchema</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span>,</span><br><span class="line">    <span class="attr">properties</span>: &#123;</span><br><span class="line">      <span class="attr">userId</span>: &#123; <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>, <span class="attr">pattern</span>: <span class="string">&#x27;^[a-zA-Z0-9]+$&#x27;</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 使用参数化查询，防止 SQL 注入</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> db.<span class="title function_">query</span>(</span><br><span class="line">      <span class="string">&#x27;SELECT * FROM users WHERE id = $1&#x27;</span>,</span><br><span class="line">      [params.<span class="property">userId</span>]</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 用户提问</span></span><br><span class="line"><span class="comment">// 2. AI 自动调用 query_user 工具</span></span><br><span class="line"><span class="comment">// 3. MCP Server 安全执行查询</span></span><br><span class="line"><span class="comment">// 4. 结果自动返回给 AI</span></span><br><span class="line"><span class="comment">// 5. AI 生成回答</span></span><br><span class="line"></span><br><span class="line">优势：</span><br><span class="line">- 全自动化流程</span><br><span class="line">- 安全性有保障</span><br><span class="line">- 实时交互</span><br><span class="line">- 高效便捷</span><br></pre></td></tr></table></figure>
+
+<h2 id="实际应用场景"><a href="#实际应用场景" class="headerlink" title="实际应用场景"></a>实际应用场景</h2><h3 id="场景-1：智能代码审查"><a href="#场景-1：智能代码审查" class="headerlink" title="场景 1：智能代码审查"></a>场景 1：智能代码审查</h3><p><strong>需求</strong>：自动化 Pull Request 代码审查流程</p>
+<p><strong>MCP Server</strong>：GitHub Server</p>
+<p><strong>能力</strong>：</p>
+<ul>
+<li>读取 Pull Request 内容</li>
+<li>分析代码变更差异</li>
+<li>检查代码规范合规性</li>
+<li>自动添加审查意见</li>
+</ul>
+<p><strong>实现效果</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置 GitHub MCP Server</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;mcpServers&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;github&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;npx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [<span class="string">&quot;-y&quot;</span>, <span class="string">&quot;@modelcontextprotocol/server-github&quot;</span>],</span><br><span class="line">      <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;GITHUB_TOKEN&quot;</span>: <span class="string">&quot;your_token&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">开发者: 审查 PR #123 的代码</span><br><span class="line">AI: [调用 GitHub Server 读取 PR]</span><br><span class="line">    [分析代码变更]</span><br><span class="line">    [调用 GitHub Server 添加评论]</span><br><span class="line"></span><br><span class="line">    已完成审查，发现以下问题：</span><br><span class="line">    1. src/auth.ts:45 - 未验证用户输入，存在 XSS 风险</span><br><span class="line">    2. src/api.ts:112 - 缺少错误处理</span><br><span class="line">    3. README.md - 文档需要更新</span><br><span class="line"></span><br><span class="line">    已将详细建议添加到 PR 评论中。</span><br></pre></td></tr></table></figure>
+
+<h3 id="场景-2：数据分析助手"><a href="#场景-2：数据分析助手" class="headerlink" title="场景 2：数据分析助手"></a>场景 2：数据分析助手</h3><p><strong>需求</strong>：快速查询和分析业务数据</p>
+<p><strong>MCP Server</strong>：PostgreSQL Server</p>
+<p><strong>能力</strong>：</p>
+<ul>
+<li>查询销售数据</li>
+<li>分析用户行为</li>
+<li>生成数据报表</li>
+<li>可视化趋势</li>
+</ul>
+<p><strong>实现效果</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置数据库 MCP Server</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;mcpServers&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;postgres&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;npx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [<span class="string">&quot;-y&quot;</span>, <span class="string">&quot;@modelcontextprotocol/server-postgres&quot;</span>],</span><br><span class="line">      <span class="string">&quot;env&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;POSTGRES_CONNECTION&quot;</span>: <span class="string">&quot;postgresql://localhost/mydb&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">分析师: 分析上个月的用户留存率</span><br><span class="line">AI: [调用数据库查询工具]</span><br><span class="line">    [计算留存率指标]</span><br><span class="line"></span><br><span class="line">    上月用户留存分析：</span><br><span class="line">    - 总注册用户：5,200 人</span><br><span class="line">    - 7日留存率：45%（行业平均 35%）</span><br><span class="line">    - 30日留存率：28%（略低于行业 30%）</span><br><span class="line"></span><br><span class="line">    建议：</span><br><span class="line">    1. 优化新用户引导流程</span><br><span class="line">    2. 增加第 7-14 天的互动触达</span><br><span class="line">    3. 分析流失用户特征</span><br></pre></td></tr></table></figure>
+
+<h3 id="场景-3：知识库管理"><a href="#场景-3：知识库管理" class="headerlink" title="场景 3：知识库管理"></a>场景 3：知识库管理</h3><p><strong>需求</strong>：智能管理团队文档和笔记</p>
+<p><strong>MCP Server</strong>：Filesystem Server</p>
+<p><strong>能力</strong>：</p>
+<ul>
+<li>搜索文档内容</li>
+<li>创建新文档</li>
+<li>更新现有文档</li>
+<li>自动分类标签</li>
+</ul>
+<p><strong>实现效果</strong>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 配置文件系统 MCP Server</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;mcpServers&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;filesystem&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;command&quot;</span>: <span class="string">&quot;npx&quot;</span>,</span><br><span class="line">      <span class="string">&quot;args&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;-y&quot;</span>,</span><br><span class="line">        <span class="string">&quot;@modelcontextprotocol/server-filesystem&quot;</span>,</span><br><span class="line">        <span class="string">&quot;/path/to/docs&quot;</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">用户: 在文档中搜索关于&quot;部署流程&quot;的内容</span><br><span class="line">AI: [调用文件系统搜索]</span><br><span class="line">    [分析相关文档]</span><br><span class="line"></span><br><span class="line">    找到 3 篇相关文档：</span><br><span class="line"></span><br><span class="line">    1. docs/deploy/production.md</span><br><span class="line">       - 生产环境部署步骤</span><br><span class="line">       - 包含 Docker 配置和 CI/CD 流程</span><br><span class="line"></span><br><span class="line">    2. docs/deploy/staging.md</span><br><span class="line">       - 预发布环境配置</span><br><span class="line">       - 测试验证流程</span><br><span class="line"></span><br><span class="line">    3. docs/troubleshooting/deploy-issues.md</span><br><span class="line">       - 常见部署问题和解决方案</span><br><span class="line"></span><br><span class="line">    是否需要查看具体内容或创建新的部署文档？</span><br></pre></td></tr></table></figure>
+
+<h2 id="快速上手实践"><a href="#快速上手实践" class="headerlink" title="快速上手实践"></a>快速上手实践</h2><h3 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 确认 Node.js 环境（推荐 v18+）</span></span><br><span class="line">node --version</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 安装 MCP SDK</span></span><br><span class="line">npm install @modelcontextprotocol/sdk</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 选择 MCP Host</span></span><br><span class="line"><span class="comment"># - Claude Desktop（推荐新手）</span></span><br><span class="line"><span class="comment"># - Cursor IDE</span></span><br><span class="line"><span class="comment"># - 自建应用</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建第一个-MCP-Server"><a href="#创建第一个-MCP-Server" class="headerlink" title="创建第一个 MCP Server"></a>创建第一个 MCP Server</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hello-mcp-server.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Server</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@modelcontextprotocol/sdk/server/index.js&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">StdioServerTransport</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@modelcontextprotocol/sdk/server/stdio.js&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建服务器实例</span></span><br><span class="line"><span class="keyword">const</span> server = <span class="keyword">new</span> <span class="title class_">Server</span>(</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;hello-mcp&#x27;</span>,</span><br><span class="line">    <span class="attr">version</span>: <span class="string">&#x27;1.0.0&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">capabilities</span>: &#123;</span><br><span class="line">      <span class="attr">resources</span>: &#123;&#125;,</span><br><span class="line">      <span class="attr">tools</span>: &#123;&#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册工具列表</span></span><br><span class="line">server.<span class="title function_">setRequestHandler</span>(<span class="string">&#x27;tools/list&#x27;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">tools</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;greet&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;向用户问候&#x27;</span>,</span><br><span class="line">        <span class="attr">inputSchema</span>: &#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span>,</span><br><span class="line">          <span class="attr">properties</span>: &#123;</span><br><span class="line">            <span class="attr">name</span>: &#123;</span><br><span class="line">              <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">              <span class="attr">description</span>: <span class="string">&#x27;用户的名字&#x27;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">language</span>: &#123;</span><br><span class="line">              <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">              <span class="attr">enum</span>: [<span class="string">&#x27;zh&#x27;</span>, <span class="string">&#x27;en&#x27;</span>],</span><br><span class="line">              <span class="attr">default</span>: <span class="string">&#x27;zh&#x27;</span>,</span><br><span class="line">              <span class="attr">description</span>: <span class="string">&#x27;问候语言&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">required</span>: [<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理工具调用</span></span><br><span class="line">server.<span class="title function_">setRequestHandler</span>(<span class="string">&#x27;tools/call&#x27;</span>, <span class="title function_">async</span> (request) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (request.<span class="property">params</span>.<span class="property">name</span> === <span class="string">&#x27;greet&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; name, language = <span class="string">&#x27;zh&#x27;</span> &#125; = request.<span class="property">params</span>.<span class="property">arguments</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> greeting = language === <span class="string">&#x27;zh&#x27;</span></span><br><span class="line">      ? <span class="string">`你好，<span class="subst">$&#123;name&#125;</span>！欢迎来到 MCP 的世界！`</span></span><br><span class="line">      : <span class="string">`Hello, <span class="subst">$&#123;name&#125;</span>! Welcome to the world of MCP!`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">content</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">          <span class="attr">text</span>: greeting</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Unknown tool: <span class="subst">$&#123;request.params.name&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 启动服务器</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> transport = <span class="keyword">new</span> <span class="title class_">StdioServerTransport</span>();</span><br><span class="line">  <span class="keyword">await</span> server.<span class="title function_">connect</span>(transport);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;Hello MCP Server running on stdio&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">main</span>().<span class="title function_">catch</span>(<span class="variable language_">console</span>.<span class="property">error</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-Claude-Desktop"><a href="#配置-Claude-Desktop" class="headerlink" title="配置 Claude Desktop"></a>配置 Claude Desktop</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// macOS: ~/Library/Application Support/Claude/claude_desktop_config.json</span></span><br><span class="line"><span class="comment">// Windows: %APPDATA%/Claude/claude_desktop_config.json</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;mcpServers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;hello-mcp&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;/absolute/path/to/hello-mcp-server.js&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h3><p>重启 Claude Desktop 后，在聊天界面尝试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">你: 用中文向张三问好</span><br><span class="line">Claude: [自动调用 greet 工具]</span><br><span class="line">       你好，张三！欢迎来到 MCP 的世界！</span><br><span class="line"></span><br><span class="line">你: 用英文向 Alice 问好</span><br><span class="line">Claude: [自动调用 greet 工具，language=&#x27;en&#x27;]</span><br><span class="line">       Hello, Alice! Welcome to the world of MCP!</span><br></pre></td></tr></table></figure>
+
+<h2 id="最佳实践指南"><a href="#最佳实践指南" class="headerlink" title="最佳实践指南"></a>最佳实践指南</h2><h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><h4 id="1-单一职责原则"><a href="#1-单一职责原则" class="headerlink" title="1. 单一职责原则"></a>1. 单一职责原则</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不推荐：一个 Server 包含过多功能</span></span><br><span class="line"><span class="keyword">const</span> megaServer = <span class="keyword">new</span> <span class="title class_">Server</span>(<span class="string">&#x27;mega-server&#x27;</span>);</span><br><span class="line">megaServer.<span class="title function_">registerDatabaseTools</span>();</span><br><span class="line">megaServer.<span class="title function_">registerFileSystemTools</span>();</span><br><span class="line">megaServer.<span class="title function_">registerAPITools</span>();</span><br><span class="line">megaServer.<span class="title function_">registerNotificationTools</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 推荐：每个 Server 专注一个领域</span></span><br><span class="line"><span class="keyword">const</span> dbServer = <span class="keyword">new</span> <span class="title class_">Server</span>(<span class="string">&#x27;database-server&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> fsServer = <span class="keyword">new</span> <span class="title class_">Server</span>(<span class="string">&#x27;filesystem-server&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> apiServer = <span class="keyword">new</span> <span class="title class_">Server</span>(<span class="string">&#x27;api-gateway-server&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> notifyServer = <span class="keyword">new</span> <span class="title class_">Server</span>(<span class="string">&#x27;notification-server&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-清晰的命名约定"><a href="#2-清晰的命名约定" class="headerlink" title="2. 清晰的命名约定"></a>2. 清晰的命名约定</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不推荐：模糊的命名</span></span><br><span class="line"><span class="attr">tool</span>: <span class="string">&#x27;do_thing&#x27;</span></span><br><span class="line"><span class="attr">tool</span>: <span class="string">&#x27;process&#x27;</span></span><br><span class="line"><span class="attr">tool</span>: <span class="string">&#x27;handle&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 推荐：清晰的动词+名词结构</span></span><br><span class="line"><span class="attr">tool</span>: <span class="string">&#x27;query_user_by_email&#x27;</span></span><br><span class="line"><span class="attr">tool</span>: <span class="string">&#x27;create_support_ticket&#x27;</span></span><br><span class="line"><span class="attr">tool</span>: <span class="string">&#x27;send_email_notification&#x27;</span></span><br><span class="line"><span class="attr">tool</span>: <span class="string">&#x27;delete_expired_sessions&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-完整的文档说明"><a href="#3-完整的文档说明" class="headerlink" title="3. 完整的文档说明"></a>3. 完整的文档说明</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不推荐：缺少文档</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;query&#x27;</span>,</span><br><span class="line">  <span class="attr">description</span>: <span class="string">&#x27;查询&#x27;</span>,</span><br><span class="line">  <span class="attr">inputSchema</span>: &#123; <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 推荐：详细的文档和示例</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;query_sales_data&#x27;</span>,</span><br><span class="line">  <span class="attr">description</span>: <span class="string">`查询指定日期范围内的销售数据。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  返回数据包括：</span></span><br><span class="line"><span class="string">  - 总销售额（单位：元）</span></span><br><span class="line"><span class="string">  - 订单数量</span></span><br><span class="line"><span class="string">  - 平均客单价</span></span><br><span class="line"><span class="string">  - 按地区和产品分类的明细</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  支持的筛选条件：</span></span><br><span class="line"><span class="string">  - 日期范围（必填）</span></span><br><span class="line"><span class="string">  - 地区代码（可选）</span></span><br><span class="line"><span class="string">  - 产品类别（可选）`</span>,</span><br><span class="line">  <span class="attr">inputSchema</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span>,</span><br><span class="line">    <span class="attr">properties</span>: &#123;</span><br><span class="line">      <span class="attr">start_date</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">pattern</span>: <span class="string">&#x27;^\\d&#123;4&#125;-\\d&#123;2&#125;-\\d&#123;2&#125;$&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;开始日期，格式：YYYY-MM-DD&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">end_date</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">pattern</span>: <span class="string">&#x27;^\\d&#123;4&#125;-\\d&#123;2&#125;-\\d&#123;2&#125;$&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;结束日期，格式：YYYY-MM-DD&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">region</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;地区代码，如：CN-BJ、CN-SH&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">required</span>: [<span class="string">&#x27;start_date&#x27;</span>, <span class="string">&#x27;end_date&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="安全实践"><a href="#安全实践" class="headerlink" title="安全实践"></a>安全实践</h3><h4 id="1-输入验证"><a href="#1-输入验证" class="headerlink" title="1. 输入验证"></a>1. 输入验证</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 严格的输入验证</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;update_user_email&#x27;</span>,</span><br><span class="line">  <span class="attr">inputSchema</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span>,</span><br><span class="line">    <span class="attr">properties</span>: &#123;</span><br><span class="line">      <span class="attr">userId</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">pattern</span>: <span class="string">&#x27;^[a-zA-Z0-9_-]&#123;8,32&#125;$&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;用户 ID，8-32位字母数字&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">email</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>,</span><br><span class="line">        <span class="attr">pattern</span>: <span class="string">&#x27;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]&#123;2,&#125;$&#x27;</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;有效的电子邮件地址&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">required</span>: [<span class="string">&#x27;userId&#x27;</span>, <span class="string">&#x27;email&#x27;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 额外的业务层验证</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">await</span> <span class="title function_">userExists</span>(params.<span class="property">userId</span>)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;用户不存在&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">await</span> <span class="title function_">emailInUse</span>(params.<span class="property">email</span>)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;邮箱已被使用&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行更新</span></span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">updateEmail</span>(params.<span class="property">userId</span>, params.<span class="property">email</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-权限控制"><a href="#2-权限控制" class="headerlink" title="2. 权限控制"></a>2. 权限控制</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现细粒度的权限管理</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;delete_user_data&#x27;</span>,</span><br><span class="line">  <span class="attr">permissions</span>: [<span class="string">&#x27;user:delete&#x27;</span>],</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params, context) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 检查操作者权限</span></span><br><span class="line">    <span class="keyword">if</span> (!context.<span class="property">user</span>?.<span class="title function_">hasPermission</span>(<span class="string">&#x27;user:delete&#x27;</span>)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;权限不足：需要 user:delete 权限&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查是否为敏感操作</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">await</span> <span class="title function_">isAdminUser</span>(params.<span class="property">userId</span>)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;无法删除管理员账户&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录审计日志</span></span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">auditLog</span>(&#123;</span><br><span class="line">      <span class="attr">action</span>: <span class="string">&#x27;delete_user_data&#x27;</span>,</span><br><span class="line">      <span class="attr">operator</span>: context.<span class="property">user</span>.<span class="property">id</span>,</span><br><span class="line">      <span class="attr">target</span>: params.<span class="property">userId</span>,</span><br><span class="line">      <span class="attr">timestamp</span>: <span class="keyword">new</span> <span class="title class_">Date</span>()</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行删除</span></span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">deleteUserData</span>(params.<span class="property">userId</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-错误处理"><a href="#3-错误处理" class="headerlink" title="3. 错误处理"></a>3. 错误处理</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 优雅的错误处理</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;process_payment&#x27;</span>,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 验证支付参数</span></span><br><span class="line">      <span class="title function_">validatePaymentParams</span>(params);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 执行支付</span></span><br><span class="line">      <span class="keyword">const</span> result = <span class="keyword">await</span> paymentGateway.<span class="title function_">charge</span>(params);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">content</span>: [&#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">          <span class="attr">text</span>: <span class="string">`支付成功！订单号：<span class="subst">$&#123;result.orderId&#125;</span>`</span></span><br><span class="line">        &#125;]</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      <span class="comment">// 不暴露内部错误细节</span></span><br><span class="line">      <span class="keyword">if</span> (error <span class="keyword">instanceof</span> <span class="title class_">ValidationError</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">          <span class="attr">isError</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">content</span>: [&#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">            <span class="attr">text</span>: <span class="string">`参数验证失败：<span class="subst">$&#123;error.message&#125;</span>`</span></span><br><span class="line">          &#125;]</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (error <span class="keyword">instanceof</span> <span class="title class_">PaymentError</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">          <span class="attr">isError</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">content</span>: [&#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">            <span class="attr">text</span>: <span class="string">`支付失败：<span class="subst">$&#123;error.userMessage&#125;</span>`</span></span><br><span class="line">          &#125;]</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 记录未知错误</span></span><br><span class="line">      logger.<span class="title function_">error</span>(<span class="string">&#x27;Unexpected error in payment processing&#x27;</span>, error);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">isError</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">content</span>: [&#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">          <span class="attr">text</span>: <span class="string">&#x27;支付处理出现异常，请稍后重试或联系客服&#x27;</span></span><br><span class="line">        &#125;]</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><h4 id="1-缓存策略"><a href="#1-缓存策略" class="headerlink" title="1. 缓存策略"></a>1. 缓存策略</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现缓存以提升性能</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CachedMCPServer</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> cache = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">  <span class="keyword">private</span> cacheTTL = <span class="number">5</span> * <span class="number">60</span> * <span class="number">1000</span>; <span class="comment">// 5分钟</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">registerCachedResource</span>(<span class="params">config</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">server</span>.<span class="title function_">registerResource</span>(&#123;</span><br><span class="line">      ...config,</span><br><span class="line">      <span class="attr">handler</span>: <span class="title function_">async</span> (params) =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> cacheKey = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(params);</span><br><span class="line">        <span class="keyword">const</span> cached = <span class="variable language_">this</span>.<span class="property">cache</span>.<span class="title function_">get</span>(cacheKey);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查缓存是否有效</span></span><br><span class="line">        <span class="keyword">if</span> (cached &amp;&amp; <span class="title class_">Date</span>.<span class="title function_">now</span>() - cached.<span class="property">timestamp</span> &lt; <span class="variable language_">this</span>.<span class="property">cacheTTL</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> cached.<span class="property">data</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取新数据</span></span><br><span class="line">        <span class="keyword">const</span> data = <span class="keyword">await</span> config.<span class="title function_">handler</span>(params);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 更新缓存</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">cache</span>.<span class="title function_">set</span>(cacheKey, &#123;</span><br><span class="line">          data,</span><br><span class="line">          <span class="attr">timestamp</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>()</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-批量操作"><a href="#2-批量操作" class="headerlink" title="2. 批量操作"></a>2. 批量操作</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 支持批量操作以减少往返次数</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;get_users_batch&#x27;</span>,</span><br><span class="line">  <span class="attr">description</span>: <span class="string">&#x27;批量获取用户信息&#x27;</span>,</span><br><span class="line">  <span class="attr">inputSchema</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;object&#x27;</span>,</span><br><span class="line">    <span class="attr">properties</span>: &#123;</span><br><span class="line">      <span class="attr">userIds</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;array&#x27;</span>,</span><br><span class="line">        <span class="attr">items</span>: &#123; <span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span> &#125;,</span><br><span class="line">        <span class="attr">maxItems</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;用户 ID 列表（最多100个）&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 使用 IN 查询代替多次单独查询</span></span><br><span class="line">    <span class="keyword">const</span> users = <span class="keyword">await</span> db.<span class="title function_">query</span>(</span><br><span class="line">      <span class="string">&#x27;SELECT * FROM users WHERE id = ANY($1)&#x27;</span>,</span><br><span class="line">      [params.<span class="property">userIds</span>]</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> users;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-流式响应"><a href="#3-流式响应" class="headerlink" title="3. 流式响应"></a>3. 流式响应</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对于大数据量，使用流式响应</span></span><br><span class="line">server.<span class="title function_">registerTool</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;export_large_dataset&#x27;</span>,</span><br><span class="line">  <span class="attr">handler</span>: <span class="title function_">async</span> (params, context) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> totalRecords = <span class="keyword">await</span> <span class="title function_">getRecordCount</span>(params);</span><br><span class="line">    <span class="keyword">const</span> batchSize = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> offset = <span class="number">0</span>; offset &lt; totalRecords; offset += batchSize) &#123;</span><br><span class="line">      <span class="comment">// 分批获取数据</span></span><br><span class="line">      <span class="keyword">const</span> batch = <span class="keyword">await</span> <span class="title function_">fetchRecords</span>(params, offset, batchSize);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 发送进度更新</span></span><br><span class="line">      context.<span class="title function_">sendProgress</span>(&#123;</span><br><span class="line">        <span class="attr">current</span>: offset + batch.<span class="property">length</span>,</span><br><span class="line">        <span class="attr">total</span>: totalRecords,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">`已处理 <span class="subst">$&#123;offset + batch.length&#125;</span>/<span class="subst">$&#123;totalRecords&#125;</span> 条记录`</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 流式返回数据</span></span><br><span class="line">      context.<span class="title function_">streamData</span>(batch);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">success</span>: <span class="literal">true</span>, totalRecords &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见问题解答"><a href="#常见问题解答" class="headerlink" title="常见问题解答"></a>常见问题解答</h2><h3 id="Q1：MCP-只能在-Claude-中使用吗？"><a href="#Q1：MCP-只能在-Claude-中使用吗？" class="headerlink" title="Q1：MCP 只能在 Claude 中使用吗？"></a>Q1：MCP 只能在 Claude 中使用吗？</h3><p><strong>答</strong>：不是。MCP 是一个开放标准协议，任何 AI 应用都可以实现支持：</p>
+<ul>
+<li>Claude Desktop（官方支持）</li>
+<li>Cursor IDE（已支持）</li>
+<li>自建 AI 应用（通过 SDK 集成）</li>
+<li>未来可能有更多平台加入</li>
+</ul>
+<p>关键在于应用是否实现了 MCP Host 的功能。</p>
+<h3 id="Q2：MCP-Server-必须用-TypeScript-开发吗？"><a href="#Q2：MCP-Server-必须用-TypeScript-开发吗？" class="headerlink" title="Q2：MCP Server 必须用 TypeScript 开发吗？"></a>Q2：MCP Server 必须用 TypeScript 开发吗？</h3><p><strong>答</strong>：不是。MCP 是语言无关的协议，可以用任何语言实现：</p>
+<p><strong>官方 SDK</strong>：</p>
+<ul>
+<li>TypeScript&#x2F;JavaScript</li>
+<li>Python</li>
+</ul>
+<p><strong>社区实现</strong>：</p>
+<ul>
+<li>Go</li>
+<li>Rust</li>
+<li>Java</li>
+<li>C#</li>
+</ul>
+<p>只要实现了 MCP 协议规范，用什么语言都可以。</p>
+<h3 id="Q3：MCP-和-Function-Calling-有什么区别？"><a href="#Q3：MCP-和-Function-Calling-有什么区别？" class="headerlink" title="Q3：MCP 和 Function Calling 有什么区别？"></a>Q3：MCP 和 Function Calling 有什么区别？</h3><p><strong>答</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Function Calling</th>
+<th>MCP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>定义位置</strong></td>
+<td>在 API 请求中定义</td>
+<td>独立的 Server 进程</td>
+</tr>
+<tr>
+<td><strong>标准化</strong></td>
+<td>依赖特定模型 API</td>
+<td>开放的协议标准</td>
+</tr>
+<tr>
+<td><strong>复用性</strong></td>
+<td>需要每次重新定义</td>
+<td>一次开发，到处使用</td>
+</tr>
+<tr>
+<td><strong>生态</strong></td>
+<td>碎片化</td>
+<td>统一的开放生态</td>
+</tr>
+<tr>
+<td><strong>维护</strong></td>
+<td>与应用代码耦合</td>
+<td>独立维护和版本管理</td>
+</tr>
+</tbody></table>
+<p>简单说：<strong>Function Calling 是调用方法，MCP 是连接标准。</strong></p>
+<h3 id="Q4：MCP-会显著增加延迟吗？"><a href="#Q4：MCP-会显著增加延迟吗？" class="headerlink" title="Q4：MCP 会显著增加延迟吗？"></a>Q4：MCP 会显著增加延迟吗？</h3><p><strong>答</strong>：延迟增加通常可以忽略不计：</p>
+<ul>
+<li><strong>本地 MCP Server</strong>：几乎无额外延迟（进程间通信）</li>
+<li><strong>远程 MCP Server</strong>：取决于网络和服务器响应时间</li>
+<li><strong>优化手段</strong>：<ul>
+<li>使用缓存减少重复请求</li>
+<li>批量操作合并多次调用</li>
+<li>异步处理和流式响应</li>
+</ul>
+</li>
+</ul>
+<p>实测数据：本地 MCP Server 的额外延迟通常在 10ms 以内。</p>
+<h3 id="Q5：如何调试-MCP-Server？"><a href="#Q5：如何调试-MCP-Server？" class="headerlink" title="Q5：如何调试 MCP Server？"></a>Q5：如何调试 MCP Server？</h3><p><strong>答</strong>：提供多种调试方法：</p>
+<p><strong>1. 启用详细日志</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.<span class="title function_">setLogLevel</span>(<span class="string">&#x27;debug&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 使用 MCP Inspector</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @modelcontextprotocol/inspector</span><br><span class="line">mcp-inspector /path/to/server.js</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 单元测试</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; testTool &#125; <span class="keyword">from</span> <span class="string">&#x27;@modelcontextprotocol/sdk/test&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;MCP Server&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;should handle greet tool&#x27;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">testTool</span>(server, <span class="string">&#x27;greet&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;Alice&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="title function_">expect</span>(result.<span class="property">content</span>[<span class="number">0</span>].<span class="property">text</span>).<span class="title function_">toContain</span>(<span class="string">&#x27;Alice&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. 查看 Claude Desktop 日志</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># macOS</span></span><br><span class="line"><span class="built_in">tail</span> -f ~/Library/Logs/Claude/mcp*.<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line"><span class="built_in">type</span> %APPDATA%\Claude\logs\mcp*.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="进阶话题"><a href="#进阶话题" class="headerlink" title="进阶话题"></a>进阶话题</h2><p>掌握了 MCP 的基础知识后，可以进一步探索以下高级主题：</p>
+<h3 id="1-MCP-Server-开发进阶"><a href="#1-MCP-Server-开发进阶" class="headerlink" title="1. MCP Server 开发进阶"></a>1. MCP Server 开发进阶</h3><ul>
+<li>构建生产级 MCP Server</li>
+<li>实现复杂的权限系统</li>
+<li>集成企业级数据库和 API</li>
+<li>处理大规模并发请求</li>
+</ul>
+<h3 id="2-安全与合规"><a href="#2-安全与合规" class="headerlink" title="2. 安全与合规"></a>2. 安全与合规</h3><ul>
+<li>端到端加密传输</li>
+<li>OAuth 2.0 集成</li>
+<li>审计日志和合规报告</li>
+<li>敏感数据脱敏</li>
+</ul>
+<h3 id="3-性能优化"><a href="#3-性能优化" class="headerlink" title="3. 性能优化"></a>3. 性能优化</h3><ul>
+<li>连接池管理</li>
+<li>分布式缓存策略</li>
+<li>负载均衡和高可用</li>
+<li>监控和性能分析</li>
+</ul>
+<h3 id="4-生态系统"><a href="#4-生态系统" class="headerlink" title="4. 生态系统"></a>4. 生态系统</h3><ul>
+<li>探索社区 MCP Servers</li>
+<li>贡献开源项目</li>
+<li>构建 MCP Marketplace</li>
+<li>企业级 MCP 部署方案</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MCP（Model Context Protocol）作为连接 AI 与外部世界的标准化协议，正在重塑 AI 应用的开发模式。它通过统一的协议规范，解决了传统方案中的碎片化、安全性和维护性问题。</p>
+<p><strong>核心要点回顾</strong>：</p>
+<ol>
+<li><strong>MCP 的本质</strong>：AI 连接外部系统的 USB-C 标准</li>
+<li><strong>三层架构</strong>：Host（主机）、Server（服务器）、Protocol（协议）</li>
+<li><strong>三大能力</strong>：Resources（读取）、Tools（执行）、Prompts（模板）</li>
+<li><strong>核心优势</strong>：标准化、安全性、可复用性</li>
+</ol>
+<p><strong>学习路径建议</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">初级（已完成）：</span><br><span class="line">✓ 理解 MCP 核心概念</span><br><span class="line">✓ 掌握基本架构</span><br><span class="line">→ 接下来：动手实践</span><br><span class="line"></span><br><span class="line">中级：</span><br><span class="line">□ 开发自己的 MCP Server</span><br><span class="line">□ 集成到实际项目</span><br><span class="line">□ 掌握安全最佳实践</span><br><span class="line"></span><br><span class="line">高级：</span><br><span class="line">□ 构建企业级 MCP 系统</span><br><span class="line">□ 性能优化和监控</span><br><span class="line">□ 贡献社区生态</span><br></pre></td></tr></table></figure>
+
+<p><strong>实践建议</strong>：</p>
+<ol>
+<li>安装 Claude Desktop 体验 MCP</li>
+<li>尝试官方提供的 MCP Servers</li>
+<li>开发一个简单的 MCP Server</li>
+<li>在实际项目中应用 MCP</li>
+</ol>
+<p>MCP 生态还在快速发展中，现在正是加入的好时机。随着越来越多的工具和平台支持 MCP 协议，AI 应用的能力边界将被不断拓展。</p>
+<h2 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h2><h3 id="官方资源"><a href="#官方资源" class="headerlink" title="官方资源"></a>官方资源</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://spec.modelcontextprotocol.io/">MCP 规范文档</a> - 完整的协议规范</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/typescript-sdk">MCP TypeScript SDK</a> - 官方 TypeScript 实现</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/python-sdk">MCP Python SDK</a> - 官方 Python 实现</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/servers">官方示例服务器</a> - 各类 MCP Server 实现</li>
+</ul>
+<h3 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/quickstart">MCP 快速入门指南</a> - 官方入门教程</li>
+<li><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs">Anthropic 开发者文档</a> - Claude 集成指南</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/discussions">MCP 社区论坛</a> - 讨论和答疑</li>
+</ul>
+<h3 id="工具推荐"><a href="#工具推荐" class="headerlink" title="工具推荐"></a>工具推荐</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/inspector">MCP Inspector</a> - 官方调试工具</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/typescript-sdk/tree/main/examples">MCP Server Template</a> - 项目模板</li>
+<li><a target="_blank" rel="noopener" href="https://claude.ai/download">Claude Desktop</a> - 官方 MCP Host 应用</li>
+</ul>
+<h3 id="社区生态"><a href="#社区生态" class="headerlink" title="社区生态"></a>社区生态</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/punkpeye/awesome-mcp">Awesome MCP</a> - 精选资源列表</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/modelcontextprotocol/servers">MCP Servers Registry</a> - 社区服务器注册表</li>
+<li>Discord 社区 - 实时交流和支持</li>
+</ul>
+<hr>
+<p><em>本文基于 MCP 协议最新规范编写。如有疑问或建议，欢迎通过 GitHub Issues 反馈。</em></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MCP/" rel="tag"># MCP</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/3724791858.html" rel="prev" title="字节码转化为机器码的发展历程">
+                  <i class="fa fa-angle-left"></i> 字节码转化为机器码的发展历程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/1331644683.html" rel="next" title="JavaScript是如何工作的">
+                  JavaScript是如何工作的 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
