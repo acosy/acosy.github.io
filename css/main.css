@@ -1364,7 +1364,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #872eb3;
+  background: #733eff;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -3162,6 +3162,18 @@ h6 code {
   color: #f00;
   font-family: Courier, 'Courier New', monospace;
   background: #f0f0f0;
+}
+.inline-quote code {
+  font-size: 0.85em;
+  color: #f00;
+  font-family: Courier, 'Courier New', monospace;
+  background: #f0f0f0;
+}
+.inline-comment code {
+  font-size: 0.85em;
+  color: #f00;
+  font-family: Courier, 'Courier New', monospace;
+  background: #f8fef5;
 }
 figure.highlight {
   border: 2px solid #f0f0f0;
