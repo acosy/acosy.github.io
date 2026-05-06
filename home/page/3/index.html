@@ -171,7 +171,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -199,6 +199,191 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1684534151.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1684534151.html" class="post-title-link" itemprop="url">结构体（Struct）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-29 09:42:34" itemprop="dateCreated datePublished" datetime="2022-07-29T09:42:34-04:00">2022-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:58:11" itemprop="dateModified" datetime="2024-05-12T21:58:11-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">语言</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>本文大部分内容翻译自：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/stable/book/">The Rust Programming Language</a></strong></p>
+<h1 id="1-Defining-and-Instantiating-Structs"><a href="#1-Defining-and-Instantiating-Structs" class="headerlink" title="1. Defining and Instantiating Structs"></a>1. Defining and Instantiating Structs</h1><ul>
+<li>struct中可以包含不同类型元素（跟tuple一样）</li>
+<li>每个元素有自己的名字（与tuple不同）- 所以struct在访问元素时比tuple灵活</li>
+</ul>
+<h2 id="1-1-定义结构体"><a href="#1-1-定义结构体" class="headerlink" title="1.1. 定义结构体"></a>1.1. 定义结构体</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">    username: <span class="type">String</span>,</span><br><span class="line">    email: <span class="type">String</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>里面的元素叫做“fields”。</p>
+<h2 id="1-2-使用结构体"><a href="#1-2-使用结构体" class="headerlink" title="1.2. 使用结构体"></a>1.2. 使用结构体</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">    username: <span class="type">String</span>,</span><br><span class="line">    email: <span class="type">String</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">        email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">        username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>.</code>获得结构体中的“field”：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">    username: <span class="type">String</span>,</span><br><span class="line">    email: <span class="type">String</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">user1</span> = User &#123;</span><br><span class="line">        email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">        username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    user1.email = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;anotheremail@example.com&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>整个结构体实例必须是可变的，不允许只让一部分“fields”是可变的。</p>
+<h2 id="1-3-字段初始化简写语法"><a href="#1-3-字段初始化简写语法" class="headerlink" title="1.3. 字段初始化简写语法"></a>1.3. 字段初始化简写语法</h2><p>当用于初始化的变量名与“fields”的名字相同时，可以省略“fields”的名字：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">    username: <span class="type">String</span>,</span><br><span class="line">    email: <span class="type">String</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">build_user</span>(email: <span class="type">String</span>, username: <span class="type">String</span>) <span class="punctuation">-&gt;</span> User &#123;</span><br><span class="line">    User &#123;</span><br><span class="line">        email,</span><br><span class="line">        username,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user1</span> = <span class="title function_ invoke__">build_user</span>(</span><br><span class="line">        <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">        <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-用另一个实例来初始化新实例"><a href="#1-4-用另一个实例来初始化新实例" class="headerlink" title="1.4. 用另一个实例来初始化新实例"></a>1.4. 用另一个实例来初始化新实例</h2><p>使用<code>user1</code>初始化<code>user2</code>：<br>麻烦的方法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">    username: <span class="type">String</span>,</span><br><span class="line">    email: <span class="type">String</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// --snip--</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">        email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">        username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user2</span> = User &#123;</span><br><span class="line">        active: user1.active,</span><br><span class="line">        username: user1.username,</span><br><span class="line">        email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;another@example.com&quot;</span>),</span><br><span class="line">        sign_in_count: user1.sign_in_count,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用结构体的update语法：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">    username: <span class="type">String</span>,</span><br><span class="line">    email: <span class="type">String</span>,</span><br><span class="line">    sign_in_count: <span class="type">u64</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// --snip--</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">        email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someone@example.com&quot;</span>),</span><br><span class="line">        username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;someusername123&quot;</span>),</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">        sign_in_count: <span class="number">1</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">user2</span> = User &#123;</span><br><span class="line">        email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;another@example.com&quot;</span>),</span><br><span class="line">        ..user1</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>..</code>表示除了明确指出的fields之外，其它fields跟<code>user1</code>都相同。<code>user1</code>必须最后出现。</p>
+<p>这样创建<code>user2</code>之后，不能再使用<code>user1</code>了，因为<code>user1</code>中的<code>username</code>是一个<code>String</code>类型，执行的是移动（move）操作，即<code>username</code>被<strong>moved</strong>到了<code>user2</code>。</p>
+<p>但如果将<code>email</code>和<code>username</code>都赋予新<code>String</code>值，只使用<code>user1</code>的<code>active</code>和<code>sign_in_count</code>，那么还可以继续使用<code>user1</code>，因为<code>active</code>和<code>sign_in_count</code>是布尔值和整数，使用的是<code>Copy</code>而不是<code>move</code>。</p>
+<h2 id="1-5-元组结构体（Tuple-Structs）"><a href="#1-5-元组结构体（Tuple-Structs）" class="headerlink" title="1.5. 元组结构体（Tuple Structs）"></a>1.5. 元组结构体（Tuple Structs）</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Color</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);  <span class="comment">// tuple struct named Color</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);  <span class="comment">// tuple struct named Point</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">black</span> = <span class="title function_ invoke__">Color</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">origin</span> = <span class="title function_ invoke__">Point</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Rust还支持看上去类似于元组的结构体，称为元组结构体（Tuple Structs）。元组结构体具有结构体名称提供的附加含义，但没有与其字段关联的名称，它们只有字段的类型。当你想<strong>给整个元组命名</strong>并使该元组与其他元组类型不同，而且给每个字段命名会显得冗余时，元组结构体非常有用。</p>
+<h2 id="1-6-Unit-like-structs"><a href="#1-6-Unit-like-structs" class="headerlink" title="1.6. Unit-like structs"></a>1.6. Unit-like structs</h2><p>没有任何fields的结构体——unit-like structs。</p>
+<p>Unit-like structs can be useful when you need to <strong>implement a trait on some type</strong> but don’t have any data that you want to store in the type itself. </p>
+<p>例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">AlwaysEqual</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">subject</span> = AlwaysEqual;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-An-Example-Program-Using-Structs"><a href="#2-An-Example-Program-Using-Structs" class="headerlink" title="2. An Example Program Using Structs"></a>2. An Example Program Using Structs</h1><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;rect1 is &#123;:?&#125;&quot;</span>, rect1);</span><br></pre></td></tr></table></figure>
+
+<p>Putting the specifier <code>:?</code> inside the curly brackets tells println! we want to use an output format called <code>Debug</code>. The <code>Debug</code> trait enables us to print our struct in a way that is useful for developers so we can see its value while we’re debugging our code.</p>
+<p>会有编译错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error[E0277]: `Rectangle` doesn<span class="string">&#x27;t implement `Debug`</span></span><br></pre></td></tr></table></figure>
+
+<p>需要在结构体定义之前添加outer attribute <code>#[derive(Debug)]</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;</span><br><span class="line">        width: <span class="number">30</span>,</span><br><span class="line">        height: <span class="number">50</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;rect1 is &#123;:?&#125;&quot;</span>, rect1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling rectangles v0.1.0 (file:///projects/rectangles)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.48s</span><br><span class="line">     Running `target/debug/rectangles`</span><br><span class="line">rect1 is Rectangle &#123; width: 30, height: 50 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用<code>{:#?}</code>，会输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling rectangles v0.1.0 (file:///projects/rectangles)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.48s</span><br><span class="line">     Running `target/debug/rectangles`</span><br><span class="line">rect1 is Rectangle &#123;</span><br><span class="line">    width: 30,</span><br><span class="line">    height: 50,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>dbg!</code> macro：</p>
+<ul>
+<li>打印到标准错误控制台流（stderr）</li>
+<li>接收一个表达式的所有权，打印出代码中调用<code>dbg!</code>宏时所在的文件和行号，以及该表达式的结果值，并返回该值的所有权</li>
+</ul>
+<p>Here’s an example where we’re interested in the value that gets assigned to the width <code>field</code>, as well as the value of the whole struct in <code>rect1</code>:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">scale</span> = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;</span><br><span class="line">        width: dbg!(<span class="number">30</span> * scale),</span><br><span class="line">        height: <span class="number">50</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    dbg!(&amp;rect1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling rectangles v0.1.0 (file:///projects/rectangles)</span><br><span class="line">    Finished dev [unoptimized + debuginfo] target(s) <span class="keyword">in</span> 0.61s</span><br><span class="line">     Running `target/debug/rectangles`</span><br><span class="line">[src/main.rs:10] 30 * scale = 60</span><br><span class="line">[src/main.rs:14] &amp;rect1 = Rectangle &#123;</span><br><span class="line">    width: 60,</span><br><span class="line">    height: 50,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The <code>dbg!</code> macro can be really helpful when you’re trying to figure out what your code is doing!</p>
+<h1 id="3-结构体的方法（Method）"><a href="#3-结构体的方法（Method）" class="headerlink" title="3. 结构体的方法（Method）"></a>3. 结构体的方法（Method）</h1><p>方法（method）与函数（function）类似：<br>    - 用<code>fn</code>关键字和名称声明，可以拥有参数和返回值，同时包含在某处调用该方法时会执行的代码。</p>
+<p>方法与函数不同之处：</p>
+<ul>
+<li>方法在结构体的上下文中被定义（或枚举、trait对象的上下文）</li>
+<li>第一个参数总是<code>self</code>，代表调用该方法的结构体实例</li>
+</ul>
+<h2 id="3-1-定义方法"><a href="#3-1-定义方法" class="headerlink" title="3.1. 定义方法"></a>3.1. 定义方法</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width * <span class="keyword">self</span>.height</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;</span><br><span class="line">        width: <span class="number">30</span>,</span><br><span class="line">        height: <span class="number">50</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(</span><br><span class="line">        <span class="string">&quot;The area of the rectangle is &#123;&#125; square pixels.&quot;</span>,</span><br><span class="line">        rect1.<span class="title function_ invoke__">area</span>()</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义<code>Rectangle</code>结构体的<code>area</code>方法：</p>
+<ul>
+<li>start an <code>impl</code> (implementation) block for <code>Rectangle</code><ul>
+<li>Everything within this impl block will be associated with the <code>Rectangle</code> type.</li>
+</ul>
+</li>
+<li>将<code>area</code>移到<code>impl</code>花括号里面</li>
+<li>将<code>area</code>第1个参数改为<code>self</code><ul>
+<li><code>&amp;self</code>是<code>self: &amp;Self</code>的简写，<code>&amp;</code>表示我们借用（borrow）这个<code>Rectangle</code>实例</li>
+</ul>
+</li>
+</ul>
+<p>方法的名字可以和field的名字相同。</p>
+<h2 id="3-2-关联函数（Associated-Functions）"><a href="#3-2-关联函数（Associated-Functions）" class="headerlink" title="3.2. 关联函数（Associated Functions）"></a>3.2. 关联函数（Associated Functions）</h2><p>所有在<code>impl</code>块中定义的函数被称为<strong>关联函数（associated functions）</strong>，因为它们与<code>impl</code>后面命名的类型相关。</p>
+<p>我们可以定义不以<code>self</code>为第一参数的关联函数（因此这个关联函数不是方法），因为它们并不作用于一个结构体的实例。我们已经使用了一个这样的函数：在String类型上定义的<code>String::from</code>函数。</p>
+<p>不是方法的关联函数经常被用作<strong>返回一个结构体新实例的构造函数</strong>。</p>
+<p>例如：我们可以提供一个关联函数，它接受一个维度参数并且同时作为宽和高，这样可以更轻松的创建一个正方形<code>Rectangle</code>，而不必指定两次同样的值：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">square</span>(size: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> Rectangle &#123;</span><br><span class="line">        Rectangle &#123;</span><br><span class="line">            width: size,</span><br><span class="line">            height: size,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">sq</span> = Rectangle::<span class="title function_ invoke__">square</span>(<span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用结构体名和<code>::</code>语法来调用这个关联函数：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">sq</span> = Rectangle::<span class="title function_ invoke__">square</span>(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个函数位于结构体的命名空间中：<code>::</code>语法用于关联函数和模块创建的命名空间。</p>
+<h2 id="3-4-多个impl块"><a href="#3-4-多个impl块" class="headerlink" title="3.4. 多个impl块"></a>3.4. 多个<code>impl</code>块</h2><p>每个结构体都允许拥有多个 impl 块。例如：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width: <span class="type">u32</span>,</span><br><span class="line">    height: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width * <span class="keyword">self</span>.height</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">can_hold</span>(&amp;<span class="keyword">self</span>, other: &amp;Rectangle) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width &gt; other.width &amp;&amp; <span class="keyword">self</span>.height &gt; other.height</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect1</span> = Rectangle &#123;</span><br><span class="line">        width: <span class="number">30</span>,</span><br><span class="line">        height: <span class="number">50</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect2</span> = Rectangle &#123;</span><br><span class="line">        width: <span class="number">10</span>,</span><br><span class="line">        height: <span class="number">40</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect3</span> = Rectangle &#123;</span><br><span class="line">        width: <span class="number">60</span>,</span><br><span class="line">        height: <span class="number">45</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Can rect1 hold rect2? &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect2));</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Can rect1 hold rect3? &#123;&#125;&quot;</span>, rect1.<span class="title function_ invoke__">can_hold</span>(&amp;rect3));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] Using Structs to Structure Related Data：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/stable/book/ch04-00-understanding-ownership.html">https://doc.rust-lang.org/stable/book/ch04-00-understanding-ownership.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2410,492 +2595,6 @@
 <p>After the initial release, WebAssembly has been gaining new features through the standardization process. For the complete list of current proposals and their respective stages, check out the <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/proposals">WebAssembly&#x2F;proposals repo</a>.  </p>
 <p>The table below aims to track implemented features in popular engines:<br><img src="/../imgs/WebAssembly%E5%92%8CWASI%E4%BB%8B%E7%BB%8D/02-Implemented%20Features%20in%20Popular%20Engines.png" alt="Implemented Features in Popular Engines">  </p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] A crash course in just-in-time (JIT) compilers：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/">https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/</a><br>[2] 你知道「编译」与「解释」的区别吗？：<a target="_blank" rel="noopener" href="https://huang-jerryc.com/2016/11/20/do-you-konw-the-different-between-compiler-and-interpreter/">https://huang-jerryc.com/2016/11/20/do-you-konw-the-different-between-compiler-and-interpreter/</a><br>[3] WebAssembly完全入门——了解wasm的前世今身：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a><br>[4] JavaScript 编译 - JIT (just-in-time) compiler 是怎么工作的：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/99395691">https://zhuanlan.zhihu.com/p/99395691</a><br>[5] Standardizing WASI: A system interface to run WebAssembly outside the web：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/</a><br>[6] Roadmap: <a target="_blank" rel="noopener" href="https://webassembly.org/roadmap/">https://webassembly.org/roadmap/</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1872035402.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="Acosy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Acosy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Acosy">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/1872035402.html" class="post-title-link" itemprop="url">WASI资料</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-15 11:35:05" itemprop="dateCreated datePublished" datetime="2022-07-15T11:35:05-04:00">2022-07-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-28 17:06:06" itemprop="dateModified" datetime="2026-04-28T17:06:06-04:00">2026-04-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>本文不含原创，只是知识的搬运工。</strong></p>
-<h2 id="1-WASI-是什么？"><a href="#1-WASI-是什么？" class="headerlink" title="1. WASI 是什么？"></a>1. WASI 是什么？</h2><p>WASI是WebAssembly System Interface的缩写。WebAssembly，我们都知道，是一种新的字节码格式，目前被应用于 web 中，由于其可移植、体积小、安全性的等优点被渐渐广泛认可，但是其主要是运行在浏览器中。</p>
-<p>一些天才们，<strong>想让 WebAssembly 也可以运行在非浏览器环境中，这就产生了 WASI</strong>。</p>
-<p>因此，这样会有一些问题需要解决。我们知道，一些语言，比如Rust，都有自己的标准库，标准库对系统调用进行了封装，让我们写的代码可以跨平台，这实际上是源代码的可移植性。</p>
-<p>wasi 这里需要可移植的是二进制文件（.wasm）和一个跨平台的 runtime，也就是说，我们在某一个平台上生成了.wasm，直接拿到其他平台上，也可以直接使用。</p>
-<p>我们在设计这个 runtime 的时候，有两个关键点需要考虑：</p>
-<ul>
-<li>可移植性（上文提到的，二进制级别的可移植性）+ 可扩展性</li>
-<li>安全性</li>
-</ul>
-<h3 id="关于安全性"><a href="#关于安全性" class="headerlink" title="关于安全性"></a>关于安全性</h3><p>传统的软件开发，是以<strong>用户级别</strong>来进行权限管理的，也就是说，这个用户有什么权限，以这个用户的名义运行的程序就有什么权限，这样就可以避免不同用户之间互相影响。这样无疑是科学的，但是现在的问题是：现今大多数情况，我们的电脑只有一个用户，但是运行的程序可能来自各处，而程序本身可能是不安全的，所以像以前那样以用户级别来进行权限控制，其实是不安全的。</p>
-<p>所以wasm提供了一种更细粒度的权限控制。因为wasm有二进制模块和一个运行时，所以我们做这样几个工作：</p>
-<ul>
-<li>先定义一套标准的系统调用接口：<code>wasi-core</code></li>
-<li>各个平台（windows、unix）对标准接口进行平台实现</li>
-<li>对于一个具体的 wasm 程序，需要把其允许调用的接口在运行的时候传入，比如对于一个 wasm 模块，我只传入<code>__wasi_path_open</code>这样一个接口，因此 wasm 中就只能用这样一个接口（使用过 web 端的 wasm 同学，是不是对此十分熟悉）</li>
-<li>同样的，对于文件路径也是，只允许对传入的文件路径进行操作，例如只传入<code>​/tmp</code>​路径，wasm 模块就没有办法对<code>​/User</code>​路径下的文件进行操作</li>
-</ul>
-<p>这样的设计更<strong>细粒度</strong>地保证了安全，同时也具备了可移植性。</p>
-<p>与此同时，除了上文提到的<code>wasi-core</code>系统接口，我们还可以定义<code>wasi-xx</code>模块接口，然后运行时传入，这样也具备了可扩展性。</p>
-<p>以上就是 wasi 的一些基本介绍，目前其有三个实现，可以尝试：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">wasmtime</a>：Mozilla’s WebAssembly runtime</li>
-<li><a target="_blank" rel="noopener" href="https://www.fastly.com/blog/announcing-lucet-fastly-native-webassembly-compiler-runtime">Lucet</a>：Fastly’s WebAssembly runtime</li>
-<li><a target="_blank" rel="noopener" href="https://wasi.dev/polyfill/">a browser polyfill</a></li>
-</ul>
-<h2 id="2-Mozilla-Announces-WASI-Initiative-to-Run-Web-Assembly-on-All-Devices-Computers-Operating-Systems"><a href="#2-Mozilla-Announces-WASI-Initiative-to-Run-Web-Assembly-on-All-Devices-Computers-Operating-Systems" class="headerlink" title="2. Mozilla Announces WASI Initiative to Run Web Assembly on All Devices, Computers, Operating Systems"></a>2. Mozilla Announces WASI Initiative to Run Web Assembly on All Devices, Computers, Operating Systems</h2><p>来源：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a></p>
-<blockquote>
-<p>Mozilla recently announced a new standardization effort aiming at running the same WebAssembly code across all devices, machines and operating systems. </p>
-</blockquote>
-<p>WASI是定义了标准化系统接口，使WebAssembly能跨设备、跨操作系统运行。  </p>
-<p>这个“recently”应该是指<code>2019-03-27</code>，是Lin Clark发表文章宣布：  </p>
-<blockquote>
-<p>Today, we announce the start of a new standardization effort — WASI, the WebAssembly system interface.  </p>
-</blockquote>
-<p>的时间。该文章原文见本文<a href="#3-%E5%8E%9F%E6%96%87%E8%A7%A3%E8%AF%BB">第三部分</a>，或<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">此链接</a>。  </p>
-<blockquote>
-<p>The new standard, WebAssembly System Interface (WASI), defines one single conceptual operating system interface, which can be implemented by multiple, actual operating systems. </p>
-</blockquote>
-<p>WASI定义了一个单一的概念性操作系统接口，可以被多个实际的操作系统实现。</p>
-<p>At the difference of previous “Run Anywhere” efforts like Java, WASI builds on WebAssembly, a rare collaboration between browser vendors and manufacturers of chips, devices, computers and operating systems to produce a patent-free, open standard. The WASI standard will strive to provide WebAssembly’s portability and security through a modular set of standard interfaces, and to provide a solid foundation for an ecosystem. Mozilla and Fastly are already shipping prototypal WASI implementations.</p>
-<p>WASI aims to be a system interface for the WebAssembly platform (currently implemented by the four major browser engines). WebAssembly (Wasm) describes itself as a “binary instruction format for a stack-based virtual machine”, with the design goal to “execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms”. Wasm is used as a target for compilation of high-level languages like C&#x2F;C++&#x2F;Rust. While WebAssembly was primarily designed to run on the open web, Mozilla seeks now to extend WebAssembly’s reach to non-web embeddings, “including everything from minimal shells for testing to full-blown application environments e.g. on servers in datacenters, on IoT devices, or mobile&#x2F;desktop apps”. As Lin Clark observes:</p>
-<p>Code outside of a browser needs a way to talk to the system — a system interface. And the WebAssembly platform doesn’t have that yet.</p>
-<p>WASI’s stated goal echoes the original Java promise to “Write Once, Run Anywhere”. The Java Virtual Machine (JVM) indeed serves a similar purpose, and language flexibility similar to that offered by the WebAssembly platform may be realized in Java via the GraalVM. Java, however, remains a de facto standard, and its owner Oracle has a lawsuit pending against Google for allegedly using unlawfully Java’s APIs. By contrast, WebAssembly is the result of a rare collaboration between browser vendors and major companies such as Microsoft, Google, Apple, Mozilla, Intel, Samsung and more. Jay Phelps emphasized at QCon San Francisco 2018:</p>
-<p>(…) these companies, they’ve come together and they’ve all created the first standardized byte code by all of these major companies. And it’s free. It’s not a proprietary program. There’s no question that this is completely open. And it’s not encumbered by patent laws and all that sorts of things.</p>
-<p>Furthermore, Wasm, being memory safe and tuned for validation, may have security advantages over Java. Till Schneidereit‏ provides extra arguments to the comparison in favor of Wasm:</p>
-<p>(…) WebAssembly has been designed to scale from tiny devices to large server farms or CDNs; is much more language-agnostic than Java; and has a much smaller implementation footprint.</p>
-<p>WASI seeks to achieve portable binaries by specifying a common interface to multiple systems, based on abstractions of system functionalities. Such abstractions are clustered into modules, with wasi-core occupying a central role. Lin Clark details:</p>
-<p>wasi-core will contain the basics that all programs need. It will cover much of the same ground as POSIX, including things such as files, network connections, clocks, and random numbers.</p>
-<p>Other functionalities, like multimedia, 3D graphics, or smart contracts, may be addressed by specific modules. The standardization effort in place aims at specifying carefully the system functionality abstractions to address a large set of operating systems and architectures, while maintaining the performance objective of WebAssembly.</p>
-<p>WASI builds on the security aspect of Wasm by adopting a capability-based security model. WASI applications are provided with capabilities, instead of forgeable references (such as a file path) which identify a resource, but do not specify which access rights are appropriate for that resource. Forgeable references force validation by the operating system based on the ambient authority of the requesting program. Lin Clark explains how a WASI app can only open a file if it previously has been given the capability to open that file:</p>
-<p>(…) you can’t have code that randomly asks to open &#x2F;etc&#x2F;passwd. Instead, the code can only operate on the directories that are passed in to it. (…) So the runtime passes in the file descriptors that an app can use to the top level code, and then file descriptors get propagated through the rest of the system on an as-needed basis.</p>
-<p>WASI-enabled apps can currently be run in the browser with a polyfill, or outside the browser with Mozilla’s Wasmtime, or Fastly’s Lucet.</p>
-<p>WASI is a work in progress. Lin Clark reflects:</p>
-<p>But there are still questions we’ll need to address after wasi-core is fully standardized. Those questions include:</p>
-<p>asynchronous I&#x2F;O<br>file watching<br>file locking<br>The stakes are high. Solomon Hikes, co-founder of Docker, says:</p>
-<p>If WASM+WASI existed in 2008, we wouldn’t have needed to created Docker. That’s how important it is. Webassembly on the server is the future of computing. A standardized system interface was the missing link. Let’s hope WASI is up to the task!</p>
-<h2 id="3-原文解读"><a href="#3-原文解读" class="headerlink" title="3. 原文解读"></a>3. 原文解读</h2><p>文档链接：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">Standardizing WASI: A system interface to run WebAssembly outside the web</a> by Lin Clark on March 27, 2019  </p>
-<blockquote>
-<p>Today, we announce the start of a new standardization effort — WASI, the WebAssembly system interface.</p>
-<ul>
-<li><p><strong>Why</strong>: Developers are starting to <strong>push WebAssembly beyond the browser</strong>, because it provides a fast, scalable, secure way to run the same code across all machines.</p>
-<p>  But we don’t yet have a solid foundation to build upon. <strong>Code outside of a browser needs a way to talk to the system — a system interface.</strong> And the WebAssembly platform doesn’t have that yet.</p>
-</li>
-</ul>
-</blockquote>
-<p>由于WebAssembly的诸多好处（fast，scalable，secure，跨平台），产生了<strong>在浏览器外</strong>运行WebAssembly的诉求。但想要在浏览器外运行WebAssembly，就需要解决程序与操作系统之间通信的问题。（为了解决这个问题，WASI产生了。）</p>
-<blockquote>
-<ul>
-<li><p><strong>What</strong>: WebAssembly is an assembly language <strong>for a conceptual machine, not a physical one</strong>. This is why it can be run across a variety of different machine architectures.</p>
-<p>  Just as WebAssembly is an assembly language for a conceptual machine, WebAssembly needs a system interface for a conceptual operating system, not any single operating system. This way, it can be run across all different OSs.</p>
-<p>  This is what WASI is — a system interface for the WebAssembly platform.</p>
-<p>  We aim to create a system interface that will be a true companion to WebAssembly and last the test of time. This means upholding the <strong>key principles of WebAssembly — portability and security</strong>.</p>
-</li>
-</ul>
-</blockquote>
-<p>WASI是一个为WebAssembly平台设计的系统接口，为WebAssembly的<strong>可移植性</strong>和<strong>安全性</strong>提供支持。</p>
-<blockquote>
-<ul>
-<li><p><strong>Who</strong>: We are chartering a WebAssembly subgroup to focus on standardizing WASI. We’ve already gathered interested partners, and are looking for more to join.</p>
-<p> Here are some of the reasons that we, our partners, and our supporters think this is important:</p>
-</li>
-</ul>
-</blockquote>
-<p>下面是一些有在浏览器外使用WebAssembly诉求的人对WASI的看法：  </p>
-<blockquote>
-<ul>
-<li><em>Sean White, Chief R&amp;D Officer of <strong>Mozilla</strong></em><br>  “WebAssembly is already transforming the way the web brings new kinds of compelling content to people and empowers developers and creators to do their best work on the web. Up to now that’s been through browsers, but <strong>with WASI we can deliver the benefits of WebAssembly and the web to more users, more places, on more devices, and as part of more experiences</strong>.”</li>
-</ul>
-</blockquote>
-<p>由于WASI是要为WebAssembly提供非浏览器环境的支持，因此它可以把WebAssembly的优势推广到更多用户、更多设备。</p>
-<blockquote>
-<ul>
-<li><em>Tyler McMullen, CTO of <strong>Fastly</strong></em><br>  “We are taking WebAssembly beyond the browser, <strong>as a platform for fast, safe execution of code in our edge cloud</strong>. Despite the differences in environment between our edge and browsers, WASI means WebAssembly developers won’t have to port their code to each different platform.”</li>
-</ul>
-</blockquote>
-<p>Fastly旨在将WebAssembly拓展到非浏览器环境，在edge cloud中提供一个快速安全地执行代码的平台。</p>
-<blockquote>
-<ul>
-<li><em>Myles Borins, Node Technical Steering committee director</em><br>  “WebAssembly could solve one of the biggest problems in Node — how to <strong>get close-to-native speeds and reuse code written in other languages like C and C++ like you can with native modules</strong>, while still remaining <strong>portable and secure</strong>. Standardizing this system interface is the first step towards making that happen.”</li>
-</ul>
-</blockquote>
-<p>有了WebAssembly，我们不但可以重用已经用C&#x2F;C++写好的代码，还可以获得接近C&#x2F;C++的运行速度。</p>
-<blockquote>
-<ul>
-<li><em>Laurie Voss, co-founder of <strong>npm</strong></em><br>  “npm is tremendously excited by the potential WebAssembly holds to expand the capabilities of the npm ecosystem while hugely simplifying the process of getting native code to run in server-side JavaScript applications. We look forward to the results of this process.”</li>
-</ul>
-<p>So that’s the big news! 🎉</p>
-<p>There are currently 3 implementations of WASI:</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">wasmtime</a>：Mozilla’s WebAssembly runtime</li>
-<li><a target="_blank" rel="noopener" href="https://www.fastly.com/blog/announcing-lucet-fastly-native-webassembly-compiler-runtime">Lucet</a>：Fastly’s WebAssembly runtime</li>
-<li><a target="_blank" rel="noopener" href="https://wasi.dev/polyfill/">a browser polyfill</a></li>
-</ul>
-<p>You can see WASI in action in this video:  <a target="_blank" rel="noopener" href="https://www.youtube.com/embed/ggtEJC0Jv8A">https://www.youtube.com/embed/ggtEJC0Jv8A</a>  </p>
-<p>And if you want to learn more about our proposal for how this system interface should work, keep reading.</p>
-<h3 id="What’s-a-system-interface"><a href="#What’s-a-system-interface" class="headerlink" title="What’s a system interface?"></a>What’s a system interface?</h3><p>Many people talk about languages like C giving you direct access to system resources. But that’s not quite true.</p>
-<p>These languages don’t have direct access to do things like open or create files on most systems. Why not?</p>
-<p>Because these system resources — such as files, memory, and network connections— are too important for stability and security.</p>
-<p>If one program unintentionally messes up the resources of another, then it could crash the program. Even worse, if a program (or user) intentionally messes with the resources of another, it could steal sensitive data.  </p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/009-crash-data-leak.png" alt="A frowning terminal window indicating a crash, and a file with a broken lock indicating a data leak">  </p>
-<p>So we need a way to control which programs and users can access which resources. People figured this out pretty early on, and came up with a way to provide this control: protection ring security.</p>
-<p>With protection ring security, the operating system basically puts a protective barrier around the system’s resources. This is the kernel. The kernel is the only thing that gets to do operations like creating a new file or opening a file or opening a network connection.</p>
-<p>The user’s programs run outside of this kernel in something called user mode. If a program wants to do anything like open a file, it has to ask the kernel to open the file for it.</p>
-</blockquote>
-<p>很多人谈论像C这样的语言，它可以让你直接访问系统资源，但那并不完全正确。对于大多数系统，这些语言并没有直接访问权限，比如做打开文件或创建文件这样的操作。为什么没有呢？因为这些系统资源（如文件、内存和网络连接）对于稳定性和安全性非常重要。如果一个程序无意中弄乱了另一个程序的资源，那么程序就可能崩溃。更糟糕的是，如果一个程序（或用户）故意扰乱另一个程序的资源，它可能会窃取敏感数据。</p>
-<p>因此，我们需要一种方法来控制哪些程序和用户可以访问哪些资源。人们很早就想通了这一点，并想出了一种方法来提供这种控制：保护环安全（protection ring security）。</p>
-<p>有了保护环安全性，操作系统基本上在系统资源周围设置了一个保护屏障——<strong>内核(Kernel)</strong>。<strong>内核是唯一可以执行创建新文件、打开文件或打开网络连接等操作的东西。</strong></p>
-<p>用户的程序在内核之外运行，运行方式被称为用户模式。如果一个程序想要做任何事情，比如打开一个文件，它必须要求内核为它打开文件。</p>
-<blockquote>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/010-protection-ring-sec.png" alt="A file directory structure on the left, with a protective barrier in the middle containing the operating system kernel, and an application knocking for access on the right">  </p>
-<p>This is where the concept of the system call comes in. When a program needs to ask the kernel to do one of these things, it asks using a system call. This gives the kernel a chance to figure out which user is asking. Then it can see if that user has access to the file before opening it.</p>
-<p>On most devices, this is the only way that your code can access the system’s resources — through system calls.</p>
-</blockquote>
-<p>这就是系统调用的概念出现的地方。<b>当程序需要要求内核去做这些事情之一时，它会通过系统调用（system call）来发出请求。</b>这让内核有机会弄清楚哪个用户在问。然后，它在打开文件之前可以查看该用户是否可以访问该文件。</p>
-<p>在大多数设备上，这是你的代码访问系统资源的唯一方式——通过系统调用。</p>
-<blockquote>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/011-syscall.png" alt="An application asking the operating system to put data into an open file">  </p>
-<p>The operating system makes the system calls available. But if each operating system has its own system calls, wouldn’t you need a different version of the code for each operating system? Fortunately, you don’t.</p>
-<p>How is this problem solved? Abstraction.</p>
-<p>Most languages provide a standard library. While coding, the programmer doesn’t need to know what system they are targeting. They just use the interface.</p>
-<p>Then, when compiling, your toolchain picks which implementation of the interface to use based on what system you’re targeting. This implementation uses functions from the operating system’s API, so it’s specific to the system.</p>
-<p>This is where the system interface comes in. For example, <code>printf</code> being compiled for a Windows machine could use the Windows API to interact with the machine. If it’s being compiled for Mac or Linux, it will use POSIX instead.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/012-implementations.png" alt="The interface for putc being translated into two different implementations, one implemented using POSIX and one implemented using Windows APIs">  </p>
-</blockquote>
-<p>操作系统使系统调用（system calls）可用。但是，如果每个操作系统都有自己的系统调用，你需要为每个操作系统提供不同版本的代码吗？幸运的是，不需要。</p>
-<p>这个问题是如何解决的？通过<strong>抽象（Abstraction）</strong>。</p>
-<p>大多数语言都提供标准库。在编码时，程序员不需要知道他们的目标系统是什么，他们只需要使用接口（interface）。</p>
-<p>然后，在编译时，工具链（toolchain）会根据你的目标系统选择要使用的接口实现。这个实现使用的是目标操作系统的API的函数，所以它是专门针对于目标系统的。</p>
-<p>这就是系统接口的用处。例如，为Windows机器编译的<code>printf</code>可以使用Windows API与机器交互。如果它是为Mac或Linux编译的，它将改用POSIX。 </p>
-<div class="inline-comment">
-系统调用与 OS API 的关系（来自Google AI）：   
-
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/029-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB.png" alt="系统调用与OS API的关系">  </p>
-<p>关于系统调用（来自维基百科：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%EF%BC%89%EF%BC%9A">https://zh.wikipedia.org/wiki/系统调用）：</a>  </p>
-<blockquote>
-<p>在电脑中，系统调用（英语：system call），指运行在用户空间的程序向操作系统内核请求需要更高权限运行的服务。这些服务可能包含访问文件系统、创建和销毁进程、进程间通信和内存分配。系统调用在进程和作系统之间提供了一个重要的接口。系统调用提供用户程序与操作系统之间的接口。大多数系统交互式操作需求在内核态执行。如设备IO操作或者进程间通信。  </p>
-<p><strong>典型实现（Linux）</strong><br>Linux 在x86上的系统调用通过 int 80h 实现，用系统调用号来区分入口函数。操作系统实现系统调用的基本过程是：</p>
-<ol>
-<li>应用程序调用库函数（API）；</li>
-<li>API 将系统调用号存入 EAX，然后通过中断调用使系统进入内核态；</li>
-<li>内核中的中断处理函数根据系统调用号，调用对应的内核函数（系统调用）；</li>
-<li>系统调用完成相应功能，将返回值存入 EAX，返回到中断处理函数；</li>
-<li>中断处理函数返回到 API 中；</li>
-<li>API 将 EAX 返回给应用程序。</li>
-</ol>
-<p>应用程序调用系统调用的过程是：</p>
-<ol>
-<li>把系统调用的编号存入 EAX；</li>
-<li>把函数参数存入其它通用寄存器；</li>
-<li>触发 0x80 号中断（int 0x80）。</li>
-</ol>
-</blockquote>
-<p>其它关于系统调用的资料：<a target="_blank" rel="noopener" href="https://hackmd.io/@combo-tw/BJPoAcqQS">https://hackmd.io/@combo-tw/BJPoAcqQS</a><br><img src="/../imgs/WASI%E8%B5%84%E6%96%99/030-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB2.png">  </p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/031-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB3.png">    </p>
-<p>总结来说，即使不同操作系统的系统调用函数是不同的，当需要对不同的操作系统做系统调用时，程序员也不需要为每种操作系统都单独写一套代码。因为大多数语言（比如C语言）都会在标准库中提供统一的接口（system interface），程序员只需要调用这些接口，在编译时，toolchain 就会根据实际情况来选择相应的接口实现（operating system’s API），比如 Windows 系统选 Windows API，Linux&#x2F;Mac 选 POSIX。这些具体的接口实现中会进一步调用各自的系统调用函数（可能包含一个或多个系统调用）。</p>
-<div class="inline-comment-date">Date: 2026-04-28</div>
-</div>
-
-<blockquote>
-<p>This poses a problem for WebAssembly, though.</p>
-<p>With WebAssembly, you don’t know what kind of operating system you’re targeting even when you’re compiling. So you can’t use any single OS’s system interface inside the WebAssembly implementation of the standard library.  </p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/013-implementations-2.png" alt="an empty implementation of putc">  </p>
-</blockquote>
-<p>然而，这给WebAssembly带来了问题。</p>
-<p>使用WebAssembly时，即使在编译时，你也不知道你的目标操作系统是什么。因此，你无法在WebAssembly实现的标准库中使用任何一个操作系统的系统接口。  </p>
-<div class="inline-comment">
-对于 WebAssembly 而言，在把源代码（比如 C/C++/Rust）编译成 WebAssembly 的时候，我们也不知道拿到 .wasm 文件的人要把它放到什么环境中运行（即，在编译时无法知道目标操作系统是什么）。因此，当 WebAssembly 想要跟 C 语言一样实现一套标准库供程序员使用时，无法使用任何一种操作系统的接口实现。
-<br/><br/>
-也就是说，原来在编译的时候就可以知道具体的目标操作系统是什么，这样就可以将该操作系统的接口实现一起编译进去。而 WebAssembly 的情况是，在编译成 wasm 的时候无法确定到底该使用哪套操作系统实现的API，因为 wasm 是需要在各个操作系统上都能运行的，这样的话把任何一个操作系统的具体实现编译进 wasm 都不合适。  
-
-<div class="inline-comment-date">Date: 2026-04-28</div>
-</div>
-
-<blockquote>
-<p>I’ve talked before about how WebAssembly is <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/creating-and-working-with-webassembly-modules/">an assembly language for a conceptual machine</a>, not a real machine. In the same way, WebAssembly needs a system interface for a conceptual operating system, not a real operating system.</p>
-</blockquote>
-<p>我之前提到过WebAssembly是 <em>概念机器</em> 的汇编语言，而不是真实机器的。同样，WebAssembly需要 <em>概念操作系统</em> 的系统接口，而不是真正的操作系统的系统接口。</p>
-<blockquote>
-<p>But there are already runtimes that can run WebAssembly outside the browser, even without having this system interface in place. How do they do it? Let’s take a look.</p>
-<h3 id="How-is-WebAssembly-running-outside-the-browser-today"><a href="#How-is-WebAssembly-running-outside-the-browser-today" class="headerlink" title="How is WebAssembly running outside the browser today?"></a>How is WebAssembly running outside the browser today?</h3><p>The first tool for producing WebAssembly was Emscripten. <strong>It emulates a particular OS system interface, POSIX, on the web.</strong> This means that the programmer can use functions from the C standard library (libc).</p>
-<p>To do this, Emscripten created its own implementation of libc. This implementation was split in two — part was compiled into the WebAssembly module, and the other part was implemented in JS glue code. This JS glue would then call into the browser, which would then talk to the OS.</p>
-</blockquote>
-<p>第一个WebAssembly的编译工具是Emscripten。它在网络上<strong>模拟特定的操作系统的系统接口——POSIX</strong>。这意味着程序员可以使用C标准库（libc）中的函数。</p>
-<p>为此，Emscripten创建了自己的libc实现。这个实现被分成两部分——一部分被编译到WebAssembly模块中，另一部分在JS glue code中实现。然后，这个JS glue会调用浏览器，浏览器进而会与操作系统对话。</p>
-<blockquote>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/014-emscripten.png" alt="A Rube Goldberg machine showing how a call goes from a WebAssembly module, into Emscripten&#39;s JS glue code, into the browser, into the kernel"></p>
-<p>Most of the early WebAssembly code was compiled with Emscripten. So when people started wanting to run WebAssembly without a browser, they started by making Emscripten-compiled code run.</p>
-<p>So these runtimes needed to create their own implementations for all of these functions that were in the JS glue code.</p>
-</blockquote>
-<p>由于大部分早期的WebAssembly代码都是用Emscripten编译的，因此当人们开始想在没有浏览器的情况下运行WebAssembly时，他们的起点就是让Emscripten编译的代码运行。</p>
-<p>因此，这些运行时（runtimes）需要为JS glue code中的所有函数创建自己的实现。</p>
-<div class="inline-comment">
-意思可能是，在浏览器上运行时，Emscripten 提供的 JS glue code 中可能提供了一些能使 wasm module 与浏览器进行交互的函数。现在要在非浏览器环境下运行，原本的 JS glue code 中的相应函数就要替换成 wasm module 与各种 operating systems 进行交互的函数，而不能沿用原先的 JS glue code。
-
-<div class="inline-comment-date">Date: 2026-04-28</div>
-</div>
-
-<blockquote>
-<p>There’s a problem here, though. The interface provided by this JS glue code wasn’t designed to be a standard, or even a public facing interface. That wasn’t the problem it was solving.</p>
-<p>For example, for a function that would be called something like <code>read</code> in an API that was designed to be a public interface, the JS glue code instead uses <code>_system3(which, varargs)</code>.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/015-system3.png" alt="A clean interface for read, vs a confusing one for system3">  </p>
-<p>The first parameter, <code>which</code>, is an integer which is always the same as the number in the name (so 3 in this case).</p>
-</blockquote>
-<p>不过，这里有个问题。这个 JS glue code 提供的接口不是为成为一个标准而设计的，甚至不是为成为面向公共的接口而设计的，因为这不是它要解决的问题。  </p>
-<p>例如，相对于一个被设计成公共接口的API <code>read</code> 函数，在 JS glue code 中使用的却是 <code>__syscall3(which, varargs)</code>。</p>
-<p>第1个参数，<code>which</code>，是一个整数，它总是与函数名字中的数字相同（即 <code>__syscall3</code> 中的 <code>3</code>）。</p>
-<blockquote>
-<p>The second parameter, <code>varargs</code>, are the arguments to use. It’s called <code>varargs</code> because you can have a variable number of them. But WebAssembly doesn’t provide a way to pass in a variable number of arguments to a function. So instead, the arguments are passed in via linear memory. This isn’t type safe, and it’s also slower than it would be if the arguments could be passed in using registers.</p>
-<p>That was fine for Emscripten running in the browser. But now runtimes are treating this as a de facto standard, implementing their own versions of the JS glue code. They are emulating an internal detail of an emulation layer of POSIX.</p>
-<p>This means they are re-implementing choices (like passing arguments in as heap values) that made sense based on Emscripten’s constraints, even though these constraints don’t apply in their environments.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/016-emulation.png" alt="A more convoluted Rube Goldberg machine, with the JS glue and browser being emulated by a WebAssembly runtime">  </p>
-</blockquote>
-<p>第二个参数，<code>varargs</code>，是要使用的参数。它被称为<code>varargs</code>是因为参数的数量是可变的。但 WebAssembly 没有提供向函数传递可变数量参数的方法。因此，参数是通过 linear memory 传递的。这不是类型安全的，而且比使用寄存器传递参数的情况要慢。</p>
-<p>对于在浏览器中运行的Emscripten来说，这没问题。但现在，runtimes 将此视为事实上的标准来实现他们自己版本的JS glue code。他们在模拟 POSIX 仿真层的一个内部细节。</p>
-<p>这意味着他们正在重复实现由于 Emscripten 本身的限制才需要去做的操作（例如将参数作为堆值传递），即使这些限制在他们的环境中并不存在。</p>
-<blockquote>
-<p>If we’re going to build a WebAssembly ecosystem that lasts for decades, we need solid foundations. This means <strong>our de facto standard can’t be an emulation of an emulation</strong>.</p>
-</blockquote>
-<p>如果我们要建立一个持续几十年的 WebAssembly 生态系统，我们需要坚实的基础。这意味着我们事实上的标准不能是一个仿真的仿真。  </p>
-<div class="inline-comment">
-上面的内容叙述了：  
-
-<ul>
-<li>什么是 System Interface；</li>
-<li>WebAssembly System Interface（WASI）与传统的系统接口有什么不同（It’s an interface for a conceptual operating system, not a real operating system）</li>
-<li>WASI 为什么需要标准化（模拟 Emscription 实现的 runtimes 是基于仿真的仿真，并受限于 Emscripten 本身带来的限制，而我们需要为 WebAssembly 生态提供更坚实的基础，因此需要标准化 WASI）</li>
-</ul>
-<p>接下来详细介绍实现标准化 WASI 需要满足的原则（Portability 和 Security）。</p>
-<div class="inline-comment-date">Date: 2026-04-28</div>
-</div>
-
-<blockquote>
-<p>But what principles should we apply?</p>
-<h3 id="What-principles-does-a-WebAssembly-system-interface-need-to-uphold"><a href="#What-principles-does-a-WebAssembly-system-interface-need-to-uphold" class="headerlink" title="What principles does a WebAssembly system interface need to uphold?"></a>What principles does a WebAssembly system interface need to uphold?</h3><p>There are two important principles that are baked into WebAssembly :</p>
-<ul>
-<li><strong>portability</strong></li>
-<li><strong>security</strong></li>
-</ul>
-<p>We need to maintain these key principles as we move to outside-the-browser use cases.</p>
-<p>As it is, POSIX and Unix’s Access Control approach to security don’t quite get us there. Let’s look at where they fall short.</p>
-</blockquote>
-<p>WebAssembly 中嵌入了两个重要原则：可移植性和安全性。</p>
-<p>当我们转向浏览器外的用例时，我们需要依然保有这些关键原则。</p>
-<p>就现在而言，POSIX 和 Unix 的访问控制安全方法并不能让我们完全达成这个目的。让我们来看看他们的不足。</p>
-<blockquote>
-<h4 id="Portability"><a href="#Portability" class="headerlink" title="Portability"></a>Portability</h4><p>POSIX provides source code portability. You can compile the same source code with different versions of libc to target different machines.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/017-portability.png" alt="One C source file being compiled to multiple binaries">  </p>
-<p>But WebAssembly needs to go one step beyond this. We need to be able to compile once and run across a whole bunch of different machines. We need portable binaries.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/018-portability-1.png" alt="One C source file being compiled to a single binary">  </p>
-<p>This kind of portability makes it much easier to distribute code to users.</p>
-<p>For example, if Node’s native modules were written in WebAssembly, then users wouldn’t need to run node-gyp when they install apps with native modules, and developers wouldn’t need to configure and distribute dozens of binaries.</p>
-</blockquote>
-<p>POSIX提供源代码的可移植性。你可以针对不同的机器、使用不同版本的 libc 来编译相同的源代码。</p>
-<p>但 WebAssembly 需要再领先一步。我们需要能够编译一次，并在一大堆不同的机器上运行。我们需要便携式二进制文件。</p>
-<p>这种可移植性使向用户分发代码变得更加容易。</p>
-<p>例如，如果 Node 的原生模块是在 WebAssembly 中编写的，那么用户在使用原生模块安装应用程序时不需要运行<code>node-gyp</code>，开发人员也不需要配置和分发数十个二进制文件。</p>
-<div class="inline-comment">
-POSIX：针对不同平台，编译出不同的 binaries，每个平台运行的 binary 不同（源代码可移植）；
-<br/>
-WebAssembly：由源代码编译出同一份 binary，不同平台运行的 binary 都相同（编译后的二进制文件可移植）。
-
-<div class="inline-comment-date">Date: 2026-04-28</div>
-</div>
-
-<blockquote>
-<h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><p>When a line of code asks the operating system to do some input or output, the OS needs to determine if it is safe to do what the code asks.</p>
-<p>Operating systems typically handle this with access control that is based on ownership and groups.</p>
-<p>For example, the program might ask the OS to open a file. A user has a certain set of files that they have access to.</p>
-<p>When the user starts the program, the program runs on behalf of that user. If the user has access to the file — either because they are the owner or because they are in a group with access — then the program has that same access, too.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/019-access-control.png" alt="An application asking to open a file that is relevant to what it&#39;s doing"></p>
-</blockquote>
-<p>当一行代码要求操作系统进行一些输入或输出时，操作系统需要确定该代码所要求的操作是否安全。</p>
-<p>操作系统通常基于所有权（ownership）和组（groups）的访问控制来处理这个问题。</p>
-<p>例如，程序可能会要求操作系统打开一个文件，某个用户有一组他们可以访问的特定文件。</p>
-<p>当该用户启动程序时，程序代表该用户运行。如果用户可以访问该文件——要么是因为他们是所有者，要么是因为他们处于具有访问权限的组中——那么程序也拥有相同的访问权限。</p>
-<blockquote>
-<p>This protects users from each other. That made a lot of sense when early operating systems were developed. Systems were often multi-user, and administrators controlled what software was installed. So the most prominent threat was other users taking a peek at your files.<br>That has changed. Systems now are usually single user, but they are running code that pulls in lots of other, third party code of unknown trustworthiness. Now the biggest threat is that the code that you yourself are running will turn against you.</p>
-<p>For example, let’s say that the library you’re using in an application gets a new maintainer (as often happens in open source). That maintainer might have your interest at heart… or they might be one of the bad guys. And if they have access to do anything on your system — for example, open any of your files and send them over the network — then their code can do a lot of damage.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/020-bitcoin.png" alt="An evil application asking for access to the users bitcoin wallet and opening up a network connection">  </p>
-</blockquote>
-<p>这可以防止用户彼此间的伤害。在开发早期操作系统时，这种设计非常合理。系统通常是多用户的，管理员可以控制安装的软件。因此，最突出的威胁是其他用户偷看你的文件。</p>
-<p>但现在，事情已经改变了。系统现在通常是单个用户，但它们正在运行的代码却会拉入许多其他未知可信度的第三方代码。现在最大的威胁是，你自己正在运行的代码将对你不利。</p>
-<p>例如，假设你在应用程序中使用的库获得了新的维护者（在开源中经常发生）。那个维护者可能对你感兴趣……或者他们可能是坏人之一。如果他们有权在你的系统上做任何事情——例如，打开你的任何文件并通过网络发送它们——那么这些第三方的代码可能会造成很大的损害。</p>
-<blockquote>
-<p>This is why using third-party libraries that can talk directly to the system can be dangerous.</p>
-</blockquote>
-<p>这就是为什么使用可以直接与系统对话的第三方库可能是危险的。</p>
-<blockquote>
-<p>WebAssembly’s way of doing security is different. <strong>WebAssembly is sandboxed.</strong></p>
-<p>This means that code can’t talk directly to the OS. But then how does it do anything with system resources? The host (<strong>which might be a browser, or might be a wasm runtime</strong>) puts functions in the sandbox that the code can use.</p>
-<p>This means that the host can limit what a program can do on a program-by-program basis. It doesn’t just let the program act on behalf of the user, calling any system call with the user’s full permissions.</p>
-<p>Just having a mechanism for sandboxing doesn’t make a system secure in and of itself — the host can still put all of the capabilities into the sandbox, in which case we’re no better off — but it at least gives hosts the option of creating a more secure system.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/021-sandbox.png" alt="A runtime placing safe functions into the sandbox with an application">  </p>
-</blockquote>
-<p>WebAssembly的实现安全性的方式是不同的。WebAssembly是被放在沙盒中的。</p>
-<p>这意味着代码不能直接与操作系统对话。那么它是怎么处理系统资源的呢？主机（可能是浏览器，也可能是wasm运行时）将代码可以使用的函数放在沙盒中。</p>
-<p>这意味着主机可以逐个程序限制某个程序可以做什么。它并不让程序代表用户行事、用用户的全部权限去进行任何系统调用。</p>
-<p>仅仅拥有沙盒机制并不能使系统本身安全——主机仍然可以将所有功能都放入沙盒中，在这种情况下，我们的情况并不会好转——但它至少让主机可以选择去创建一个更安全的系统。</p>
-<blockquote>
-<p>In any system interface we design, we need to uphold these two principles. Portability makes it easier to develop and distribute software, and providing the tools for hosts to secure themselves or their users is an absolute must.</p>
-</blockquote>
-<p>在我们设计的任何系统界面中，都需要坚持这两个原则。可移植性使开发和分发软件更加容易，为主机提供工具来保护它自己或它的用户也是绝对必须的。</p>
-<blockquote>
-<h3 id="What-should-this-system-interface-look-like"><a href="#What-should-this-system-interface-look-like" class="headerlink" title="What should this system interface look like?"></a>What should this system interface look like?</h3><p>Given those two key principles, what should the design of the WebAssembly system interface be?</p>
-<p>That’s what we’ll figure out through the standardization process. We do have a proposal to start with, though:</p>
-<ul>
-<li>Create a modular set of standard interfaces</li>
-<li>Start with standardizing the most fundamental module, wasi-core<br><img src="/../imgs/WASI%E8%B5%84%E6%96%99/022-wasi.png" alt="Multiple modules encased in the WASI standards effort"></li>
-</ul>
-<h4 id="What-will-be-in-wasi-core"><a href="#What-will-be-in-wasi-core" class="headerlink" title="What will be in wasi-core?"></a>What will be in wasi-core?</h4><p>wasi-core will contain the basics that all programs need. It will cover much of the same ground as POSIX, including things such as files, network connections, clocks, and random numbers.</p>
-<p>And it will take a very similar approach to POSIX for many of these things. For example, it will use POSIX’s file-oriented approach, where you have system calls such as open, close, read, and write and everything else basically provides augmentations on top.</p>
-<p>But wasi-core won’t cover everything that POSIX does. For example, the process concept does not map clearly onto WebAssembly. And beyond that, it doesn’t make sense to say that every WebAssembly engine needs to support process operations like <code>fork</code>. But we also want to make it possible to standardize fork.</p>
-<p>This is where the modular approach comes in. This way, we can get good standardization coverage while still allowing niche platforms to use only the parts of WASI that make sense for them.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/023-wasi-1.png" alt="Modules filled in with possible areas for standardization, such as processes, sensors, 3D graphics, etc">  </p>
-<p>Languages like Rust will use wasi-core directly in their standard libraries. For example, Rust’s <code>open</code> is implemented by calling <code>__wasi_path_open</code> when it’s compiled to WebAssembly.</p>
-<p>For C and C++, we’ve created a wasi-sysroot that implements libc in terms of wasi-core functions.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/024-open-imps.png" alt="The Rust and C implementations of openat with WASI">  </p>
-<p>We expect compilers like Clang to be ready to interface with the WASI API, and complete toolchains like the Rust compiler and Emscripten to use WASI as part of their system implementations</p>
-<h4 id="How-does-the-user’s-code-call-these-WASI-functions"><a href="#How-does-the-user’s-code-call-these-WASI-functions" class="headerlink" title="How does the user’s code call these WASI functions?"></a>How does the user’s code call these WASI functions?</h4><p>The runtime that is running the code passes the wasi-core functions in as imports.</p>
-</blockquote>
-<p>运行代码的 wasm 运行时将 wasi-core 函数作为 imports 传递进去。</p>
-<blockquote>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/025-imports.png" alt="A runtime placing an imports object into the sandbox">  </p>
-</blockquote>
-<div class="inline-comment">
-在使用 wasm runtime 来把 `.wasm` 文件实体化为一个 wasm module 时，可以把一些函数，比如 wasi-core 中的函数，作为 imports 导入，这样被编译成 wasm module 的用户代码（在 wasm 沙箱内部）就可以调用这些被导入的（外部）函数了。
-
-<div class="inline-comment-date">Date: 2026-04-28</div>
-</div>
-
-<blockquote>
-<p>This gives us portability, because each host can have their own implementation of wasi-core that is specifically written for their platform — from WebAssembly runtimes like Mozilla’s wasmtime and Fastly’s Lucet, to Node, or even the browser.</p>
-</blockquote>
-<p>这为我们提供了可移植性，因为每个主机都可以有自己的wasi-core实现，该实现是专门为其平台编写的——从WebAssembly运行时，如Mozilla的wasmtime和Fastly的Lucet，到Node，甚至浏览器。</p>
-<blockquote>
-<p>It also gives us sandboxing because the host can choose which wasi-core functions to pass in — so, which system calls to allow — on a program-by-program basis. This preserves security.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/026-sec-port.png" alt="Three runtimes—wastime, Node, and the browser—passing their own implementations of wasi_fd_open into the sandbox">  </p>
-</blockquote>
-<p>它还为我们提供了沙盒，因为主机可以逐个程序筛选要传递的wasi-core函数——即，哪个程序允许调用哪个system call。这保证了安全性。</p>
-<blockquote>
-<p>WASI gives us a way to extend this security even further. It brings in more concepts from capability-based security.</p>
-<p>Traditionally, if code needs to open a file, it calls <code>open</code> with a string, which is the path name. Then the OS does a check to see if the code has permission (based on the user who started the program).</p>
-<p>With WASI, if you’re calling a function that needs to access a file, you have to pass in a file descriptor, which has permissions attached to it. This could be for the file itself, or for a directory that contains the file.</p>
-<p>This way, you can’t have code that randomly asks to open <code>/etc/passwd</code>. Instead, the code can only operate on the directories that are passed in to it.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/027-openat-path.png" alt="Two evil apps in sandboxes. The one on the left is using POSIX and succeeds at opening a file it shouldn&#39;t have access to. The other is using WASI and can&#39;t open the file.">  </p>
-</blockquote>
-<p>WASI为我们提供了进一步扩展这种安全性的方法。它从基于能力的安全性中带来了更多概念。</p>
-<p>传统上，如果代码需要打开一个文件，它会传入一个代表路径名的字符串作为参数来调用 <code>open</code> 函数。然后，操作系统会检查代码是否有权限（基于启动该程序的用户的权限）。</p>
-<p>而使用WASI时，如果调用需要访问文件的函数，你必须传递一个文件描述符，操作权限会被附加在该文件描述符上。这可以是文件本身，也可以是包含该文件的目录。</p>
-<p>这样，程序中就不能有随机要求打开<code>/etc/passwd</code>的代码。相反，程序只能在已经给它传入的目录上操作。</p>
-<blockquote>
-<p>This makes it possible to safely give sandboxed code more access to different system calls — because the capabilities of these system calls can be limited.</p>
-<p>And this happens on a module-by-module basis. By default, a module doesn’t have any access to file descriptors. But if code in one module has a file descriptor, it can choose to pass that file descriptor to functions it calls in other modules. Or it can create more limited versions of the file descriptor to pass to the other functions.</p>
-<p>So the runtime passes in the file descriptors that an app can use to the top level code, and then file descriptors get propagated through the rest of the system on an as-needed basis.</p>
-<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/028-file-perms.png" alt="The runtime passing a directory to the app, and then the app passing a file to a function">  </p>
-</blockquote>
-<p>这使得安全地让沙盒代码更多地访问不同的系统调用成为可能——因为这些系统调用的功能可以被限制。</p>
-<p>这是逐个模块发生的。默认情况下，wasm module 无法访问文件描述符。但是，如果一个模块中的代码有文件描述符，它可以选择将该文件描述符作为参数传递给它在其他模块中调用的函数。或者它可以创建更有限的文件描述符版本，以传递给其他函数。</p>
-<p>即，运行时将应用程序可以使用的文件描述符传递到顶层代码，然后文件描述符根据需要通过系统的其余部分传播。</p>
-<blockquote>
-<p>This gets WebAssembly closer to the principle of least privilege, where a module can only access the exact resources it needs to do its job.</p>
-</blockquote>
-<p>这使WebAssembly更接近于最小特权原则，即模块只能访问其完成工作所需的确切资源。</p>
-<blockquote>
-<p>These concepts come from capability-oriented systems, like CloudABI and Capsicum. One problem with capability-oriented systems is that it is often hard to port code to them. But we think this problem can be solved.</p>
-<p>If code already uses <code>openat</code> with relative file paths, compiling the code will just work.</p>
-<p>If code uses open and migrating to the <code>openat</code> style is too much up-front investment, WASI can provide an incremental solution. With libpreopen, you can create a list of file paths that the application legitimately needs access to. Then you can use <code>open</code>, but only with those paths.</p>
-<h3 id="What’s-next"><a href="#What’s-next" class="headerlink" title="What’s next?"></a>What’s next?</h3><p>We think wasi-core is a good start. It preserves WebAssembly’s portability and security, providing a solid foundation for an ecosystem.</p>
-<p>But there are still questions we’ll need to address after wasi-core is fully standardized. Those questions include:</p>
-<ul>
-<li>asynchronous I&#x2F;O</li>
-<li>file watching</li>
-<li>file locking</li>
-</ul>
-<p>This is just the beginning, so if you have ideas for how to solve these problems, join us!</p>
-</blockquote>
-<h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WASI 前瞻：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/105902805">https://zhuanlan.zhihu.com/p/105902805</a><br>[2] Mozilla 发布 WASI 计划，可在所有设备上运行 WebAssembly：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/rkcuswctom5wc5*kowac">https://www.infoq.cn/article/rkcuswctom5wc5*kowac</a><br>[3] 上面文章英文原文：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a><br>[4] Standardizing WASI: A system interface to run WebAssembly outside the web：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/</a><br>[5] 系统调用（维基百科）：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">https://zh.wikipedia.org/wiki/系统调用</a><br>[6] 系统调用：<a target="_blank" rel="noopener" href="https://hackmd.io/@combo-tw/BJPoAcqQS">https://hackmd.io/@combo-tw/BJPoAcqQS</a>  </p>
 
       
     </div>

@@ -171,7 +171,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -199,6 +199,492 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1872035402.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1872035402.html" class="post-title-link" itemprop="url">WASI资料</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-15 11:35:05" itemprop="dateCreated datePublished" datetime="2022-07-15T11:35:05-04:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-04-28 17:06:06" itemprop="dateModified" datetime="2026-04-28T17:06:06-04:00">2026-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<h2 id="1-WASI-是什么？"><a href="#1-WASI-是什么？" class="headerlink" title="1. WASI 是什么？"></a>1. WASI 是什么？</h2><p>WASI是WebAssembly System Interface的缩写。WebAssembly，我们都知道，是一种新的字节码格式，目前被应用于 web 中，由于其可移植、体积小、安全性的等优点被渐渐广泛认可，但是其主要是运行在浏览器中。</p>
+<p>一些天才们，<strong>想让 WebAssembly 也可以运行在非浏览器环境中，这就产生了 WASI</strong>。</p>
+<p>因此，这样会有一些问题需要解决。我们知道，一些语言，比如Rust，都有自己的标准库，标准库对系统调用进行了封装，让我们写的代码可以跨平台，这实际上是源代码的可移植性。</p>
+<p>wasi 这里需要可移植的是二进制文件（.wasm）和一个跨平台的 runtime，也就是说，我们在某一个平台上生成了.wasm，直接拿到其他平台上，也可以直接使用。</p>
+<p>我们在设计这个 runtime 的时候，有两个关键点需要考虑：</p>
+<ul>
+<li>可移植性（上文提到的，二进制级别的可移植性）+ 可扩展性</li>
+<li>安全性</li>
+</ul>
+<h3 id="关于安全性"><a href="#关于安全性" class="headerlink" title="关于安全性"></a>关于安全性</h3><p>传统的软件开发，是以<strong>用户级别</strong>来进行权限管理的，也就是说，这个用户有什么权限，以这个用户的名义运行的程序就有什么权限，这样就可以避免不同用户之间互相影响。这样无疑是科学的，但是现在的问题是：现今大多数情况，我们的电脑只有一个用户，但是运行的程序可能来自各处，而程序本身可能是不安全的，所以像以前那样以用户级别来进行权限控制，其实是不安全的。</p>
+<p>所以wasm提供了一种更细粒度的权限控制。因为wasm有二进制模块和一个运行时，所以我们做这样几个工作：</p>
+<ul>
+<li>先定义一套标准的系统调用接口：<code>wasi-core</code></li>
+<li>各个平台（windows、unix）对标准接口进行平台实现</li>
+<li>对于一个具体的 wasm 程序，需要把其允许调用的接口在运行的时候传入，比如对于一个 wasm 模块，我只传入<code>__wasi_path_open</code>这样一个接口，因此 wasm 中就只能用这样一个接口（使用过 web 端的 wasm 同学，是不是对此十分熟悉）</li>
+<li>同样的，对于文件路径也是，只允许对传入的文件路径进行操作，例如只传入<code>​/tmp</code>​路径，wasm 模块就没有办法对<code>​/User</code>​路径下的文件进行操作</li>
+</ul>
+<p>这样的设计更<strong>细粒度</strong>地保证了安全，同时也具备了可移植性。</p>
+<p>与此同时，除了上文提到的<code>wasi-core</code>系统接口，我们还可以定义<code>wasi-xx</code>模块接口，然后运行时传入，这样也具备了可扩展性。</p>
+<p>以上就是 wasi 的一些基本介绍，目前其有三个实现，可以尝试：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">wasmtime</a>：Mozilla’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://www.fastly.com/blog/announcing-lucet-fastly-native-webassembly-compiler-runtime">Lucet</a>：Fastly’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://wasi.dev/polyfill/">a browser polyfill</a></li>
+</ul>
+<h2 id="2-Mozilla-Announces-WASI-Initiative-to-Run-Web-Assembly-on-All-Devices-Computers-Operating-Systems"><a href="#2-Mozilla-Announces-WASI-Initiative-to-Run-Web-Assembly-on-All-Devices-Computers-Operating-Systems" class="headerlink" title="2. Mozilla Announces WASI Initiative to Run Web Assembly on All Devices, Computers, Operating Systems"></a>2. Mozilla Announces WASI Initiative to Run Web Assembly on All Devices, Computers, Operating Systems</h2><p>来源：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a></p>
+<blockquote>
+<p>Mozilla recently announced a new standardization effort aiming at running the same WebAssembly code across all devices, machines and operating systems. </p>
+</blockquote>
+<p>WASI是定义了标准化系统接口，使WebAssembly能跨设备、跨操作系统运行。  </p>
+<p>这个“recently”应该是指<code>2019-03-27</code>，是Lin Clark发表文章宣布：  </p>
+<blockquote>
+<p>Today, we announce the start of a new standardization effort — WASI, the WebAssembly system interface.  </p>
+</blockquote>
+<p>的时间。该文章原文见本文<a href="#3-%E5%8E%9F%E6%96%87%E8%A7%A3%E8%AF%BB">第三部分</a>，或<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">此链接</a>。  </p>
+<blockquote>
+<p>The new standard, WebAssembly System Interface (WASI), defines one single conceptual operating system interface, which can be implemented by multiple, actual operating systems. </p>
+</blockquote>
+<p>WASI定义了一个单一的概念性操作系统接口，可以被多个实际的操作系统实现。</p>
+<p>At the difference of previous “Run Anywhere” efforts like Java, WASI builds on WebAssembly, a rare collaboration between browser vendors and manufacturers of chips, devices, computers and operating systems to produce a patent-free, open standard. The WASI standard will strive to provide WebAssembly’s portability and security through a modular set of standard interfaces, and to provide a solid foundation for an ecosystem. Mozilla and Fastly are already shipping prototypal WASI implementations.</p>
+<p>WASI aims to be a system interface for the WebAssembly platform (currently implemented by the four major browser engines). WebAssembly (Wasm) describes itself as a “binary instruction format for a stack-based virtual machine”, with the design goal to “execute at native speed by taking advantage of common hardware capabilities available on a wide range of platforms”. Wasm is used as a target for compilation of high-level languages like C&#x2F;C++&#x2F;Rust. While WebAssembly was primarily designed to run on the open web, Mozilla seeks now to extend WebAssembly’s reach to non-web embeddings, “including everything from minimal shells for testing to full-blown application environments e.g. on servers in datacenters, on IoT devices, or mobile&#x2F;desktop apps”. As Lin Clark observes:</p>
+<p>Code outside of a browser needs a way to talk to the system — a system interface. And the WebAssembly platform doesn’t have that yet.</p>
+<p>WASI’s stated goal echoes the original Java promise to “Write Once, Run Anywhere”. The Java Virtual Machine (JVM) indeed serves a similar purpose, and language flexibility similar to that offered by the WebAssembly platform may be realized in Java via the GraalVM. Java, however, remains a de facto standard, and its owner Oracle has a lawsuit pending against Google for allegedly using unlawfully Java’s APIs. By contrast, WebAssembly is the result of a rare collaboration between browser vendors and major companies such as Microsoft, Google, Apple, Mozilla, Intel, Samsung and more. Jay Phelps emphasized at QCon San Francisco 2018:</p>
+<p>(…) these companies, they’ve come together and they’ve all created the first standardized byte code by all of these major companies. And it’s free. It’s not a proprietary program. There’s no question that this is completely open. And it’s not encumbered by patent laws and all that sorts of things.</p>
+<p>Furthermore, Wasm, being memory safe and tuned for validation, may have security advantages over Java. Till Schneidereit‏ provides extra arguments to the comparison in favor of Wasm:</p>
+<p>(…) WebAssembly has been designed to scale from tiny devices to large server farms or CDNs; is much more language-agnostic than Java; and has a much smaller implementation footprint.</p>
+<p>WASI seeks to achieve portable binaries by specifying a common interface to multiple systems, based on abstractions of system functionalities. Such abstractions are clustered into modules, with wasi-core occupying a central role. Lin Clark details:</p>
+<p>wasi-core will contain the basics that all programs need. It will cover much of the same ground as POSIX, including things such as files, network connections, clocks, and random numbers.</p>
+<p>Other functionalities, like multimedia, 3D graphics, or smart contracts, may be addressed by specific modules. The standardization effort in place aims at specifying carefully the system functionality abstractions to address a large set of operating systems and architectures, while maintaining the performance objective of WebAssembly.</p>
+<p>WASI builds on the security aspect of Wasm by adopting a capability-based security model. WASI applications are provided with capabilities, instead of forgeable references (such as a file path) which identify a resource, but do not specify which access rights are appropriate for that resource. Forgeable references force validation by the operating system based on the ambient authority of the requesting program. Lin Clark explains how a WASI app can only open a file if it previously has been given the capability to open that file:</p>
+<p>(…) you can’t have code that randomly asks to open &#x2F;etc&#x2F;passwd. Instead, the code can only operate on the directories that are passed in to it. (…) So the runtime passes in the file descriptors that an app can use to the top level code, and then file descriptors get propagated through the rest of the system on an as-needed basis.</p>
+<p>WASI-enabled apps can currently be run in the browser with a polyfill, or outside the browser with Mozilla’s Wasmtime, or Fastly’s Lucet.</p>
+<p>WASI is a work in progress. Lin Clark reflects:</p>
+<p>But there are still questions we’ll need to address after wasi-core is fully standardized. Those questions include:</p>
+<p>asynchronous I&#x2F;O<br>file watching<br>file locking<br>The stakes are high. Solomon Hikes, co-founder of Docker, says:</p>
+<p>If WASM+WASI existed in 2008, we wouldn’t have needed to created Docker. That’s how important it is. Webassembly on the server is the future of computing. A standardized system interface was the missing link. Let’s hope WASI is up to the task!</p>
+<h2 id="3-原文解读"><a href="#3-原文解读" class="headerlink" title="3. 原文解读"></a>3. 原文解读</h2><p>文档链接：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">Standardizing WASI: A system interface to run WebAssembly outside the web</a> by Lin Clark on March 27, 2019  </p>
+<blockquote>
+<p>Today, we announce the start of a new standardization effort — WASI, the WebAssembly system interface.</p>
+<ul>
+<li><p><strong>Why</strong>: Developers are starting to <strong>push WebAssembly beyond the browser</strong>, because it provides a fast, scalable, secure way to run the same code across all machines.</p>
+<p>  But we don’t yet have a solid foundation to build upon. <strong>Code outside of a browser needs a way to talk to the system — a system interface.</strong> And the WebAssembly platform doesn’t have that yet.</p>
+</li>
+</ul>
+</blockquote>
+<p>由于WebAssembly的诸多好处（fast，scalable，secure，跨平台），产生了<strong>在浏览器外</strong>运行WebAssembly的诉求。但想要在浏览器外运行WebAssembly，就需要解决程序与操作系统之间通信的问题。（为了解决这个问题，WASI产生了。）</p>
+<blockquote>
+<ul>
+<li><p><strong>What</strong>: WebAssembly is an assembly language <strong>for a conceptual machine, not a physical one</strong>. This is why it can be run across a variety of different machine architectures.</p>
+<p>  Just as WebAssembly is an assembly language for a conceptual machine, WebAssembly needs a system interface for a conceptual operating system, not any single operating system. This way, it can be run across all different OSs.</p>
+<p>  This is what WASI is — a system interface for the WebAssembly platform.</p>
+<p>  We aim to create a system interface that will be a true companion to WebAssembly and last the test of time. This means upholding the <strong>key principles of WebAssembly — portability and security</strong>.</p>
+</li>
+</ul>
+</blockquote>
+<p>WASI是一个为WebAssembly平台设计的系统接口，为WebAssembly的<strong>可移植性</strong>和<strong>安全性</strong>提供支持。</p>
+<blockquote>
+<ul>
+<li><p><strong>Who</strong>: We are chartering a WebAssembly subgroup to focus on standardizing WASI. We’ve already gathered interested partners, and are looking for more to join.</p>
+<p> Here are some of the reasons that we, our partners, and our supporters think this is important:</p>
+</li>
+</ul>
+</blockquote>
+<p>下面是一些有在浏览器外使用WebAssembly诉求的人对WASI的看法：  </p>
+<blockquote>
+<ul>
+<li><em>Sean White, Chief R&amp;D Officer of <strong>Mozilla</strong></em><br>  “WebAssembly is already transforming the way the web brings new kinds of compelling content to people and empowers developers and creators to do their best work on the web. Up to now that’s been through browsers, but <strong>with WASI we can deliver the benefits of WebAssembly and the web to more users, more places, on more devices, and as part of more experiences</strong>.”</li>
+</ul>
+</blockquote>
+<p>由于WASI是要为WebAssembly提供非浏览器环境的支持，因此它可以把WebAssembly的优势推广到更多用户、更多设备。</p>
+<blockquote>
+<ul>
+<li><em>Tyler McMullen, CTO of <strong>Fastly</strong></em><br>  “We are taking WebAssembly beyond the browser, <strong>as a platform for fast, safe execution of code in our edge cloud</strong>. Despite the differences in environment between our edge and browsers, WASI means WebAssembly developers won’t have to port their code to each different platform.”</li>
+</ul>
+</blockquote>
+<p>Fastly旨在将WebAssembly拓展到非浏览器环境，在edge cloud中提供一个快速安全地执行代码的平台。</p>
+<blockquote>
+<ul>
+<li><em>Myles Borins, Node Technical Steering committee director</em><br>  “WebAssembly could solve one of the biggest problems in Node — how to <strong>get close-to-native speeds and reuse code written in other languages like C and C++ like you can with native modules</strong>, while still remaining <strong>portable and secure</strong>. Standardizing this system interface is the first step towards making that happen.”</li>
+</ul>
+</blockquote>
+<p>有了WebAssembly，我们不但可以重用已经用C&#x2F;C++写好的代码，还可以获得接近C&#x2F;C++的运行速度。</p>
+<blockquote>
+<ul>
+<li><em>Laurie Voss, co-founder of <strong>npm</strong></em><br>  “npm is tremendously excited by the potential WebAssembly holds to expand the capabilities of the npm ecosystem while hugely simplifying the process of getting native code to run in server-side JavaScript applications. We look forward to the results of this process.”</li>
+</ul>
+<p>So that’s the big news! 🎉</p>
+<p>There are currently 3 implementations of WASI:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">wasmtime</a>：Mozilla’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://www.fastly.com/blog/announcing-lucet-fastly-native-webassembly-compiler-runtime">Lucet</a>：Fastly’s WebAssembly runtime</li>
+<li><a target="_blank" rel="noopener" href="https://wasi.dev/polyfill/">a browser polyfill</a></li>
+</ul>
+<p>You can see WASI in action in this video:  <a target="_blank" rel="noopener" href="https://www.youtube.com/embed/ggtEJC0Jv8A">https://www.youtube.com/embed/ggtEJC0Jv8A</a>  </p>
+<p>And if you want to learn more about our proposal for how this system interface should work, keep reading.</p>
+<h3 id="What’s-a-system-interface"><a href="#What’s-a-system-interface" class="headerlink" title="What’s a system interface?"></a>What’s a system interface?</h3><p>Many people talk about languages like C giving you direct access to system resources. But that’s not quite true.</p>
+<p>These languages don’t have direct access to do things like open or create files on most systems. Why not?</p>
+<p>Because these system resources — such as files, memory, and network connections— are too important for stability and security.</p>
+<p>If one program unintentionally messes up the resources of another, then it could crash the program. Even worse, if a program (or user) intentionally messes with the resources of another, it could steal sensitive data.  </p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/009-crash-data-leak.png" alt="A frowning terminal window indicating a crash, and a file with a broken lock indicating a data leak">  </p>
+<p>So we need a way to control which programs and users can access which resources. People figured this out pretty early on, and came up with a way to provide this control: protection ring security.</p>
+<p>With protection ring security, the operating system basically puts a protective barrier around the system’s resources. This is the kernel. The kernel is the only thing that gets to do operations like creating a new file or opening a file or opening a network connection.</p>
+<p>The user’s programs run outside of this kernel in something called user mode. If a program wants to do anything like open a file, it has to ask the kernel to open the file for it.</p>
+</blockquote>
+<p>很多人谈论像C这样的语言，它可以让你直接访问系统资源，但那并不完全正确。对于大多数系统，这些语言并没有直接访问权限，比如做打开文件或创建文件这样的操作。为什么没有呢？因为这些系统资源（如文件、内存和网络连接）对于稳定性和安全性非常重要。如果一个程序无意中弄乱了另一个程序的资源，那么程序就可能崩溃。更糟糕的是，如果一个程序（或用户）故意扰乱另一个程序的资源，它可能会窃取敏感数据。</p>
+<p>因此，我们需要一种方法来控制哪些程序和用户可以访问哪些资源。人们很早就想通了这一点，并想出了一种方法来提供这种控制：保护环安全（protection ring security）。</p>
+<p>有了保护环安全性，操作系统基本上在系统资源周围设置了一个保护屏障——<strong>内核(Kernel)</strong>。<strong>内核是唯一可以执行创建新文件、打开文件或打开网络连接等操作的东西。</strong></p>
+<p>用户的程序在内核之外运行，运行方式被称为用户模式。如果一个程序想要做任何事情，比如打开一个文件，它必须要求内核为它打开文件。</p>
+<blockquote>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/010-protection-ring-sec.png" alt="A file directory structure on the left, with a protective barrier in the middle containing the operating system kernel, and an application knocking for access on the right">  </p>
+<p>This is where the concept of the system call comes in. When a program needs to ask the kernel to do one of these things, it asks using a system call. This gives the kernel a chance to figure out which user is asking. Then it can see if that user has access to the file before opening it.</p>
+<p>On most devices, this is the only way that your code can access the system’s resources — through system calls.</p>
+</blockquote>
+<p>这就是系统调用的概念出现的地方。<b>当程序需要要求内核去做这些事情之一时，它会通过系统调用（system call）来发出请求。</b>这让内核有机会弄清楚哪个用户在问。然后，它在打开文件之前可以查看该用户是否可以访问该文件。</p>
+<p>在大多数设备上，这是你的代码访问系统资源的唯一方式——通过系统调用。</p>
+<blockquote>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/011-syscall.png" alt="An application asking the operating system to put data into an open file">  </p>
+<p>The operating system makes the system calls available. But if each operating system has its own system calls, wouldn’t you need a different version of the code for each operating system? Fortunately, you don’t.</p>
+<p>How is this problem solved? Abstraction.</p>
+<p>Most languages provide a standard library. While coding, the programmer doesn’t need to know what system they are targeting. They just use the interface.</p>
+<p>Then, when compiling, your toolchain picks which implementation of the interface to use based on what system you’re targeting. This implementation uses functions from the operating system’s API, so it’s specific to the system.</p>
+<p>This is where the system interface comes in. For example, <code>printf</code> being compiled for a Windows machine could use the Windows API to interact with the machine. If it’s being compiled for Mac or Linux, it will use POSIX instead.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/012-implementations.png" alt="The interface for putc being translated into two different implementations, one implemented using POSIX and one implemented using Windows APIs">  </p>
+</blockquote>
+<p>操作系统使系统调用（system calls）可用。但是，如果每个操作系统都有自己的系统调用，你需要为每个操作系统提供不同版本的代码吗？幸运的是，不需要。</p>
+<p>这个问题是如何解决的？通过<strong>抽象（Abstraction）</strong>。</p>
+<p>大多数语言都提供标准库。在编码时，程序员不需要知道他们的目标系统是什么，他们只需要使用接口（interface）。</p>
+<p>然后，在编译时，工具链（toolchain）会根据你的目标系统选择要使用的接口实现。这个实现使用的是目标操作系统的API的函数，所以它是专门针对于目标系统的。</p>
+<p>这就是系统接口的用处。例如，为Windows机器编译的<code>printf</code>可以使用Windows API与机器交互。如果它是为Mac或Linux编译的，它将改用POSIX。 </p>
+<div class="inline-comment">
+系统调用与 OS API 的关系（来自Google AI）：   
+
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/029-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB.png" alt="系统调用与OS API的关系">  </p>
+<p>关于系统调用（来自维基百科：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%EF%BC%89%EF%BC%9A">https://zh.wikipedia.org/wiki/系统调用）：</a>  </p>
+<blockquote>
+<p>在电脑中，系统调用（英语：system call），指运行在用户空间的程序向操作系统内核请求需要更高权限运行的服务。这些服务可能包含访问文件系统、创建和销毁进程、进程间通信和内存分配。系统调用在进程和作系统之间提供了一个重要的接口。系统调用提供用户程序与操作系统之间的接口。大多数系统交互式操作需求在内核态执行。如设备IO操作或者进程间通信。  </p>
+<p><strong>典型实现（Linux）</strong><br>Linux 在x86上的系统调用通过 int 80h 实现，用系统调用号来区分入口函数。操作系统实现系统调用的基本过程是：</p>
+<ol>
+<li>应用程序调用库函数（API）；</li>
+<li>API 将系统调用号存入 EAX，然后通过中断调用使系统进入内核态；</li>
+<li>内核中的中断处理函数根据系统调用号，调用对应的内核函数（系统调用）；</li>
+<li>系统调用完成相应功能，将返回值存入 EAX，返回到中断处理函数；</li>
+<li>中断处理函数返回到 API 中；</li>
+<li>API 将 EAX 返回给应用程序。</li>
+</ol>
+<p>应用程序调用系统调用的过程是：</p>
+<ol>
+<li>把系统调用的编号存入 EAX；</li>
+<li>把函数参数存入其它通用寄存器；</li>
+<li>触发 0x80 号中断（int 0x80）。</li>
+</ol>
+</blockquote>
+<p>其它关于系统调用的资料：<a target="_blank" rel="noopener" href="https://hackmd.io/@combo-tw/BJPoAcqQS">https://hackmd.io/@combo-tw/BJPoAcqQS</a><br><img src="/../imgs/WASI%E8%B5%84%E6%96%99/030-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB2.png">  </p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/031-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E4%B8%8EOS_API%E7%9A%84%E5%85%B3%E7%B3%BB3.png">    </p>
+<p>总结来说，即使不同操作系统的系统调用函数是不同的，当需要对不同的操作系统做系统调用时，程序员也不需要为每种操作系统都单独写一套代码。因为大多数语言（比如C语言）都会在标准库中提供统一的接口（system interface），程序员只需要调用这些接口，在编译时，toolchain 就会根据实际情况来选择相应的接口实现（operating system’s API），比如 Windows 系统选 Windows API，Linux&#x2F;Mac 选 POSIX。这些具体的接口实现中会进一步调用各自的系统调用函数（可能包含一个或多个系统调用）。</p>
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
+<p>This poses a problem for WebAssembly, though.</p>
+<p>With WebAssembly, you don’t know what kind of operating system you’re targeting even when you’re compiling. So you can’t use any single OS’s system interface inside the WebAssembly implementation of the standard library.  </p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/013-implementations-2.png" alt="an empty implementation of putc">  </p>
+</blockquote>
+<p>然而，这给WebAssembly带来了问题。</p>
+<p>使用WebAssembly时，即使在编译时，你也不知道你的目标操作系统是什么。因此，你无法在WebAssembly实现的标准库中使用任何一个操作系统的系统接口。  </p>
+<div class="inline-comment">
+对于 WebAssembly 而言，在把源代码（比如 C/C++/Rust）编译成 WebAssembly 的时候，我们也不知道拿到 .wasm 文件的人要把它放到什么环境中运行（即，在编译时无法知道目标操作系统是什么）。因此，当 WebAssembly 想要跟 C 语言一样实现一套标准库供程序员使用时，无法使用任何一种操作系统的接口实现。
+<br/><br/>
+也就是说，原来在编译的时候就可以知道具体的目标操作系统是什么，这样就可以将该操作系统的接口实现一起编译进去。而 WebAssembly 的情况是，在编译成 wasm 的时候无法确定到底该使用哪套操作系统实现的API，因为 wasm 是需要在各个操作系统上都能运行的，这样的话把任何一个操作系统的具体实现编译进 wasm 都不合适。  
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
+<p>I’ve talked before about how WebAssembly is <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/creating-and-working-with-webassembly-modules/">an assembly language for a conceptual machine</a>, not a real machine. In the same way, WebAssembly needs a system interface for a conceptual operating system, not a real operating system.</p>
+</blockquote>
+<p>我之前提到过WebAssembly是 <em>概念机器</em> 的汇编语言，而不是真实机器的。同样，WebAssembly需要 <em>概念操作系统</em> 的系统接口，而不是真正的操作系统的系统接口。</p>
+<blockquote>
+<p>But there are already runtimes that can run WebAssembly outside the browser, even without having this system interface in place. How do they do it? Let’s take a look.</p>
+<h3 id="How-is-WebAssembly-running-outside-the-browser-today"><a href="#How-is-WebAssembly-running-outside-the-browser-today" class="headerlink" title="How is WebAssembly running outside the browser today?"></a>How is WebAssembly running outside the browser today?</h3><p>The first tool for producing WebAssembly was Emscripten. <strong>It emulates a particular OS system interface, POSIX, on the web.</strong> This means that the programmer can use functions from the C standard library (libc).</p>
+<p>To do this, Emscripten created its own implementation of libc. This implementation was split in two — part was compiled into the WebAssembly module, and the other part was implemented in JS glue code. This JS glue would then call into the browser, which would then talk to the OS.</p>
+</blockquote>
+<p>第一个WebAssembly的编译工具是Emscripten。它在网络上<strong>模拟特定的操作系统的系统接口——POSIX</strong>。这意味着程序员可以使用C标准库（libc）中的函数。</p>
+<p>为此，Emscripten创建了自己的libc实现。这个实现被分成两部分——一部分被编译到WebAssembly模块中，另一部分在JS glue code中实现。然后，这个JS glue会调用浏览器，浏览器进而会与操作系统对话。</p>
+<blockquote>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/014-emscripten.png" alt="A Rube Goldberg machine showing how a call goes from a WebAssembly module, into Emscripten&#39;s JS glue code, into the browser, into the kernel"></p>
+<p>Most of the early WebAssembly code was compiled with Emscripten. So when people started wanting to run WebAssembly without a browser, they started by making Emscripten-compiled code run.</p>
+<p>So these runtimes needed to create their own implementations for all of these functions that were in the JS glue code.</p>
+</blockquote>
+<p>由于大部分早期的WebAssembly代码都是用Emscripten编译的，因此当人们开始想在没有浏览器的情况下运行WebAssembly时，他们的起点就是让Emscripten编译的代码运行。</p>
+<p>因此，这些运行时（runtimes）需要为JS glue code中的所有函数创建自己的实现。</p>
+<div class="inline-comment">
+意思可能是，在浏览器上运行时，Emscripten 提供的 JS glue code 中可能提供了一些能使 wasm module 与浏览器进行交互的函数。现在要在非浏览器环境下运行，原本的 JS glue code 中的相应函数就要替换成 wasm module 与各种 operating systems 进行交互的函数，而不能沿用原先的 JS glue code。
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
+<p>There’s a problem here, though. The interface provided by this JS glue code wasn’t designed to be a standard, or even a public facing interface. That wasn’t the problem it was solving.</p>
+<p>For example, for a function that would be called something like <code>read</code> in an API that was designed to be a public interface, the JS glue code instead uses <code>_system3(which, varargs)</code>.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/015-system3.png" alt="A clean interface for read, vs a confusing one for system3">  </p>
+<p>The first parameter, <code>which</code>, is an integer which is always the same as the number in the name (so 3 in this case).</p>
+</blockquote>
+<p>不过，这里有个问题。这个 JS glue code 提供的接口不是为成为一个标准而设计的，甚至不是为成为面向公共的接口而设计的，因为这不是它要解决的问题。  </p>
+<p>例如，相对于一个被设计成公共接口的API <code>read</code> 函数，在 JS glue code 中使用的却是 <code>__syscall3(which, varargs)</code>。</p>
+<p>第1个参数，<code>which</code>，是一个整数，它总是与函数名字中的数字相同（即 <code>__syscall3</code> 中的 <code>3</code>）。</p>
+<blockquote>
+<p>The second parameter, <code>varargs</code>, are the arguments to use. It’s called <code>varargs</code> because you can have a variable number of them. But WebAssembly doesn’t provide a way to pass in a variable number of arguments to a function. So instead, the arguments are passed in via linear memory. This isn’t type safe, and it’s also slower than it would be if the arguments could be passed in using registers.</p>
+<p>That was fine for Emscripten running in the browser. But now runtimes are treating this as a de facto standard, implementing their own versions of the JS glue code. They are emulating an internal detail of an emulation layer of POSIX.</p>
+<p>This means they are re-implementing choices (like passing arguments in as heap values) that made sense based on Emscripten’s constraints, even though these constraints don’t apply in their environments.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/016-emulation.png" alt="A more convoluted Rube Goldberg machine, with the JS glue and browser being emulated by a WebAssembly runtime">  </p>
+</blockquote>
+<p>第二个参数，<code>varargs</code>，是要使用的参数。它被称为<code>varargs</code>是因为参数的数量是可变的。但 WebAssembly 没有提供向函数传递可变数量参数的方法。因此，参数是通过 linear memory 传递的。这不是类型安全的，而且比使用寄存器传递参数的情况要慢。</p>
+<p>对于在浏览器中运行的Emscripten来说，这没问题。但现在，runtimes 将此视为事实上的标准来实现他们自己版本的JS glue code。他们在模拟 POSIX 仿真层的一个内部细节。</p>
+<p>这意味着他们正在重复实现由于 Emscripten 本身的限制才需要去做的操作（例如将参数作为堆值传递），即使这些限制在他们的环境中并不存在。</p>
+<blockquote>
+<p>If we’re going to build a WebAssembly ecosystem that lasts for decades, we need solid foundations. This means <strong>our de facto standard can’t be an emulation of an emulation</strong>.</p>
+</blockquote>
+<p>如果我们要建立一个持续几十年的 WebAssembly 生态系统，我们需要坚实的基础。这意味着我们事实上的标准不能是一个仿真的仿真。  </p>
+<div class="inline-comment">
+上面的内容叙述了：  
+
+<ul>
+<li>什么是 System Interface；</li>
+<li>WebAssembly System Interface（WASI）与传统的系统接口有什么不同（It’s an interface for a conceptual operating system, not a real operating system）</li>
+<li>WASI 为什么需要标准化（模拟 Emscription 实现的 runtimes 是基于仿真的仿真，并受限于 Emscripten 本身带来的限制，而我们需要为 WebAssembly 生态提供更坚实的基础，因此需要标准化 WASI）</li>
+</ul>
+<p>接下来详细介绍实现标准化 WASI 需要满足的原则（Portability 和 Security）。</p>
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
+<p>But what principles should we apply?</p>
+<h3 id="What-principles-does-a-WebAssembly-system-interface-need-to-uphold"><a href="#What-principles-does-a-WebAssembly-system-interface-need-to-uphold" class="headerlink" title="What principles does a WebAssembly system interface need to uphold?"></a>What principles does a WebAssembly system interface need to uphold?</h3><p>There are two important principles that are baked into WebAssembly :</p>
+<ul>
+<li><strong>portability</strong></li>
+<li><strong>security</strong></li>
+</ul>
+<p>We need to maintain these key principles as we move to outside-the-browser use cases.</p>
+<p>As it is, POSIX and Unix’s Access Control approach to security don’t quite get us there. Let’s look at where they fall short.</p>
+</blockquote>
+<p>WebAssembly 中嵌入了两个重要原则：可移植性和安全性。</p>
+<p>当我们转向浏览器外的用例时，我们需要依然保有这些关键原则。</p>
+<p>就现在而言，POSIX 和 Unix 的访问控制安全方法并不能让我们完全达成这个目的。让我们来看看他们的不足。</p>
+<blockquote>
+<h4 id="Portability"><a href="#Portability" class="headerlink" title="Portability"></a>Portability</h4><p>POSIX provides source code portability. You can compile the same source code with different versions of libc to target different machines.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/017-portability.png" alt="One C source file being compiled to multiple binaries">  </p>
+<p>But WebAssembly needs to go one step beyond this. We need to be able to compile once and run across a whole bunch of different machines. We need portable binaries.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/018-portability-1.png" alt="One C source file being compiled to a single binary">  </p>
+<p>This kind of portability makes it much easier to distribute code to users.</p>
+<p>For example, if Node’s native modules were written in WebAssembly, then users wouldn’t need to run node-gyp when they install apps with native modules, and developers wouldn’t need to configure and distribute dozens of binaries.</p>
+</blockquote>
+<p>POSIX提供源代码的可移植性。你可以针对不同的机器、使用不同版本的 libc 来编译相同的源代码。</p>
+<p>但 WebAssembly 需要再领先一步。我们需要能够编译一次，并在一大堆不同的机器上运行。我们需要便携式二进制文件。</p>
+<p>这种可移植性使向用户分发代码变得更加容易。</p>
+<p>例如，如果 Node 的原生模块是在 WebAssembly 中编写的，那么用户在使用原生模块安装应用程序时不需要运行<code>node-gyp</code>，开发人员也不需要配置和分发数十个二进制文件。</p>
+<div class="inline-comment">
+POSIX：针对不同平台，编译出不同的 binaries，每个平台运行的 binary 不同（源代码可移植）；
+<br/>
+WebAssembly：由源代码编译出同一份 binary，不同平台运行的 binary 都相同（编译后的二进制文件可移植）。
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
+<h4 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h4><p>When a line of code asks the operating system to do some input or output, the OS needs to determine if it is safe to do what the code asks.</p>
+<p>Operating systems typically handle this with access control that is based on ownership and groups.</p>
+<p>For example, the program might ask the OS to open a file. A user has a certain set of files that they have access to.</p>
+<p>When the user starts the program, the program runs on behalf of that user. If the user has access to the file — either because they are the owner or because they are in a group with access — then the program has that same access, too.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/019-access-control.png" alt="An application asking to open a file that is relevant to what it&#39;s doing"></p>
+</blockquote>
+<p>当一行代码要求操作系统进行一些输入或输出时，操作系统需要确定该代码所要求的操作是否安全。</p>
+<p>操作系统通常基于所有权（ownership）和组（groups）的访问控制来处理这个问题。</p>
+<p>例如，程序可能会要求操作系统打开一个文件，某个用户有一组他们可以访问的特定文件。</p>
+<p>当该用户启动程序时，程序代表该用户运行。如果用户可以访问该文件——要么是因为他们是所有者，要么是因为他们处于具有访问权限的组中——那么程序也拥有相同的访问权限。</p>
+<blockquote>
+<p>This protects users from each other. That made a lot of sense when early operating systems were developed. Systems were often multi-user, and administrators controlled what software was installed. So the most prominent threat was other users taking a peek at your files.<br>That has changed. Systems now are usually single user, but they are running code that pulls in lots of other, third party code of unknown trustworthiness. Now the biggest threat is that the code that you yourself are running will turn against you.</p>
+<p>For example, let’s say that the library you’re using in an application gets a new maintainer (as often happens in open source). That maintainer might have your interest at heart… or they might be one of the bad guys. And if they have access to do anything on your system — for example, open any of your files and send them over the network — then their code can do a lot of damage.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/020-bitcoin.png" alt="An evil application asking for access to the users bitcoin wallet and opening up a network connection">  </p>
+</blockquote>
+<p>这可以防止用户彼此间的伤害。在开发早期操作系统时，这种设计非常合理。系统通常是多用户的，管理员可以控制安装的软件。因此，最突出的威胁是其他用户偷看你的文件。</p>
+<p>但现在，事情已经改变了。系统现在通常是单个用户，但它们正在运行的代码却会拉入许多其他未知可信度的第三方代码。现在最大的威胁是，你自己正在运行的代码将对你不利。</p>
+<p>例如，假设你在应用程序中使用的库获得了新的维护者（在开源中经常发生）。那个维护者可能对你感兴趣……或者他们可能是坏人之一。如果他们有权在你的系统上做任何事情——例如，打开你的任何文件并通过网络发送它们——那么这些第三方的代码可能会造成很大的损害。</p>
+<blockquote>
+<p>This is why using third-party libraries that can talk directly to the system can be dangerous.</p>
+</blockquote>
+<p>这就是为什么使用可以直接与系统对话的第三方库可能是危险的。</p>
+<blockquote>
+<p>WebAssembly’s way of doing security is different. <strong>WebAssembly is sandboxed.</strong></p>
+<p>This means that code can’t talk directly to the OS. But then how does it do anything with system resources? The host (<strong>which might be a browser, or might be a wasm runtime</strong>) puts functions in the sandbox that the code can use.</p>
+<p>This means that the host can limit what a program can do on a program-by-program basis. It doesn’t just let the program act on behalf of the user, calling any system call with the user’s full permissions.</p>
+<p>Just having a mechanism for sandboxing doesn’t make a system secure in and of itself — the host can still put all of the capabilities into the sandbox, in which case we’re no better off — but it at least gives hosts the option of creating a more secure system.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/021-sandbox.png" alt="A runtime placing safe functions into the sandbox with an application">  </p>
+</blockquote>
+<p>WebAssembly的实现安全性的方式是不同的。WebAssembly是被放在沙盒中的。</p>
+<p>这意味着代码不能直接与操作系统对话。那么它是怎么处理系统资源的呢？主机（可能是浏览器，也可能是wasm运行时）将代码可以使用的函数放在沙盒中。</p>
+<p>这意味着主机可以逐个程序限制某个程序可以做什么。它并不让程序代表用户行事、用用户的全部权限去进行任何系统调用。</p>
+<p>仅仅拥有沙盒机制并不能使系统本身安全——主机仍然可以将所有功能都放入沙盒中，在这种情况下，我们的情况并不会好转——但它至少让主机可以选择去创建一个更安全的系统。</p>
+<blockquote>
+<p>In any system interface we design, we need to uphold these two principles. Portability makes it easier to develop and distribute software, and providing the tools for hosts to secure themselves or their users is an absolute must.</p>
+</blockquote>
+<p>在我们设计的任何系统界面中，都需要坚持这两个原则。可移植性使开发和分发软件更加容易，为主机提供工具来保护它自己或它的用户也是绝对必须的。</p>
+<blockquote>
+<h3 id="What-should-this-system-interface-look-like"><a href="#What-should-this-system-interface-look-like" class="headerlink" title="What should this system interface look like?"></a>What should this system interface look like?</h3><p>Given those two key principles, what should the design of the WebAssembly system interface be?</p>
+<p>That’s what we’ll figure out through the standardization process. We do have a proposal to start with, though:</p>
+<ul>
+<li>Create a modular set of standard interfaces</li>
+<li>Start with standardizing the most fundamental module, wasi-core<br><img src="/../imgs/WASI%E8%B5%84%E6%96%99/022-wasi.png" alt="Multiple modules encased in the WASI standards effort"></li>
+</ul>
+<h4 id="What-will-be-in-wasi-core"><a href="#What-will-be-in-wasi-core" class="headerlink" title="What will be in wasi-core?"></a>What will be in wasi-core?</h4><p>wasi-core will contain the basics that all programs need. It will cover much of the same ground as POSIX, including things such as files, network connections, clocks, and random numbers.</p>
+<p>And it will take a very similar approach to POSIX for many of these things. For example, it will use POSIX’s file-oriented approach, where you have system calls such as open, close, read, and write and everything else basically provides augmentations on top.</p>
+<p>But wasi-core won’t cover everything that POSIX does. For example, the process concept does not map clearly onto WebAssembly. And beyond that, it doesn’t make sense to say that every WebAssembly engine needs to support process operations like <code>fork</code>. But we also want to make it possible to standardize fork.</p>
+<p>This is where the modular approach comes in. This way, we can get good standardization coverage while still allowing niche platforms to use only the parts of WASI that make sense for them.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/023-wasi-1.png" alt="Modules filled in with possible areas for standardization, such as processes, sensors, 3D graphics, etc">  </p>
+<p>Languages like Rust will use wasi-core directly in their standard libraries. For example, Rust’s <code>open</code> is implemented by calling <code>__wasi_path_open</code> when it’s compiled to WebAssembly.</p>
+<p>For C and C++, we’ve created a wasi-sysroot that implements libc in terms of wasi-core functions.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/024-open-imps.png" alt="The Rust and C implementations of openat with WASI">  </p>
+<p>We expect compilers like Clang to be ready to interface with the WASI API, and complete toolchains like the Rust compiler and Emscripten to use WASI as part of their system implementations</p>
+<h4 id="How-does-the-user’s-code-call-these-WASI-functions"><a href="#How-does-the-user’s-code-call-these-WASI-functions" class="headerlink" title="How does the user’s code call these WASI functions?"></a>How does the user’s code call these WASI functions?</h4><p>The runtime that is running the code passes the wasi-core functions in as imports.</p>
+</blockquote>
+<p>运行代码的 wasm 运行时将 wasi-core 函数作为 imports 传递进去。</p>
+<blockquote>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/025-imports.png" alt="A runtime placing an imports object into the sandbox">  </p>
+</blockquote>
+<div class="inline-comment">
+在使用 wasm runtime 来把 `.wasm` 文件实体化为一个 wasm module 时，可以把一些函数，比如 wasi-core 中的函数，作为 imports 导入，这样被编译成 wasm module 的用户代码（在 wasm 沙箱内部）就可以调用这些被导入的（外部）函数了。
+
+<div class="inline-comment-date">Date: 2026-04-28</div>
+</div>
+
+<blockquote>
+<p>This gives us portability, because each host can have their own implementation of wasi-core that is specifically written for their platform — from WebAssembly runtimes like Mozilla’s wasmtime and Fastly’s Lucet, to Node, or even the browser.</p>
+</blockquote>
+<p>这为我们提供了可移植性，因为每个主机都可以有自己的wasi-core实现，该实现是专门为其平台编写的——从WebAssembly运行时，如Mozilla的wasmtime和Fastly的Lucet，到Node，甚至浏览器。</p>
+<blockquote>
+<p>It also gives us sandboxing because the host can choose which wasi-core functions to pass in — so, which system calls to allow — on a program-by-program basis. This preserves security.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/026-sec-port.png" alt="Three runtimes—wastime, Node, and the browser—passing their own implementations of wasi_fd_open into the sandbox">  </p>
+</blockquote>
+<p>它还为我们提供了沙盒，因为主机可以逐个程序筛选要传递的wasi-core函数——即，哪个程序允许调用哪个system call。这保证了安全性。</p>
+<blockquote>
+<p>WASI gives us a way to extend this security even further. It brings in more concepts from capability-based security.</p>
+<p>Traditionally, if code needs to open a file, it calls <code>open</code> with a string, which is the path name. Then the OS does a check to see if the code has permission (based on the user who started the program).</p>
+<p>With WASI, if you’re calling a function that needs to access a file, you have to pass in a file descriptor, which has permissions attached to it. This could be for the file itself, or for a directory that contains the file.</p>
+<p>This way, you can’t have code that randomly asks to open <code>/etc/passwd</code>. Instead, the code can only operate on the directories that are passed in to it.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/027-openat-path.png" alt="Two evil apps in sandboxes. The one on the left is using POSIX and succeeds at opening a file it shouldn&#39;t have access to. The other is using WASI and can&#39;t open the file.">  </p>
+</blockquote>
+<p>WASI为我们提供了进一步扩展这种安全性的方法。它从基于能力的安全性中带来了更多概念。</p>
+<p>传统上，如果代码需要打开一个文件，它会传入一个代表路径名的字符串作为参数来调用 <code>open</code> 函数。然后，操作系统会检查代码是否有权限（基于启动该程序的用户的权限）。</p>
+<p>而使用WASI时，如果调用需要访问文件的函数，你必须传递一个文件描述符，操作权限会被附加在该文件描述符上。这可以是文件本身，也可以是包含该文件的目录。</p>
+<p>这样，程序中就不能有随机要求打开<code>/etc/passwd</code>的代码。相反，程序只能在已经给它传入的目录上操作。</p>
+<blockquote>
+<p>This makes it possible to safely give sandboxed code more access to different system calls — because the capabilities of these system calls can be limited.</p>
+<p>And this happens on a module-by-module basis. By default, a module doesn’t have any access to file descriptors. But if code in one module has a file descriptor, it can choose to pass that file descriptor to functions it calls in other modules. Or it can create more limited versions of the file descriptor to pass to the other functions.</p>
+<p>So the runtime passes in the file descriptors that an app can use to the top level code, and then file descriptors get propagated through the rest of the system on an as-needed basis.</p>
+<p><img src="/../imgs/WASI%E8%B5%84%E6%96%99/028-file-perms.png" alt="The runtime passing a directory to the app, and then the app passing a file to a function">  </p>
+</blockquote>
+<p>这使得安全地让沙盒代码更多地访问不同的系统调用成为可能——因为这些系统调用的功能可以被限制。</p>
+<p>这是逐个模块发生的。默认情况下，wasm module 无法访问文件描述符。但是，如果一个模块中的代码有文件描述符，它可以选择将该文件描述符作为参数传递给它在其他模块中调用的函数。或者它可以创建更有限的文件描述符版本，以传递给其他函数。</p>
+<p>即，运行时将应用程序可以使用的文件描述符传递到顶层代码，然后文件描述符根据需要通过系统的其余部分传播。</p>
+<blockquote>
+<p>This gets WebAssembly closer to the principle of least privilege, where a module can only access the exact resources it needs to do its job.</p>
+</blockquote>
+<p>这使WebAssembly更接近于最小特权原则，即模块只能访问其完成工作所需的确切资源。</p>
+<blockquote>
+<p>These concepts come from capability-oriented systems, like CloudABI and Capsicum. One problem with capability-oriented systems is that it is often hard to port code to them. But we think this problem can be solved.</p>
+<p>If code already uses <code>openat</code> with relative file paths, compiling the code will just work.</p>
+<p>If code uses open and migrating to the <code>openat</code> style is too much up-front investment, WASI can provide an incremental solution. With libpreopen, you can create a list of file paths that the application legitimately needs access to. Then you can use <code>open</code>, but only with those paths.</p>
+<h3 id="What’s-next"><a href="#What’s-next" class="headerlink" title="What’s next?"></a>What’s next?</h3><p>We think wasi-core is a good start. It preserves WebAssembly’s portability and security, providing a solid foundation for an ecosystem.</p>
+<p>But there are still questions we’ll need to address after wasi-core is fully standardized. Those questions include:</p>
+<ul>
+<li>asynchronous I&#x2F;O</li>
+<li>file watching</li>
+<li>file locking</li>
+</ul>
+<p>This is just the beginning, so if you have ideas for how to solve these problems, join us!</p>
+</blockquote>
+<h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WASI 前瞻：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/105902805">https://zhuanlan.zhihu.com/p/105902805</a><br>[2] Mozilla 发布 WASI 计划，可在所有设备上运行 WebAssembly：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/rkcuswctom5wc5*kowac">https://www.infoq.cn/article/rkcuswctom5wc5*kowac</a><br>[3] 上面文章英文原文：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a><br>[4] Standardizing WASI: A system interface to run WebAssembly outside the web：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/</a><br>[5] 系统调用（维基百科）：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">https://zh.wikipedia.org/wiki/系统调用</a><br>[6] 系统调用：<a target="_blank" rel="noopener" href="https://hackmd.io/@combo-tw/BJPoAcqQS">https://hackmd.io/@combo-tw/BJPoAcqQS</a>  </p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1571,272 +2057,6 @@
 <h2 id="2-检查Go环境是否安装成功"><a href="#2-检查Go环境是否安装成功" class="headerlink" title="2. 检查Go环境是否安装成功"></a>2. 检查Go环境是否安装成功</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go version</span><br></pre></td></tr></table></figure>
 
 <p>执行上述命令查看go的版本号，如果成功显示版本号则安装成功。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1669619236.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="Acosy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Acosy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Acosy">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/1669619236.html" class="post-title-link" itemprop="url">Making JavaScript run fast on WebAssembly</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-06-02 21:02:51" itemprop="dateCreated datePublished" datetime="2021-06-02T21:02:51-04:00">2021-06-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-05-05 16:51:47" itemprop="dateModified" datetime="2026-05-05T16:51:47-04:00">2026-05-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>本文不含原创，只是知识的搬运工。</strong></p>
-<p>来源：<a target="_blank" rel="noopener" href="https://bytecodealliance.org/articles/making-javascript-run-fast-on-webassembly">https://bytecodealliance.org/articles/making-javascript-run-fast-on-webassembly</a></p>
-<p>JavaScript in the browser runs many times faster than it did two decades ago. And that happened because the browser vendors spent that time working on intensive performance optimizations.</p>
-<p>Today, we’re starting work on optimizing JavaScript performance for entirely different environments, where different rules apply. And this is possible because of WebAssembly.</p>
-<p>We should be clear here—if you’re running JavaScript in the browser, it still makes the most sense to simply deploy JS. The JS engines within the browsers are highly tuned to run the JS that gets shipped to them.</p>
-<blockquote>
-<p>如果在浏览器中运行JavaScript，简单地部署JS仍然最有意义。浏览器中的JS引擎被高度调整过，来运行交付给它们的JS。</p>
-</blockquote>
-<p>But what if you’re running JavaScript in a Serverless function? Or if you want to run JavaScript in an environment that doesn’t allow general just-in-time compilation, like iOS or gaming consoles?</p>
-<blockquote>
-<p>但是，如果在无服务器函数中运行JavaScript呢？或者想要在一个不支持JIT编译的环境（比如ios或游戏机）中运行JavaScript呢？</p>
-</blockquote>
-<p>For those use cases, you’ll want to pay attention to this new wave of JS optimization. And this work can also serve as a model for other runtimes—such as Python, Ruby, and Lua—that want to run fast in these environments, too.</p>
-<p>But before we explore how to make this approach run fast, we need to look at how it works at a basic level.</p>
-<h1 id="How-does-this-work"><a href="#How-does-this-work" class="headerlink" title="How does this work?"></a>How does this work?</h1><p>Whenever you’re running JavaScript, the JS source code needs to be executed one way or another as machine code. This is done by the JS engine using a variety of techniques such as interpreters and JIT compilers. (See <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/">A crash course in just-in-time (JIT) compilers</a> for more details.)</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/01.png" alt="Personified JS engine looking at JS source code and speaking the equivalent bytes of machine code out loud">  </p>
-<p>But what if your target platform doesn’t have a JS engine? Then you need to deploy a JS engine along with your code.</p>
-<p>In order to do this, we deploy the JS engine as a WebAssembly module, which makes it portable across different kinds of machine architectures. And with WASI, we can make it portable across different operating systems, too.</p>
-<p>This means the whole JS environment is bundled up into this WebAssembly instance. Once you deploy it, all you need to do is feed in the JS code, and it will run that code.</p>
-<blockquote>
-<p>如果目标平台没有JS引擎，那么就需要把JS引擎跟代码一起部署。将JS引擎部署为WebAssembly模块，使它在不同类型的机器架构中具有可移植性。有了WASI，也可以让它移植到不同的操作系统。<br>这意味着整个JS环境都被捆绑到这个WebAssembly实例中。一旦部署了这个WebAssembly实例，只需要输入JS代码，它就会运行该代码。</p>
-</blockquote>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/02.png" alt="A box representing the Wasm engine wrapping a box representing the JS engine, with a JS file being passed through the Wasm engine to the JS engine.">  </p>
-<p>Instead of working directly on the machine’s memory, the JS engine puts everything—from bytecode to the GCed objects that the bytecode is manipulating—in the Wasm module’s linear memory.</p>
-<blockquote>
-<p>JS引擎不是直接在机器的内存上工作，而是将从字节码到字节码正在操作的被垃圾回收机制处理的对象（Garbage Collected object）的所有内容都放在<strong>Wasm模块的线性内存</strong>中。</p>
-</blockquote>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/03.png" alt="The personified JS engine putting translated machine code bytes into the linear memory inside its box">  </p>
-<p>For our JS engine, we went with SpiderMonkey, which is used in Firefox. It is one of the industrial strength JavaScript VMs, battle-tested in the browser. This kind of battletesting and investment in security is important when you’re running untrusted code, or code that processes untrusted input.</p>
-<blockquote>
-<p>对于我们的JS引擎，我们使用了Firefox中使用的SpiderMonkey。它是工业实力的JavaScript虚拟机之一，在浏览器中进行了战斗测试。当您<strong>运行不受信任的代码</strong>或<strong>处理不受信任的输入的代码</strong>时，这种战斗测试和安全投资很重要。</p>
-</blockquote>
-<p>SpiderMonkey also uses a technique called precise stack scanning, which is important for some of the optimizations I explain below. And it also has a highly approachable codebase, which is important since BA members from 3 different organizations—Fastly, Mozilla, and Igalia—are collaborating on this.</p>
-<p>So far, there’s nothing revolutionary about the approach I’ve described. People have already been running JS with WebAssembly like this for years.</p>
-<p>The problem is that it’s slow. WebAssembly doesn’t allow you to dynamically generate new machine code and run it from within pure Wasm code. This means you can’t use the JIT. You can only use the interpreter.</p>
-<p>Given this constraint, you might be asking…</p>
-<h1 id="But-why-would-you-do-this"><a href="#But-why-would-you-do-this" class="headerlink" title="But why would you do this?"></a>But why would you do this?</h1><p>Since JITs are how the browsers made JS run fast (and since you can’t JIT compile inside of a WebAssembly module) it may seem counterintuitive to do this.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/04.png" alt="A horrified developer screaming &quot;But Why!?&quot;">  </p>
-<p>But what if, even despite this, we could make the JS run fast?</p>
-<p>Let’s look at a couple of use cases where a fast version of this approach could be really useful.</p>
-<h1 id="Running-JS-on-iOS-and-other-JIT-restricted-environments"><a href="#Running-JS-on-iOS-and-other-JIT-restricted-environments" class="headerlink" title="Running JS on iOS (and other JIT-restricted environments)"></a>Running JS on iOS (and other JIT-restricted environments)</h1><p>There are some places where you can’t use a JIT due to security concerns—for example, unprivileged iOS apps and some smart TVs and gaming consoles.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/05.png" alt="An iPhone, a smart TV, and a gaming controller"></p>
-<p>On these platforms, you have to use an interpreter. But the kinds of applications you run on these platforms are long-running, and they require a lot of code… and those are exactly the kinds of conditions where historically you wouldn’t want to use an interpreter, because of how much it slows down execution.</p>
-<p>If we can make our approach fast, then these developers could use JavaScript on JIT-less platforms without taking a massive performance hit.</p>
-<h1 id="Instantaneous-cold-start-for-Serverless"><a href="#Instantaneous-cold-start-for-Serverless" class="headerlink" title="Instantaneous cold start for Serverless"></a>Instantaneous cold start for Serverless</h1><p>There are other places where JITs aren’t an issue, but where start-up time is the problem, like in Serverless functions. This is the cold-start latency problem that you may have heard of.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/06.png" alt="A picture of a cloud with lots of edge network nodes around it"></p>
-<p>Even if you’re using the most paired-down JS environment—an isolate that just starts up a bare JS engine—you’re looking at ~5 milliseconds of startup latency at minimum. This doesn’t even include the time it takes to initialize the application.</p>
-<blockquote>
-<p>即使使用的是最配对的JS环境——一个刚刚启动裸JS引擎的隔离环境——至少要看到~5毫秒的启动延迟。这甚至不包括初始化应用程序所需的时间。</p>
-</blockquote>
-<p>There are some ways to hide this startup latency for an incoming request. But it’s getting harder to hide this as connection times are being optimized in the network layer, in proposals such as QUIC. It’s also harder to hide this when you’re doing things like chaining multiple Serverless functions together.</p>
-<p>Platforms that use these techniques to hide latency also often reuse instances between requests. In some cases, this means global state can be observed between different requests, which is a security hazard.</p>
-<p>Because of this cold-start problem, developers often don’t follow best practices. They stuff a lot of functions into one Serverless deployment. This results in another security issue—a larger blast radius. If one part of that Serverless deployment is exploited, the attacker has access to everything in that deployment.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/07.png" alt="On the left, a cartoon captioned &quot;Risk between requests&quot;. It shows burgalers in a room filled with papers saying &quot;Oooh payday... check out what they left behind!&quot; On the right, a cartoon captioned &quot;Risk between modules&quot;. It shows a tree of modules with a module at the bottom being exploded and other modules in the tree getting hit by shrapnel.">  </p>
-<p>But if we can get JS start-up times low enough in these contexts, then we wouldn’t need to hide start-up times with any tricks. We could just start up an instance in microseconds.</p>
-<p>With this, we can provide a new instance on each request, which means there’s no state lying around between requests.</p>
-<p>And because the instances are so lightweight, developers could feel free to break up their code into fine-grained pieces, bringing the blast radius to a minimum for any single piece of the code.</p>
-<blockquote>
-<p>但是，如果能在这些情况下让JS启动时间足够低，那就不需要用任何技巧来隐藏启动时间。我们可以<strong>在微秒内启动一个实例</strong>。<br>有了这个，我们可以<strong>为每个请求提供一个新的实例</strong>，这意味着请求之间没有状态。<br>由于实例非常轻量级，开发人员可以自由地将代码分解成精细的碎片，将任何单个代码的爆炸半径降至最低。</p>
-</blockquote>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/08.png" alt="On the left, a cartoon captioed &quot;isolation between requests&quot;. It shows the same bugalers, but in a totally clean room saying &quot;Nuthin&#39;... they didn&#39;t leave nuthin&#39; behind.&quot; On the right, a cartoon captioned &quot;isolation between modules&quot;. It shows a module graph with each module having its own box around it, and the explosion from the exploding module being contained to its own box">  </p>
-<p>And there’s another security benefit to this approach. Beyond just being lightweight and making it possible to have finer-grained isolation, the security boundary a Wasm engine provides is more dependable.</p>
-<p>Because the JS engines used to create isolates are large codebases, containing lots of low-level code doing ultra-complicated optimizations, it’s easy for bugs to be introduced that allow attackers to escape the VM and get access to the system the VM is running on. This is why browsers like Chrome and Firefox go to great lengths to ensure that sites run in fully separated processes.</p>
-<p>In contrast, Wasm engines require much less code, so they are easier to audit, and many of them are being written in Rust, a memory-safe language. And the memory isolation of native binaries generated from a WebAssembly module can be verified.</p>
-<p>By running the JS engine inside of a Wasm engine, we have this outer, more secure sandbox boundary as another line of defense.</p>
-<blockquote>
-<p>相比之下，Wasm引擎需要更少的代码，因此它们更容易审计，其中许多是用Rust编写的，Rust是一种内存安全语言。并且可以验证由WebAssembly模块生成的本机二进制文件的内存隔离。<br>通过在Wasm引擎中运行JS引擎，我们拥有了这个外部、更安全的沙盒边界作为另一道防线。</p>
-</blockquote>
-<p>So for these use cases, there’s a big benefit to making JS on Wasm fast. But how can we do that?</p>
-<p>In order to answer that question, we need to understand where the JS engine spends its time.</p>
-<h1 id="Two-places-a-JS-engine-spends-its-time"><a href="#Two-places-a-JS-engine-spends-its-time" class="headerlink" title="Two places a JS engine spends its time"></a>Two places a JS engine spends its time</h1><p>We can break down the work that a JS engine does into roughly two parts: initialization and runtime.</p>
-<blockquote>
-<p>我们可以将JS引擎所做的工作大致分为两部分：<strong>初始化</strong>和<strong>运行时</strong>。</p>
-</blockquote>
-<p>I think of the JS engine as a contractor. This contractor is retained to complete a job—running the JS code and getting to a result.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/09.png" alt="The JS engine shaking hands with a JS file and saying &quot;I&#39;m looking forward to helping you with this project!&quot;">  </p>
-<h2 id="Initialization-phase"><a href="#Initialization-phase" class="headerlink" title="Initialization phase"></a>Initialization phase</h2><p>Before this contractor can actually start running the project, it needs to do a bit of preliminary work. The initialization phase includes everything that only needs to happen once, at the beginning of execution.</p>
-<h3 id="Application-initialization"><a href="#Application-initialization" class="headerlink" title="Application initialization"></a>Application initialization</h3><p>For any project, the contractor needs to take a look at the work that the client wants it to do, and then set up the resources needed to complete that task.</p>
-<p>For example, the contractor reads through the project briefing and other supporting documents and turns them into something that it can work with, e.g. setting up a project management system with all of the documents stored and organized.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/10.png" alt="The JS engine sitting in its office with the JS file and saying &quot;So tell me more about the work you want to get done&quot;">  </p>
-<p>In the case of the JS engine, this work looks more like reading through the top-level of the source code and parsing functions into bytecode, allocating memory for variables that are declared, and setting values where they are already defined.</p>
-<blockquote>
-<p>就JS引擎而言，这项工作看起来更像是<strong>读取源代码的顶层并将函数解析为字节码，为声明的变量分配内存，并在已经定义的值处设置值</strong>。</p>
-</blockquote>
-<h3 id="Engine-initialization"><a href="#Engine-initialization" class="headerlink" title="Engine initialization"></a>Engine initialization</h3><p>In certain contexts, like Serverless, there’s another part to initialization which happens before each application initialization.</p>
-<p>This is engine initialization. The JS engine itself needs to be started up in the first place, and built-in functions need to be added to the environment.</p>
-<blockquote>
-<p>这是引擎初始化。<strong>JS引擎本身首先需要启动，并且需要将内置功能添加到环境中</strong>。</p>
-</blockquote>
-<p>I think of this like setting up the office itself—doing things like assembling IKEA chairs and tables—before starting the work.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/11.png" alt="The JS engine building the IKEA table for its office">  </p>
-<p>This can take considerable time, and is part of what can make cold start such an issue for Serverless use cases.</p>
-<blockquote>
-<p>这可能需要相当长的时间，并且是冷启动成为无服务器用例问题的一部分。</p>
-</blockquote>
-<h2 id="Runtime-phase"><a href="#Runtime-phase" class="headerlink" title="Runtime phase"></a>Runtime phase</h2><p>Once the initialization phase is done, the JS engine can start the work of running the code.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/12.png" alt="The JS engine moving cards across a Kanban board, all the way to the done position">  </p>
-<p>The speed of this part of the work is called throughput, and this throughput is affected by lots of different variables. For example:</p>
-<ul>
-<li>which language features are used</li>
-<li>whether the code behaves predictably from the JS engine’s point of view</li>
-<li>what sort of data structures are used</li>
-<li>whether the code runs long enough to benefit from the JS engine’s optimizing compiler</li>
-</ul>
-<p>So these are the two phases where the JS engine spends its time.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/13.png" alt="A sequence of the three previous images, showing the office building and requirements gathering as initialization, and moving work across the Kanban board as runtime.">  </p>
-<p>How can we make the work in these two phases go faster?</p>
-<h1 id="Drastically-reducing-initialization-time"><a href="#Drastically-reducing-initialization-time" class="headerlink" title="Drastically reducing initialization time"></a>Drastically reducing initialization time</h1><p>We started with making initialization fast with a tool called <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer">Wizer</a>. I’m going to explain how, but for those who are impatient, here’s the speed up we see when running a very simple JS app.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/14.png" alt="A graph showing startup latency times. JS isolate takes 5ms and JS on Wasm takes 0.36ms.">  </p>
-<p>When running this small application with Wizer, it only takes .36 milliseconds (or 360 microseconds). This is more than 13 times faster than what we’d expect with the JS isolate approach.</p>
-<p>We get this fast start-up using something called a snapshot. Nick Fitzgerald explained all this in more detail in his <a target="_blank" rel="noopener" href="https://youtu.be/C6pcWRpHWG0?t=1338">WebAssembly Summit talk about Wizer</a>.</p>
-<blockquote>
-<p>我们使用一种叫做<strong>快照</strong>(<strong>Snapshot</strong>)的东西来获得这种快速启动。</p>
-</blockquote>
-<p>So how does this work? Before the code is deployed, as part of a build step, we run the JS code using the JS engine to the end of initialization.</p>
-<p>At this point, the JS engine has parsed all of the JS and turned it into bytecode, which the JS engine module stores in the linear memory. The engine also does a lot of memory allocation and initialization in this phase.</p>
-<p>Because this linear memory is so self-contained, once all of the values have been filled in, we can just take the memory and attach it as a data section to a Wasm module.</p>
-<p>When the JS engine module is instantiated, it has access to all of the data in the data section. Whenever the engine needs a bit of that memory, it can copy the section (or rather, the memory page) that it needs into its own linear memory. With this, the JS engine doesn’t have to do any setup when it starts up. All of the pre-initialized values are ready and waiting for it.</p>
-<blockquote>
-<p>在代码部署之前，作为构建步骤的一部分，我们使用JS引擎运行JS代码，直到初始化结束。<br>此时，JS引擎已经解析了所有JS并将其转换为字节码，JS引擎模块将其存储在线性内存中。在这个阶段，引擎还做了很多内存分配和初始化。<br>因为这个线性内存是自包含的，一旦所有值都被填满，我们就可以将这段内存作为数据部分附加到Wasm模块上。<br>当JS引擎模块被实例化时，它可以访问数据部分中的所有数据。每当引擎需要那段内存时，它就可以将其需要的部分（或者更确切地说，内存页）复制到自己的线性内存中。有了这个，JS引擎在启动时不必进行任何设置。所有预先初始化的值都已准备就绪，正在等待它。</p>
-</blockquote>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/15.png" alt="A wasm file split between code and data sections, with the data section being poured into linear memory.">  </p>
-<p>Currently, we attach this data section to the same module as the JS engine. But in the future, once <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/module-linking/blob/master/proposals/module-linking/Explainer.md">module linking</a> is in place, we’ll be able to ship the data section as a separate module, allowing the JS engine module to be reused by many different JS applications.</p>
-<p>This provides a really clean separation.</p>
-<blockquote>
-<p>目前，我们将此数据部分附加到与JS引擎相同的模块中。但在未来，一旦模块链接到位，我们将能够将数据部分作为一个单独的模块发送，允许JS引擎模块被许多不同的JS应用程序重复使用。<br>这提供了一个非常干净的分离。</p>
-</blockquote>
-<p>The JS engine module only contains the code for the engine. That means that once it’s compiled, that code can be effectively cached and reused between lots of different instances.</p>
-<p>On the other hand, the application-specific module contains no Wasm code. It only contains the linear memory, which in turn contains the JS bytecode, along with the rest of the JS engine state that was initialized. This makes it really easy to move this memory around and send it wherever it needs to go.</p>
-<blockquote>
-<p>JS引擎模块仅包含引擎的代码。这意味着，一旦编译完毕，该代码就可以有效地缓存并在许多不同的实例之间重复使用。<br>另一方面，应用程序特定的模块不包含Wasm代码。它只包含线性内存，而线性内存又包含JS字节码，以及已初始化的JS引擎状态的其余部分。这使得移动这个内存并发送到它需要去的地方变得非常容易。</p>
-</blockquote>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/16.png" alt="Two wasm files next to each other. The one for the JS engine module only has a code section, the other for the JS application module only has a data section"> </p>
-<p>It’s kind of like the JS engine contractor doesn’t need to even have an office set up at all. It just gets a travel case shipped to it. That travel case has the whole office, with everything in it, all setup and ready for the JS engine to get to work.</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/17.png" alt="A personified Wasm engine placing a snapshot of the JS engine&#39;s office down inside of the Wasm engine and saying &quot;I&#39;ll just set this down for you so you can get right to work&quot;">  </p>
-<p>And the coolest thing about this is that it isn’t JS dependent—it’s just using an existing property of WebAssembly. So you could use this same technique with Python, Ruby, Lua, or other runtimes, too.</p>
-<h1 id="Next-step-Improving-throughput"><a href="#Next-step-Improving-throughput" class="headerlink" title="Next step: Improving throughput"></a>Next step: Improving throughput</h1><p>So with this approach we can get to super fast startup times. But what about throughput?</p>
-<p>For some use cases, the throughput is actually not too bad. If you have a very short running piece of JavaScript, it wouldn’t go through the JIT anyway—it would stay in the interpreter the whole time. So in that case, the throughput would be about the same as in the browser, and finished before a traditional JS engine would have finished initialization.</p>
-<p>But for longer running JS, it doesn’t take all that long before the JIT starts kicking in. And once this happens, the throughput difference starts to become obvious.</p>
-<p>As I said above, it’s not possible to JIT compile code within pure WebAssembly at the moment. But it turns out that we can apply some of the thinking that comes with JITs to an ahead-of-time compilation model.</p>
-<h1 id="Fast-AOT-compiled-JS-without-profiling"><a href="#Fast-AOT-compiled-JS-without-profiling" class="headerlink" title="Fast AOT-compiled JS (without profiling)"></a>Fast AOT-compiled JS (without profiling)</h1><p>One optimization technique that JITs use is inline caching. With inline caching, the JIT creates a linked list of stubs containing fast machine code paths for all the ways a bit of JS bytecode has been run in the past. (See <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/">A crash course in just-in-time (JIT) compilers</a> for more details.)</p>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/18.png" alt="The personified JS engine standing in front of a matrix of JS bytecode entries and creating machine code stubs for them based on frequency feedback from a monitor">  </p>
-<p>The reason you need a list is because of the dynamic types in JS. Every time the line of code uses a different type, you need to generate a new stub and add it to the list. But if you’ve run into this type before, then you can just use the stub that was already generated for it.</p>
-<p>Because inline caches (ICs) are commonly used in JITs, people think of them being very dynamic and specific to each program. But it turns out that they can be applied in an AOT context, too.</p>
-<p>Even before we see the JS code, we already know a lot of the IC stubs that we’re going to need to generate. That’s because there are some patterns in JS that get used a lot.</p>
-<p>A good example of this is accessing properties on objects. That happens a lot in JS code, and it can be sped up by using an IC stub. For objects that have a certain “shape” or “hidden class” (that is, properties laid out in the same way), when you get a particular property from those object, that property will always be at the same offset.</p>
-<blockquote>
-<p>甚至在我们看到JS代码之前，我们已经知道我们需要生成的许多IC存根(inline caches stubs)。这是因为JS中有一些模式(patterns)被大量使用。<br>这方面的一个很好的例子是访问对象上的属性。这种情况在JS代码中经常发生，并且可以通过使用IC存根来加快速度。对于具有特定“形状”或“隐藏类”（即以相同方式布局的属性）的对象，当您从这些对象获取特定属性时，该属性将始终处于相同的偏移量。</p>
-</blockquote>
-<p>Traditionally, this kind of IC stub in the JIT would hardcode two values: the pointer to the shape and the offset of the property. And that requires information that we don’t have ahead-of-time. But what we can do is parameterize the IC stub. We can treat the shape and the property offset as variables that get passed in to the stub.</p>
-<p>This way, we can create a single stub that loads values from memory, and then use that same stub code everywhere. We can bake all of the stubs for these common patterns into the AOT compiled module, regardless of what the JS code actually does. Even in a browser setting, this IC sharing is beneficial since it lets the JS engine generate less machine code, improving startup time and instruction-cache locality.</p>
-<p>But for our use cases, it’s especially important. It means that we can bake all of the stubs for these common patterns into the AOT compiled module, regardless of what the JS code actually does.</p>
-<blockquote>
-<p>传统上，JIT中的这种IC存根将硬编码两个值：指向形状的指针和属性的偏移量。这需要我们事先没有的信息。但我们能做的就是对IC存根进行参数化。我们可以将形状和属性偏移视为传递到存根的变量。<br>通过这种方式，我们可以创建一个从内存中加载值的单个存根，然后在任何地方使用相同的存根代码。无论JS代码的实际作用如何，我们都可以将这些常见模式的所有存根烘烤到AOT编译模块中。即使在浏览器设置中，这种IC共享也是有益的，因为它允许JS引擎生成更少的机器代码，改善了启动时间和指令缓存局部性。<br>但对于我们的用例来说，它尤为重要。这意味着，无论JS代码实际做什么，我们都可以将这些常见模式的所有存根烘烤到AOT编译的模块中。</p>
-</blockquote>
-<p>We discovered that with just a few kilobytes of IC stubs, we can cover the vast majority of all JS code. For example, with 2 KB of IC stubs, we can cover 95% of JS in the Google Octane benchmark. And from preliminary tests, this percentage seems to hold for general web browsing as well.</p>
-<blockquote>
-<p>我们发现，只需几千字节的IC存根，我们就可以覆盖所有JS代码的绝大多数。例如，使用2KB的IC存根，我们可以覆盖谷歌辛烷值基准中95%的JS。从初步测试来看，这个百分比似乎也适用于一般的网页浏览。</p>
-</blockquote>
-<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/19.png" alt="A small pile of stubs on the left and a large pile of JS files on the right">  </p>
-<p>So using this kind of optimization, we should be able to reach throughput that’s on par with early JITs. Once we’ve completed that work, we’ll add more fine-grained optimizations and polish up the performance, just as the browsers’ JS engine teams did with their early JITs.</p>
-<blockquote>
-<p>因此，使用这种优化，我们应该能够达到与早期JIT相当的吞吐量。一旦我们完成这项工作，我们将添加更多精细的优化并提高性能，就像浏览器的JS引擎团队在早期的JIT中所做的那样。</p>
-</blockquote>
-<h1 id="A-next-next-step-maybe-add-a-little-profiling"><a href="#A-next-next-step-maybe-add-a-little-profiling" class="headerlink" title="A next, next step: maybe add a little profiling?"></a>A next, next step: maybe add a little profiling?</h1><p>That’s what we can do ahead-of-time, without knowing what a program does and what types flow through it.</p>
-<p>But what if we had access to the same kind of profiling information that a JIT has? Then we could fully optimize the code.</p>
-<p>There’s a problem here though—developers often have a hard time profiling their own code. It’s hard to come up with representative sample workloads. So we aren’t sure whether we could get good profiling data.</p>
-<p>If we can figure out a way to put good tools in place for profiling, though, then there’s a chance we could actually make the JS run almost as fast as today’s JITs (and without the warm-up time!)</p>
-<h1 id="How-to-get-started-today"><a href="#How-to-get-started-today" class="headerlink" title="How to get started today"></a>How to get started today</h1><p>We’re excited about this new approach and are looking forward to seeing how far we can push it. We’re also excited to see other dynamically-typed languages come to WebAssembly in this way.</p>
-<p>So here are a few ways to get started today, and if you have any questions, you can ask in <a target="_blank" rel="noopener" href="https://bytecodealliance.zulipchat.com/">Zulip</a>.</p>
-<h1 id="For-other-platforms-that-want-to-support-JS"><a href="#For-other-platforms-that-want-to-support-JS" class="headerlink" title="For other platforms that want to support JS"></a>For other platforms that want to support JS</h1><p>To run JS in your own platform, you need to embed a WebAssembly engine that supports WASI. We’re using <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">Wasmtime</a> for that.</p>
-<p>Then you need your JS engine. As part of this work, we’ve added full support to Mozilla’s build system for compiling SpiderMonkey to WASI. And Mozilla is about to add WASI builds for SpiderMonkey to the same CI setup that is used to build and test Firefox. This makes WASI a production quality target for SpiderMonkey and ensures that the WASI build continues working over time. This means that you can <a target="_blank" rel="noopener" href="https://spidermonkey.dev/">use SpiderMonkey</a> in the same way that we have here.</p>
-<p>Finally, you need users to bring their pre-initialized JS. To help with this, we’ve also open sourced <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer">Wizer</a>, which you can <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer#using-wizer-as-a-library">integrate into a buildtool</a> which produces the application-specific WebAssembly module that fills in the pre-initialized memory for the JS engine module.</p>
-<blockquote>
-<p>最后，您需要用户带来他们预先初始化的JS。为了帮助，我们还开源了Wizer，您可以将其集成到一个构建工具中，该构建工具生成特定于应用程序的WebAssembly模块，该模块填充了JS引擎模块的预初始化内存。</p>
-</blockquote>
-<h1 id="For-other-languages-that-want-to-use-this-approach"><a href="#For-other-languages-that-want-to-use-this-approach" class="headerlink" title="For other languages that want to use this approach"></a>For other languages that want to use this approach</h1><p>If you’re part of a language community for a language like Python, Ruby, Lua, or others, you can build a version of this for your language, too.</p>
-<p>First, you need to compile your runtime to WebAssembly, using WASI for system calls, as we did with SpiderMonkey. Then, to get the fast startup time with snapshotting, you can <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer#using-wizer-as-a-library">integrate Wizer into a buildtool</a> to produce the memory snapshot, as described above.</p>
 
       
     </div>

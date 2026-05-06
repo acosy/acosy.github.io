@@ -171,7 +171,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -199,6 +199,272 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1669619236.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/1669619236.html" class="post-title-link" itemprop="url">Making JavaScript run fast on WebAssembly</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-02 21:02:51" itemprop="dateCreated datePublished" datetime="2021-06-02T21:02:51-04:00">2021-06-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-05-05 16:51:47" itemprop="dateModified" datetime="2026-05-05T16:51:47-04:00">2026-05-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>本文不含原创，只是知识的搬运工。</strong></p>
+<p>来源：<a target="_blank" rel="noopener" href="https://bytecodealliance.org/articles/making-javascript-run-fast-on-webassembly">https://bytecodealliance.org/articles/making-javascript-run-fast-on-webassembly</a></p>
+<p>JavaScript in the browser runs many times faster than it did two decades ago. And that happened because the browser vendors spent that time working on intensive performance optimizations.</p>
+<p>Today, we’re starting work on optimizing JavaScript performance for entirely different environments, where different rules apply. And this is possible because of WebAssembly.</p>
+<p>We should be clear here—if you’re running JavaScript in the browser, it still makes the most sense to simply deploy JS. The JS engines within the browsers are highly tuned to run the JS that gets shipped to them.</p>
+<blockquote>
+<p>如果在浏览器中运行JavaScript，简单地部署JS仍然最有意义。浏览器中的JS引擎被高度调整过，来运行交付给它们的JS。</p>
+</blockquote>
+<p>But what if you’re running JavaScript in a Serverless function? Or if you want to run JavaScript in an environment that doesn’t allow general just-in-time compilation, like iOS or gaming consoles?</p>
+<blockquote>
+<p>但是，如果在无服务器函数中运行JavaScript呢？或者想要在一个不支持JIT编译的环境（比如ios或游戏机）中运行JavaScript呢？</p>
+</blockquote>
+<p>For those use cases, you’ll want to pay attention to this new wave of JS optimization. And this work can also serve as a model for other runtimes—such as Python, Ruby, and Lua—that want to run fast in these environments, too.</p>
+<p>But before we explore how to make this approach run fast, we need to look at how it works at a basic level.</p>
+<h1 id="How-does-this-work"><a href="#How-does-this-work" class="headerlink" title="How does this work?"></a>How does this work?</h1><p>Whenever you’re running JavaScript, the JS source code needs to be executed one way or another as machine code. This is done by the JS engine using a variety of techniques such as interpreters and JIT compilers. (See <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/">A crash course in just-in-time (JIT) compilers</a> for more details.)</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/01.png" alt="Personified JS engine looking at JS source code and speaking the equivalent bytes of machine code out loud">  </p>
+<p>But what if your target platform doesn’t have a JS engine? Then you need to deploy a JS engine along with your code.</p>
+<p>In order to do this, we deploy the JS engine as a WebAssembly module, which makes it portable across different kinds of machine architectures. And with WASI, we can make it portable across different operating systems, too.</p>
+<p>This means the whole JS environment is bundled up into this WebAssembly instance. Once you deploy it, all you need to do is feed in the JS code, and it will run that code.</p>
+<blockquote>
+<p>如果目标平台没有JS引擎，那么就需要把JS引擎跟代码一起部署。将JS引擎部署为WebAssembly模块，使它在不同类型的机器架构中具有可移植性。有了WASI，也可以让它移植到不同的操作系统。<br>这意味着整个JS环境都被捆绑到这个WebAssembly实例中。一旦部署了这个WebAssembly实例，只需要输入JS代码，它就会运行该代码。</p>
+</blockquote>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/02.png" alt="A box representing the Wasm engine wrapping a box representing the JS engine, with a JS file being passed through the Wasm engine to the JS engine.">  </p>
+<p>Instead of working directly on the machine’s memory, the JS engine puts everything—from bytecode to the GCed objects that the bytecode is manipulating—in the Wasm module’s linear memory.</p>
+<blockquote>
+<p>JS引擎不是直接在机器的内存上工作，而是将从字节码到字节码正在操作的被垃圾回收机制处理的对象（Garbage Collected object）的所有内容都放在<strong>Wasm模块的线性内存</strong>中。</p>
+</blockquote>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/03.png" alt="The personified JS engine putting translated machine code bytes into the linear memory inside its box">  </p>
+<p>For our JS engine, we went with SpiderMonkey, which is used in Firefox. It is one of the industrial strength JavaScript VMs, battle-tested in the browser. This kind of battletesting and investment in security is important when you’re running untrusted code, or code that processes untrusted input.</p>
+<blockquote>
+<p>对于我们的JS引擎，我们使用了Firefox中使用的SpiderMonkey。它是工业实力的JavaScript虚拟机之一，在浏览器中进行了战斗测试。当您<strong>运行不受信任的代码</strong>或<strong>处理不受信任的输入的代码</strong>时，这种战斗测试和安全投资很重要。</p>
+</blockquote>
+<p>SpiderMonkey also uses a technique called precise stack scanning, which is important for some of the optimizations I explain below. And it also has a highly approachable codebase, which is important since BA members from 3 different organizations—Fastly, Mozilla, and Igalia—are collaborating on this.</p>
+<p>So far, there’s nothing revolutionary about the approach I’ve described. People have already been running JS with WebAssembly like this for years.</p>
+<p>The problem is that it’s slow. WebAssembly doesn’t allow you to dynamically generate new machine code and run it from within pure Wasm code. This means you can’t use the JIT. You can only use the interpreter.</p>
+<p>Given this constraint, you might be asking…</p>
+<h1 id="But-why-would-you-do-this"><a href="#But-why-would-you-do-this" class="headerlink" title="But why would you do this?"></a>But why would you do this?</h1><p>Since JITs are how the browsers made JS run fast (and since you can’t JIT compile inside of a WebAssembly module) it may seem counterintuitive to do this.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/04.png" alt="A horrified developer screaming &quot;But Why!?&quot;">  </p>
+<p>But what if, even despite this, we could make the JS run fast?</p>
+<p>Let’s look at a couple of use cases where a fast version of this approach could be really useful.</p>
+<h1 id="Running-JS-on-iOS-and-other-JIT-restricted-environments"><a href="#Running-JS-on-iOS-and-other-JIT-restricted-environments" class="headerlink" title="Running JS on iOS (and other JIT-restricted environments)"></a>Running JS on iOS (and other JIT-restricted environments)</h1><p>There are some places where you can’t use a JIT due to security concerns—for example, unprivileged iOS apps and some smart TVs and gaming consoles.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/05.png" alt="An iPhone, a smart TV, and a gaming controller"></p>
+<p>On these platforms, you have to use an interpreter. But the kinds of applications you run on these platforms are long-running, and they require a lot of code… and those are exactly the kinds of conditions where historically you wouldn’t want to use an interpreter, because of how much it slows down execution.</p>
+<p>If we can make our approach fast, then these developers could use JavaScript on JIT-less platforms without taking a massive performance hit.</p>
+<h1 id="Instantaneous-cold-start-for-Serverless"><a href="#Instantaneous-cold-start-for-Serverless" class="headerlink" title="Instantaneous cold start for Serverless"></a>Instantaneous cold start for Serverless</h1><p>There are other places where JITs aren’t an issue, but where start-up time is the problem, like in Serverless functions. This is the cold-start latency problem that you may have heard of.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/06.png" alt="A picture of a cloud with lots of edge network nodes around it"></p>
+<p>Even if you’re using the most paired-down JS environment—an isolate that just starts up a bare JS engine—you’re looking at ~5 milliseconds of startup latency at minimum. This doesn’t even include the time it takes to initialize the application.</p>
+<blockquote>
+<p>即使使用的是最配对的JS环境——一个刚刚启动裸JS引擎的隔离环境——至少要看到~5毫秒的启动延迟。这甚至不包括初始化应用程序所需的时间。</p>
+</blockquote>
+<p>There are some ways to hide this startup latency for an incoming request. But it’s getting harder to hide this as connection times are being optimized in the network layer, in proposals such as QUIC. It’s also harder to hide this when you’re doing things like chaining multiple Serverless functions together.</p>
+<p>Platforms that use these techniques to hide latency also often reuse instances between requests. In some cases, this means global state can be observed between different requests, which is a security hazard.</p>
+<p>Because of this cold-start problem, developers often don’t follow best practices. They stuff a lot of functions into one Serverless deployment. This results in another security issue—a larger blast radius. If one part of that Serverless deployment is exploited, the attacker has access to everything in that deployment.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/07.png" alt="On the left, a cartoon captioned &quot;Risk between requests&quot;. It shows burgalers in a room filled with papers saying &quot;Oooh payday... check out what they left behind!&quot; On the right, a cartoon captioned &quot;Risk between modules&quot;. It shows a tree of modules with a module at the bottom being exploded and other modules in the tree getting hit by shrapnel.">  </p>
+<p>But if we can get JS start-up times low enough in these contexts, then we wouldn’t need to hide start-up times with any tricks. We could just start up an instance in microseconds.</p>
+<p>With this, we can provide a new instance on each request, which means there’s no state lying around between requests.</p>
+<p>And because the instances are so lightweight, developers could feel free to break up their code into fine-grained pieces, bringing the blast radius to a minimum for any single piece of the code.</p>
+<blockquote>
+<p>但是，如果能在这些情况下让JS启动时间足够低，那就不需要用任何技巧来隐藏启动时间。我们可以<strong>在微秒内启动一个实例</strong>。<br>有了这个，我们可以<strong>为每个请求提供一个新的实例</strong>，这意味着请求之间没有状态。<br>由于实例非常轻量级，开发人员可以自由地将代码分解成精细的碎片，将任何单个代码的爆炸半径降至最低。</p>
+</blockquote>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/08.png" alt="On the left, a cartoon captioed &quot;isolation between requests&quot;. It shows the same bugalers, but in a totally clean room saying &quot;Nuthin&#39;... they didn&#39;t leave nuthin&#39; behind.&quot; On the right, a cartoon captioned &quot;isolation between modules&quot;. It shows a module graph with each module having its own box around it, and the explosion from the exploding module being contained to its own box">  </p>
+<p>And there’s another security benefit to this approach. Beyond just being lightweight and making it possible to have finer-grained isolation, the security boundary a Wasm engine provides is more dependable.</p>
+<p>Because the JS engines used to create isolates are large codebases, containing lots of low-level code doing ultra-complicated optimizations, it’s easy for bugs to be introduced that allow attackers to escape the VM and get access to the system the VM is running on. This is why browsers like Chrome and Firefox go to great lengths to ensure that sites run in fully separated processes.</p>
+<p>In contrast, Wasm engines require much less code, so they are easier to audit, and many of them are being written in Rust, a memory-safe language. And the memory isolation of native binaries generated from a WebAssembly module can be verified.</p>
+<p>By running the JS engine inside of a Wasm engine, we have this outer, more secure sandbox boundary as another line of defense.</p>
+<blockquote>
+<p>相比之下，Wasm引擎需要更少的代码，因此它们更容易审计，其中许多是用Rust编写的，Rust是一种内存安全语言。并且可以验证由WebAssembly模块生成的本机二进制文件的内存隔离。<br>通过在Wasm引擎中运行JS引擎，我们拥有了这个外部、更安全的沙盒边界作为另一道防线。</p>
+</blockquote>
+<p>So for these use cases, there’s a big benefit to making JS on Wasm fast. But how can we do that?</p>
+<p>In order to answer that question, we need to understand where the JS engine spends its time.</p>
+<h1 id="Two-places-a-JS-engine-spends-its-time"><a href="#Two-places-a-JS-engine-spends-its-time" class="headerlink" title="Two places a JS engine spends its time"></a>Two places a JS engine spends its time</h1><p>We can break down the work that a JS engine does into roughly two parts: initialization and runtime.</p>
+<blockquote>
+<p>我们可以将JS引擎所做的工作大致分为两部分：<strong>初始化</strong>和<strong>运行时</strong>。</p>
+</blockquote>
+<p>I think of the JS engine as a contractor. This contractor is retained to complete a job—running the JS code and getting to a result.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/09.png" alt="The JS engine shaking hands with a JS file and saying &quot;I&#39;m looking forward to helping you with this project!&quot;">  </p>
+<h2 id="Initialization-phase"><a href="#Initialization-phase" class="headerlink" title="Initialization phase"></a>Initialization phase</h2><p>Before this contractor can actually start running the project, it needs to do a bit of preliminary work. The initialization phase includes everything that only needs to happen once, at the beginning of execution.</p>
+<h3 id="Application-initialization"><a href="#Application-initialization" class="headerlink" title="Application initialization"></a>Application initialization</h3><p>For any project, the contractor needs to take a look at the work that the client wants it to do, and then set up the resources needed to complete that task.</p>
+<p>For example, the contractor reads through the project briefing and other supporting documents and turns them into something that it can work with, e.g. setting up a project management system with all of the documents stored and organized.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/10.png" alt="The JS engine sitting in its office with the JS file and saying &quot;So tell me more about the work you want to get done&quot;">  </p>
+<p>In the case of the JS engine, this work looks more like reading through the top-level of the source code and parsing functions into bytecode, allocating memory for variables that are declared, and setting values where they are already defined.</p>
+<blockquote>
+<p>就JS引擎而言，这项工作看起来更像是<strong>读取源代码的顶层并将函数解析为字节码，为声明的变量分配内存，并在已经定义的值处设置值</strong>。</p>
+</blockquote>
+<h3 id="Engine-initialization"><a href="#Engine-initialization" class="headerlink" title="Engine initialization"></a>Engine initialization</h3><p>In certain contexts, like Serverless, there’s another part to initialization which happens before each application initialization.</p>
+<p>This is engine initialization. The JS engine itself needs to be started up in the first place, and built-in functions need to be added to the environment.</p>
+<blockquote>
+<p>这是引擎初始化。<strong>JS引擎本身首先需要启动，并且需要将内置功能添加到环境中</strong>。</p>
+</blockquote>
+<p>I think of this like setting up the office itself—doing things like assembling IKEA chairs and tables—before starting the work.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/11.png" alt="The JS engine building the IKEA table for its office">  </p>
+<p>This can take considerable time, and is part of what can make cold start such an issue for Serverless use cases.</p>
+<blockquote>
+<p>这可能需要相当长的时间，并且是冷启动成为无服务器用例问题的一部分。</p>
+</blockquote>
+<h2 id="Runtime-phase"><a href="#Runtime-phase" class="headerlink" title="Runtime phase"></a>Runtime phase</h2><p>Once the initialization phase is done, the JS engine can start the work of running the code.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/12.png" alt="The JS engine moving cards across a Kanban board, all the way to the done position">  </p>
+<p>The speed of this part of the work is called throughput, and this throughput is affected by lots of different variables. For example:</p>
+<ul>
+<li>which language features are used</li>
+<li>whether the code behaves predictably from the JS engine’s point of view</li>
+<li>what sort of data structures are used</li>
+<li>whether the code runs long enough to benefit from the JS engine’s optimizing compiler</li>
+</ul>
+<p>So these are the two phases where the JS engine spends its time.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/13.png" alt="A sequence of the three previous images, showing the office building and requirements gathering as initialization, and moving work across the Kanban board as runtime.">  </p>
+<p>How can we make the work in these two phases go faster?</p>
+<h1 id="Drastically-reducing-initialization-time"><a href="#Drastically-reducing-initialization-time" class="headerlink" title="Drastically reducing initialization time"></a>Drastically reducing initialization time</h1><p>We started with making initialization fast with a tool called <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer">Wizer</a>. I’m going to explain how, but for those who are impatient, here’s the speed up we see when running a very simple JS app.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/14.png" alt="A graph showing startup latency times. JS isolate takes 5ms and JS on Wasm takes 0.36ms.">  </p>
+<p>When running this small application with Wizer, it only takes .36 milliseconds (or 360 microseconds). This is more than 13 times faster than what we’d expect with the JS isolate approach.</p>
+<p>We get this fast start-up using something called a snapshot. Nick Fitzgerald explained all this in more detail in his <a target="_blank" rel="noopener" href="https://youtu.be/C6pcWRpHWG0?t=1338">WebAssembly Summit talk about Wizer</a>.</p>
+<blockquote>
+<p>我们使用一种叫做<strong>快照</strong>(<strong>Snapshot</strong>)的东西来获得这种快速启动。</p>
+</blockquote>
+<p>So how does this work? Before the code is deployed, as part of a build step, we run the JS code using the JS engine to the end of initialization.</p>
+<p>At this point, the JS engine has parsed all of the JS and turned it into bytecode, which the JS engine module stores in the linear memory. The engine also does a lot of memory allocation and initialization in this phase.</p>
+<p>Because this linear memory is so self-contained, once all of the values have been filled in, we can just take the memory and attach it as a data section to a Wasm module.</p>
+<p>When the JS engine module is instantiated, it has access to all of the data in the data section. Whenever the engine needs a bit of that memory, it can copy the section (or rather, the memory page) that it needs into its own linear memory. With this, the JS engine doesn’t have to do any setup when it starts up. All of the pre-initialized values are ready and waiting for it.</p>
+<blockquote>
+<p>在代码部署之前，作为构建步骤的一部分，我们使用JS引擎运行JS代码，直到初始化结束。<br>此时，JS引擎已经解析了所有JS并将其转换为字节码，JS引擎模块将其存储在线性内存中。在这个阶段，引擎还做了很多内存分配和初始化。<br>因为这个线性内存是自包含的，一旦所有值都被填满，我们就可以将这段内存作为数据部分附加到Wasm模块上。<br>当JS引擎模块被实例化时，它可以访问数据部分中的所有数据。每当引擎需要那段内存时，它就可以将其需要的部分（或者更确切地说，内存页）复制到自己的线性内存中。有了这个，JS引擎在启动时不必进行任何设置。所有预先初始化的值都已准备就绪，正在等待它。</p>
+</blockquote>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/15.png" alt="A wasm file split between code and data sections, with the data section being poured into linear memory.">  </p>
+<p>Currently, we attach this data section to the same module as the JS engine. But in the future, once <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/module-linking/blob/master/proposals/module-linking/Explainer.md">module linking</a> is in place, we’ll be able to ship the data section as a separate module, allowing the JS engine module to be reused by many different JS applications.</p>
+<p>This provides a really clean separation.</p>
+<blockquote>
+<p>目前，我们将此数据部分附加到与JS引擎相同的模块中。但在未来，一旦模块链接到位，我们将能够将数据部分作为一个单独的模块发送，允许JS引擎模块被许多不同的JS应用程序重复使用。<br>这提供了一个非常干净的分离。</p>
+</blockquote>
+<p>The JS engine module only contains the code for the engine. That means that once it’s compiled, that code can be effectively cached and reused between lots of different instances.</p>
+<p>On the other hand, the application-specific module contains no Wasm code. It only contains the linear memory, which in turn contains the JS bytecode, along with the rest of the JS engine state that was initialized. This makes it really easy to move this memory around and send it wherever it needs to go.</p>
+<blockquote>
+<p>JS引擎模块仅包含引擎的代码。这意味着，一旦编译完毕，该代码就可以有效地缓存并在许多不同的实例之间重复使用。<br>另一方面，应用程序特定的模块不包含Wasm代码。它只包含线性内存，而线性内存又包含JS字节码，以及已初始化的JS引擎状态的其余部分。这使得移动这个内存并发送到它需要去的地方变得非常容易。</p>
+</blockquote>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/16.png" alt="Two wasm files next to each other. The one for the JS engine module only has a code section, the other for the JS application module only has a data section"> </p>
+<p>It’s kind of like the JS engine contractor doesn’t need to even have an office set up at all. It just gets a travel case shipped to it. That travel case has the whole office, with everything in it, all setup and ready for the JS engine to get to work.</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/17.png" alt="A personified Wasm engine placing a snapshot of the JS engine&#39;s office down inside of the Wasm engine and saying &quot;I&#39;ll just set this down for you so you can get right to work&quot;">  </p>
+<p>And the coolest thing about this is that it isn’t JS dependent—it’s just using an existing property of WebAssembly. So you could use this same technique with Python, Ruby, Lua, or other runtimes, too.</p>
+<h1 id="Next-step-Improving-throughput"><a href="#Next-step-Improving-throughput" class="headerlink" title="Next step: Improving throughput"></a>Next step: Improving throughput</h1><p>So with this approach we can get to super fast startup times. But what about throughput?</p>
+<p>For some use cases, the throughput is actually not too bad. If you have a very short running piece of JavaScript, it wouldn’t go through the JIT anyway—it would stay in the interpreter the whole time. So in that case, the throughput would be about the same as in the browser, and finished before a traditional JS engine would have finished initialization.</p>
+<p>But for longer running JS, it doesn’t take all that long before the JIT starts kicking in. And once this happens, the throughput difference starts to become obvious.</p>
+<p>As I said above, it’s not possible to JIT compile code within pure WebAssembly at the moment. But it turns out that we can apply some of the thinking that comes with JITs to an ahead-of-time compilation model.</p>
+<h1 id="Fast-AOT-compiled-JS-without-profiling"><a href="#Fast-AOT-compiled-JS-without-profiling" class="headerlink" title="Fast AOT-compiled JS (without profiling)"></a>Fast AOT-compiled JS (without profiling)</h1><p>One optimization technique that JITs use is inline caching. With inline caching, the JIT creates a linked list of stubs containing fast machine code paths for all the ways a bit of JS bytecode has been run in the past. (See <a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/">A crash course in just-in-time (JIT) compilers</a> for more details.)</p>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/18.png" alt="The personified JS engine standing in front of a matrix of JS bytecode entries and creating machine code stubs for them based on frequency feedback from a monitor">  </p>
+<p>The reason you need a list is because of the dynamic types in JS. Every time the line of code uses a different type, you need to generate a new stub and add it to the list. But if you’ve run into this type before, then you can just use the stub that was already generated for it.</p>
+<p>Because inline caches (ICs) are commonly used in JITs, people think of them being very dynamic and specific to each program. But it turns out that they can be applied in an AOT context, too.</p>
+<p>Even before we see the JS code, we already know a lot of the IC stubs that we’re going to need to generate. That’s because there are some patterns in JS that get used a lot.</p>
+<p>A good example of this is accessing properties on objects. That happens a lot in JS code, and it can be sped up by using an IC stub. For objects that have a certain “shape” or “hidden class” (that is, properties laid out in the same way), when you get a particular property from those object, that property will always be at the same offset.</p>
+<blockquote>
+<p>甚至在我们看到JS代码之前，我们已经知道我们需要生成的许多IC存根(inline caches stubs)。这是因为JS中有一些模式(patterns)被大量使用。<br>这方面的一个很好的例子是访问对象上的属性。这种情况在JS代码中经常发生，并且可以通过使用IC存根来加快速度。对于具有特定“形状”或“隐藏类”（即以相同方式布局的属性）的对象，当您从这些对象获取特定属性时，该属性将始终处于相同的偏移量。</p>
+</blockquote>
+<p>Traditionally, this kind of IC stub in the JIT would hardcode two values: the pointer to the shape and the offset of the property. And that requires information that we don’t have ahead-of-time. But what we can do is parameterize the IC stub. We can treat the shape and the property offset as variables that get passed in to the stub.</p>
+<p>This way, we can create a single stub that loads values from memory, and then use that same stub code everywhere. We can bake all of the stubs for these common patterns into the AOT compiled module, regardless of what the JS code actually does. Even in a browser setting, this IC sharing is beneficial since it lets the JS engine generate less machine code, improving startup time and instruction-cache locality.</p>
+<p>But for our use cases, it’s especially important. It means that we can bake all of the stubs for these common patterns into the AOT compiled module, regardless of what the JS code actually does.</p>
+<blockquote>
+<p>传统上，JIT中的这种IC存根将硬编码两个值：指向形状的指针和属性的偏移量。这需要我们事先没有的信息。但我们能做的就是对IC存根进行参数化。我们可以将形状和属性偏移视为传递到存根的变量。<br>通过这种方式，我们可以创建一个从内存中加载值的单个存根，然后在任何地方使用相同的存根代码。无论JS代码的实际作用如何，我们都可以将这些常见模式的所有存根烘烤到AOT编译模块中。即使在浏览器设置中，这种IC共享也是有益的，因为它允许JS引擎生成更少的机器代码，改善了启动时间和指令缓存局部性。<br>但对于我们的用例来说，它尤为重要。这意味着，无论JS代码实际做什么，我们都可以将这些常见模式的所有存根烘烤到AOT编译的模块中。</p>
+</blockquote>
+<p>We discovered that with just a few kilobytes of IC stubs, we can cover the vast majority of all JS code. For example, with 2 KB of IC stubs, we can cover 95% of JS in the Google Octane benchmark. And from preliminary tests, this percentage seems to hold for general web browsing as well.</p>
+<blockquote>
+<p>我们发现，只需几千字节的IC存根，我们就可以覆盖所有JS代码的绝大多数。例如，使用2KB的IC存根，我们可以覆盖谷歌辛烷值基准中95%的JS。从初步测试来看，这个百分比似乎也适用于一般的网页浏览。</p>
+</blockquote>
+<p><img src="/../imgs/Making%20JavaScript%20run%20fast%20on%20WebAssembly/19.png" alt="A small pile of stubs on the left and a large pile of JS files on the right">  </p>
+<p>So using this kind of optimization, we should be able to reach throughput that’s on par with early JITs. Once we’ve completed that work, we’ll add more fine-grained optimizations and polish up the performance, just as the browsers’ JS engine teams did with their early JITs.</p>
+<blockquote>
+<p>因此，使用这种优化，我们应该能够达到与早期JIT相当的吞吐量。一旦我们完成这项工作，我们将添加更多精细的优化并提高性能，就像浏览器的JS引擎团队在早期的JIT中所做的那样。</p>
+</blockquote>
+<h1 id="A-next-next-step-maybe-add-a-little-profiling"><a href="#A-next-next-step-maybe-add-a-little-profiling" class="headerlink" title="A next, next step: maybe add a little profiling?"></a>A next, next step: maybe add a little profiling?</h1><p>That’s what we can do ahead-of-time, without knowing what a program does and what types flow through it.</p>
+<p>But what if we had access to the same kind of profiling information that a JIT has? Then we could fully optimize the code.</p>
+<p>There’s a problem here though—developers often have a hard time profiling their own code. It’s hard to come up with representative sample workloads. So we aren’t sure whether we could get good profiling data.</p>
+<p>If we can figure out a way to put good tools in place for profiling, though, then there’s a chance we could actually make the JS run almost as fast as today’s JITs (and without the warm-up time!)</p>
+<h1 id="How-to-get-started-today"><a href="#How-to-get-started-today" class="headerlink" title="How to get started today"></a>How to get started today</h1><p>We’re excited about this new approach and are looking forward to seeing how far we can push it. We’re also excited to see other dynamically-typed languages come to WebAssembly in this way.</p>
+<p>So here are a few ways to get started today, and if you have any questions, you can ask in <a target="_blank" rel="noopener" href="https://bytecodealliance.zulipchat.com/">Zulip</a>.</p>
+<h1 id="For-other-platforms-that-want-to-support-JS"><a href="#For-other-platforms-that-want-to-support-JS" class="headerlink" title="For other platforms that want to support JS"></a>For other platforms that want to support JS</h1><p>To run JS in your own platform, you need to embed a WebAssembly engine that supports WASI. We’re using <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">Wasmtime</a> for that.</p>
+<p>Then you need your JS engine. As part of this work, we’ve added full support to Mozilla’s build system for compiling SpiderMonkey to WASI. And Mozilla is about to add WASI builds for SpiderMonkey to the same CI setup that is used to build and test Firefox. This makes WASI a production quality target for SpiderMonkey and ensures that the WASI build continues working over time. This means that you can <a target="_blank" rel="noopener" href="https://spidermonkey.dev/">use SpiderMonkey</a> in the same way that we have here.</p>
+<p>Finally, you need users to bring their pre-initialized JS. To help with this, we’ve also open sourced <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer">Wizer</a>, which you can <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer#using-wizer-as-a-library">integrate into a buildtool</a> which produces the application-specific WebAssembly module that fills in the pre-initialized memory for the JS engine module.</p>
+<blockquote>
+<p>最后，您需要用户带来他们预先初始化的JS。为了帮助，我们还开源了Wizer，您可以将其集成到一个构建工具中，该构建工具生成特定于应用程序的WebAssembly模块，该模块填充了JS引擎模块的预初始化内存。</p>
+</blockquote>
+<h1 id="For-other-languages-that-want-to-use-this-approach"><a href="#For-other-languages-that-want-to-use-this-approach" class="headerlink" title="For other languages that want to use this approach"></a>For other languages that want to use this approach</h1><p>If you’re part of a language community for a language like Python, Ruby, Lua, or others, you can build a version of this for your language, too.</p>
+<p>First, you need to compile your runtime to WebAssembly, using WASI for system calls, as we did with SpiderMonkey. Then, to get the fast startup time with snapshotting, you can <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wizer#using-wizer-as-a-library">integrate Wizer into a buildtool</a> to produce the memory snapshot, as described above.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1158,106 +1424,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/3767772450.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1047865371.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="Acosy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Acosy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Acosy">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/1047865371.html" class="post-title-link" itemprop="url">在Hexo博客中使用自定义CSS</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-03-21 14:56:44" itemprop="dateCreated datePublished" datetime="2019-03-21T14:56:44-04:00">2019-03-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-05-12 21:30:23" itemprop="dateModified" datetime="2024-05-12T21:30:23-04:00">2024-05-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%B7%A5%E5%85%B7/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>添加自定义 .styl 文件</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/1047865371.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
