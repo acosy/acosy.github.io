@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/custom/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/custom/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/custom/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/custom/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acosy.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"base16/github","dark":"base16/github"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":-1,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="下面是 2021 年 WebAssembly Summit 上关于 Wasm Fast Startup 的一个讲解视频，里面详细讲解了 Wizer 是怎么使冷启动更快的：   视频链接：Nick Fitzgerald — Hit the Ground Running: Wasm Snapshots for Fast Startup   以下为视频的 transcript。 Critical pat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wasm Snapshots for Fast Startup">
+<meta property="og:url" content="https://acosy.github.io/1673642252.html">
+<meta property="og:site_name" content="Acosy">
+<meta property="og:description" content="下面是 2021 年 WebAssembly Summit 上关于 Wasm Fast Startup 的一个讲解视频，里面详细讲解了 Wizer 是怎么使冷启动更快的：   视频链接：Nick Fitzgerald — Hit the Ground Running: Wasm Snapshots for Fast Startup   以下为视频的 transcript。 Critical pat">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/0.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/1.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/2.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/3.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/4.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/5.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/6.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/7.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/8.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/9.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/10.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/11.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/12.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/13.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/14.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/15.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/16.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/17.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/18.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/19.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/20.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/21.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/22.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/23.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/24.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/25.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/26.png">
+<meta property="og:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/27.png">
+<meta property="article:published_time" content="2026-05-05T20:49:53.000Z">
+<meta property="article:modified_time" content="2026-05-06T03:05:53.725Z">
+<meta property="article:author" content="Acosy">
+<meta property="article:tag" content="WASM">
+<meta property="article:tag" content="WebAssembly">
+<meta property="article:tag" content="Wizer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://acosy.github.io/imgs/Wasm%20Snapshots%20for%20Fast%20Startup/0.png">
+
+
+<link rel="canonical" href="https://acosy.github.io/1673642252.html">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://acosy.github.io/1673642252.html","path":"1673642252.html","title":"Wasm Snapshots for Fast Startup"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Wasm Snapshots for Fast Startup | Acosy</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Acosy</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+    
+    
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Compilation"><span class="nav-text">1. Compilation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Tiered-compilers"><span class="nav-text">1.1. Tiered compilers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Code-caches"><span class="nav-text">1.2. Code caches</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Ahead-of-time-compiles"><span class="nav-text">1.3. Ahead-of-time compiles</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Instantiation"><span class="nav-text">2. Instantiation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Initialization"><span class="nav-text">3. Initialization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Wizer"><span class="nav-text">3.1. Wizer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-What-State-is-in-a-Wasm-Instance"><span class="nav-text">3.2. What State is in a Wasm Instance?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-Globals"><span class="nav-text">3.2.1. Globals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-Linear-memories"><span class="nav-text">3.2.2. Linear memories</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-Tables"><span class="nav-text">3.2.3. Tables</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Wizer%E2%80%99s-Phases"><span class="nav-text">3.3. Wizer’s Phases</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-Instrument"><span class="nav-text">3.3.1. Instrument</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-Initialize"><span class="nav-text">3.3.2. Initialize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3-Snapshot"><span class="nav-text">3.3.3. Snapshot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-4-Rewrite"><span class="nav-text">3.3.4. Rewrite</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Space-Time-Trade-Off"><span class="nav-text">4. Space-Time Trade Off?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Sneak-Peek-JavaScript-on-Wasm"><span class="nav-text">5. Sneak Peek - JavaScript on Wasm</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Acosy"
+      src="/images/custom/avatar.png">
+  <p class="site-author-name" itemprop="name">Acosy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1673642252.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Wasm Snapshots for Fast Startup | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Wasm Snapshots for Fast Startup
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-05 16:49:53 / 修改时间：23:05:53" itemprop="dateCreated datePublished" datetime="2026-05-05T16:49:53-04:00">2026-05-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>下面是 2021 年 WebAssembly Summit 上关于 Wasm Fast Startup 的一个讲解视频，里面详细讲解了 Wizer 是怎么使冷启动更快的：</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/C6pcWRpHWG0?si=hslET0OQ00kH5e0V" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p>视频链接：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=C6pcWRpHWG0&t=1338s">Nick Fitzgerald — Hit the Ground Running: Wasm Snapshots for Fast Startup</a>  </p>
+<p>以下为视频的 transcript。</p>
+<p>Critical path to interactive:  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/0.png">  </p>
+<p>Everything that happens before a program is interactive, is on our so-called <strong>critical path</strong>.</p>
+<p>I’m using the umbrella term “interactive” to mean anything like handling events in a web application, or responding to an HTTP request in a web server.</p>
+<p> So the platform needs to compile and instantiate your wasm module, and then your program’s one-time initialization code needs to run. And this is specific to each program. Finally, once all that has happened, your program is ready and interactive. On the web, we also need to account for sending wasm over the internet to the client.</p>
+<h1 id="1-Compilation"><a href="#1-Compilation" class="headerlink" title="1. Compilation"></a>1. Compilation</h1><p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/1.png">  </p>
+<p>Compilation is generally the slowest part of this critical path. Wasm engines have gone to great lengths to reduce compilation related latency.  </p>
+<h2 id="1-1-Tiered-compilers"><a href="#1-1-Tiered-compilers" class="headerlink" title="1.1. Tiered compilers"></a>1.1. Tiered compilers</h2><p> They use something called <strong>tiered compilation</strong>, where they start out by quickly compiling the wasm without any optimizations in a baseline compiler. This produces code pretty quickly, but it’s not very good code. It’s not very fast code.</p>
+<p> You can start executing that code immediately, and then in a background thread, the engine is running the optimizing compiler. That’ll take longer because it runs more optimizations, but it produces better code. When that better code is ready, we actually dynamically switch execution from the baseline code to the optimized code.</p>
+<p> There was a great talk at last year’s Wasm Summit about JavaScript core’s new wasm interpreter. So they actually have an interpreter in front of the baseline compiler, that’s then in front of the optimizing compiler.</p>
+<h2 id="1-2-Code-caches"><a href="#1-2-Code-caches" class="headerlink" title="1.2. Code caches"></a>1.2. Code caches</h2><p>Another thing that engines use is code caching. So if the engine has already compiled this exact wasm binary to native code before, then it can reuse that earlier compilation result.   </p>
+<h2 id="1-3-Ahead-of-time-compiles"><a href="#1-3-Ahead-of-time-compiles" class="headerlink" title="1.3. Ahead-of-time compiles"></a>1.3. Ahead-of-time compiles</h2><p>Even more aggressive is compiling the wasm to native code ahead of time. This is a technique that’s not available on the web, because a web browser doesn’t know ahead of time which wasm modules it’s going to have to see and have to run, but you can kind of think of code caching as an approximation to this.</p>
+<p>Serverless environments, on the other hand, we can do ahead-of-time compilation there. So rather than deploy the original wasm program to the cloud, we can compile it to native code, and then deploy the native code to the cloud.</p>
+<p>This completely removes compilation from the critical path. And remember, since compilation is the slowest link in that critical path, ahead-of-time compilation is a huge win here.</p>
+<h1 id="2-Instantiation"><a href="#2-Instantiation" class="headerlink" title="2. Instantiation"></a>2. Instantiation</h1><p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/2.png">  </p>
+<p>Instantiation is when a static wasm module, that kind of describes some state that it might have, is given imports and becomes a dynamic wasm instance with that state internally.</p>
+<p>The big steps for instantiating wasm module are to allocate and initialize the modules, linear memories and tables. </p>
+<p>Typically this is done with an on-demand approach, where you use <code>mmap</code> to reserve a bunch of space, potentially with some extra space at the end for guard pages so that loads and stores aren’t explicitly bounds checked. And then you iterate through each data segment and you copy the relevant data into memory at the specified offset. And similar things for elements, segments and tables. </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/3.png">  </p>
+<p>But we can actually do even better than this if we know that we’re going to be instantiating many different wasm modules in a row. So wasmtime recently gained a pooling instance allocator that uses a newer feature of Linux kernel called <code>userfaultfd</code>.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/4.png">  </p>
+<p>With pooling allocation, instantiation basically becomes a no-op, because space is pre-allocated in the pool. So to allocate the space for the instance, we just pop off a free list. We don’t have to do any <code>mmap</code> or <code>mprotect</code> or any other syscall.</p>
+<p>Memory initialization is literally a no-op, because we do it lazily. We wait until the wasm touches a page, which is going to trigger a page fault that we handle in user space via <code>userfaultfd</code>. And this fault handler is going to then copy that initialized data into the page before finally letting the wasm program continue.</p>
+<p>I took a Markdown rendering program written in Rust, and I compiled it to wasm. I benchmarked how fast we can instantiate this wasm module in a loop on a single thread.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/5.png">  </p>
+<p>As you can see, the pooling allocator with <code>userfaultfd</code> is twice as fast and it takes less than 40 microseconds to instantiate each time.</p>
+<p>This improvement is going to get even more pronounced in parallel contexts like serverless platforms, because every <code>mmap</code> or <code>mprotect</code> syscall is internally taking a virtual memory lock for the process inside the kernel. If you’re using on-demand allocation, this lock ends up highly contended, and this degrades both the amount the parallelism your system as a whole is getting, and also hurts individual instantiation times.</p>
+<p>Instantiation in particular is really important because if we can get instantiation really fast, then we can have a new unit or new instance per unit of work. So for example, we can use a new instance for every HTTP request on a web server, and this gives you strong isolation guarantees. It means that bugs can’t persist across requests and take down other unrelated requests. It means that one malicious user can’t exploit a bug in a wasm program to manipulate another user’s request data. So this isolation property is hugely important.</p>
+<h1 id="3-Initialization"><a href="#3-Initialization" class="headerlink" title="3. Initialization"></a>3. Initialization</h1><p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/6.png">  </p>
+<p>The final stepping stone on the critical path to interactive is any kind of program specific initialization. I’m talking about any kind of, like one-time set-up code that has to run before your program is interactive. Some programs might have a bunch of this initialization code while others might have none.</p>
+<p>In contrast to compilation and instantiation, which are generally the wasm engine’s responsibility to make fast, making your own programs initialization code fast is your responsibility as a developer targeting wasm. One of the things you can do is you can make initialization happened lazily. </p>
+<p>So if you’re working on, say, like a document editor and it needs a dictionary, you don’t need to build that dictionary until the user actually starts editing a document, rather than say, navigating the list of available documents that they could edit.</p>
+<p>But even better than doing work lazily is having the work already done for you so you don’t need to do it now at all. So things like Rust’s <code>build.rs</code> files allow you to do arbitrary computation at build time and then kind of include serialization of the results in your final wasm binary.</p>
+<p>And this is where my tool Wizer comes in.  </p>
+<h2 id="3-1-Wizer"><a href="#3-1-Wizer" class="headerlink" title="3.1. Wizer"></a>3.1. Wizer</h2><p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/7.png">  </p>
+<p><strong>What Wizer will do is it will run the initialization code ahead-of-time, and it will save a snapshot of the initialized state as a new WebAssembly binary.</strong></p>
+<p>And now when you instantiate this new wasm binary, it’s already initialized. You don’t need to run that initialization code again.</p>
+<p>Let’s look at a concrete example.  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/8.png">  </p>
+<p>Here we have a spelling corrector. We give it my favorite typo that I make all the time whenever I write JavaScript, <em>“funciton”</em>. And the spelling corrector replies, “you know ‘funciton’ is misspelled, did you mean ‘function’?”</p>
+<p>Yes, I did mean “function”.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/9.png">  </p>
+<p>So I’m using an off-the-shelf crate that influences functionality and is based on Peter Norvig’s classic tutorial on how to implement spelling correctors. What’s we’re looking at here is that the initialization routine.</p>
+<p>What it does is it builds out lexicon that we use as a source of truth for determining whether something is a typo or not, and which word it might be a typo of.</p>
+<p>First we create an empty lexicon object:  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">lexicon</span> = Lexicon::<span class="title function_ invoke__">new</span>();</span><br></pre></td></tr></table></figure>
+
+<p>And then we open our dictionary file from the file system and each line of that file contains a different word in our dictionary:  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">dictionary</span> = <span class="title function_ invoke__">open_dictionary_file</span>(<span class="string">&quot;./words.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>And we read each word from the file and insert it into our lexicon:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">buf</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line"><span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Some</span>(word) = <span class="title function_ invoke__">read_word</span>(&amp;<span class="keyword">mut</span> dictionary, &amp;<span class="keyword">mut</span> buf) &#123;</span><br><span class="line">    lexicon.<span class="title function_ invoke__">insert</span>(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>And finally, we store the fully defined lexicon into a global variable so that we can use it later:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LEXICON</span><br><span class="line">    .<span class="title function_ invoke__">set</span>(lexicon)</span><br><span class="line">    .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;should not already be initialized&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>That’s the full initialization code.</p>
+<p>This is our spelling corrector’s main function.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/10.png">  </p>
+<p>We have a build time configuration flag for whether we’re using Wizer or not. If we’re not using Wizer, then we need to call the initialization function from main ourselves. But if we are using Wizer, we know that it’s already been initialized, and we can kind of skip this step:  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">cfg!</span>(<span class="title function_ invoke__">not</span>(feature = <span class="string">&quot;wizer&quot;</span>)) &#123;</span><br><span class="line">    <span class="title function_ invoke__">init</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Whether or not we’re using Wizer, by the time we got here:  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">lexicon</span> = LEXICON.<span class="title function_ invoke__">get</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;should be initialized&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>we know that the <code>LEXICON</code> global variable has been initialized, and so we can grab a reference to it.</p>
+<p>And now we start iterating through the words given to us as command line arguments:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="variable">word</span> <span class="keyword">in</span> env::<span class="title function_ invoke__">args</span>().<span class="title function_ invoke__">skip</span>(<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> lexicon.<span class="title function_ invoke__">contains</span>(&amp;word) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the word is in our <code>lexicon</code>, then we know it must be spelled correctly, and so we can just ignore it.</p>
+<p>However, for each of the misspelled words, we want to get a list of suggested corrections. If the suggestion list is empty, we just say that the word is misspelled, but if it’s not empty, then we take that first suggestion and we ask, “did you mean: blah?”</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">corrections</span> = lexicon.<span class="title function_ invoke__">corrections_for</span>(&amp;word);</span><br><span class="line"><span class="keyword">if</span> corrections.<span class="title function_ invoke__">is_empty</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; is misspelled&quot;</span>, word);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; is misspelled, did you mean &#123;&#125;?&quot;</span>,</span><br><span class="line">        word, corrections[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>I measure the total time it takes to both instantiate the spelling corrector and getting a spelling suggestion for a “funciton” typo.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/11.png">  </p>
+<p>The Wizer version is 5 times faster because it’s not building a <code>LEXICON</code> at runtime or doing any kind of disk IO and reading the file. That’s already been done at pre-initialization time, and it’s readily available in wasm memory.</p>
+<p>Let’s dig into Wizer’s execution model in a little more detail.</p>
+<p>First by reviewing the lifetime of a wasm module without Wizer, and then next we’ll contrast this to the lifetime of  a wasm module that does use Wizer.  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/12.png">  </p>
+<p>So everything starts with the developer building the wasm binary from source. And then they deploy that wasm module. So this vertical line represents the point in time where the deploy happens. So everything on the right of this line up until “interactive”, that’s the critical path that we’ve been talking about. But everything on the left side of this line is not on the critical path. That’s just kind of developer time.</p>
+<p>So for each user, wasm engine has to compile and instantiate the wasm program, and the program must initialize itself before it’s interactive. And again, some environments we can do ahead-of-time compilation, in which case we can ignore that compilation step. As we just saw, instantiation is fast, especially with pooling and <code>userfaultfd</code>, where it becomes nearly instantaneous, less than 40 microseconds in that original example. That means all that’s left on this critical path is the program specific initialization.</p>
+<p>So with Wizer, we kind of lift that initialization and we put it on the other side of the deploy.  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/13.png">  </p>
+<p>We do that initialization work once ahead of time before we ship the wasm binary to users, and then every user gets an already initialized wasm binary, and they don’t need to wait on initialization at all.</p>
+<p>So if we’re also doing ahead-of-time compilation, and we have that fast instantiation, now we’re really hitting the ground running and we’re just getting to interactive pretty much instantaneously.</p>
+<p>But what is Wizer actually doing inside that pre-initialization step, and what is involved in taking a snapshot of a wasm instance?</p>
+<h2 id="3-2-What-State-is-in-a-Wasm-Instance"><a href="#3-2-What-State-is-in-a-Wasm-Instance" class="headerlink" title="3.2. What State is in a Wasm Instance?"></a>3.2. What State is in a Wasm Instance?</h2><p>In order to take a snapshot, we need to know what state exists that we need to inspect and record and store in a snapshot.</p>
+<h3 id="3-2-1-Globals"><a href="#3-2-1-Globals" class="headerlink" title="3.2.1. Globals"></a>3.2.1. Globals</h3><p>So the first kind of state that exists in the wasm instance are globals.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/14.png">  </p>
+<p>These are single scalar values that are either constant or mutable. If they’re constant, we can kind of ignore them because they can’t change and so we don’t need to record them in our snapshot. But if they’re mutable, we do need to.</p>
+<p>And each global is initialized with the constant expression. So in this case, it would be <code>i32.const 1048576</code>.</p>
+<h3 id="3-2-2-Linear-memories"><a href="#3-2-2-Linear-memories" class="headerlink" title="3.2.2. Linear memories"></a>3.2.2. Linear memories</h3><p>The second kind of state in a wasm instance are linear memories. These are what wasm is famous for. Everyone knows, you know, wasm has linear memory.  </p>
+<p>These are just huge arrays of bytes that are organized into chunks, called pages, of 64 kilobytes. Each memory has an optional, initial size, specified in number of pages. </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/15.png">  </p>
+<p>In here, that’s <code>17</code>. And also an optional max size, specified again in number of pages, <code>22</code>.</p>
+<p>Memories are all zero by default, but you can use data segments to initialize different regions of memory to arbitrary bytes. So each data segment specifies the offset within its linear memory to where it should splat the data and the data to be splatted, so in this case, it’s a <code>&quot;hello!&quot;</code>.</p>
+<h3 id="3-2-3-Tables"><a href="#3-2-3-Tables" class="headerlink" title="3.2.3. Tables"></a>3.2.3. Tables</h3><p>There’re also tables inside wasm instances which are sort of similar to memories but for reference types like func ref or extern ref.  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/16.png">  </p>
+<p>So elements segments are basically the same as data segments, but for tables. And so here <code>f</code> and <code>g</code> are the table elements that would be inserted into the table, and they would be functions defined elsewhere in the module.</p>
+<p>We can actually ignore this for now because without bulk memory, tables are immutable after initialization and Wizer doesn’t support bulk memory yet. So we can just ignore it.</p>
+<p><strong>So that’s really all we need in the snapshot. It’s just memories and globals.</strong></p>
+<p>Those of you who are a little bit more familiar with the wasm spec might be asking, what about the wasm stack?</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/17.png">  </p>
+<p>The stack is where wasm instructions operands come from and where its results go to. For example, the <code>i32.add</code> instruction is going to pop 2 <code>i32</code> values from the stack. It’s going to add them together, and it’s going to push that sum back onto the stack. </p>
+<p>We don’t need to worry about snapshotting stack because we only ever take snapshots when there are zero call frames active. Therefore, the stack is always empty.</p>
+<p>This is great because generally engines don’t give us APIs for inspecting the stack because internally they’re using compilers that have an internal representation like SSA, and they’re doing transforms like dead code elimination to remove values that aren’t used, but technically would have appeared on the wasm stack so they would have to recreate the wasm stack.</p>
+<p>For similar reasons we don’t need to snapshot the current program counter because there are not active function calls so there is no current program counter nor are there any return pointers or anything that we need to remember.</p>
+<p>Finally you might be wondering what about implicit host state? What about the file system or environment variables, stuff that’s kind of ambient, not represented in the wasm instance, but is kind of around it and the wasm instance can interact with.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/18.png">  </p>
+<p>The answer is we ignore these as well. <strong>We don’t import during pre-initialization.</strong> The only way that wasm is kind of allowed to interact with the outside world is via <strong>imports</strong>, so we’re safe here.</p>
+<p>For example, we don’t allow importing a memory because the wasm module might expect that the imported memory has environment variables already initialized at a certain offset. Wizer can’t know what it’s expecting or what it’s not expecting, so it wouldn’t know how to create a memory for this.</p>
+<p>We do allow function imports, but what we do is we create dummy functions, that if you actually call them, they trap. And that makes the initialization fail. So if you don’t actually call in these functions and you successfully initialize your wasm module, then basically Wizer as a whole is completely transparent. And the resulting wasm module can’t tell whether initialization function was just called and so now it’s initialized, or whether it was pre-initialized with Wizer so there was no initialization function to call at all anymore. So it’s completely transparent.</p>
+<p><strong>The exception to all these is that you actually can opt into using WASI imports during initialization time.</strong> This allows you to do things like read files from the host file system during that kind of pre-initialization. This is what our spelling corrector did. But you need to realize that by the time main execution is running, maybe you’re on a completely different computer now, so with different file systems sitting underneath your wasm module. And a file you were just looking at, now it’s gone. Or you might not even have access to any file system anymore, like if you got deployed to the web.</p>
+<p>So this is a bit funky, and kind of changes the execution model. You lose that transparency property that you otherwise would have had.</p>
+<p>So we require explicitly opting into this functionality to kind of, say, “Yes I know what I’m getting myself into”, if you want to use web.</p>
+<h2 id="3-3-Wizer’s-Phases"><a href="#3-3-Wizer’s-Phases" class="headerlink" title="3.3. Wizer’s Phases"></a>3.3. Wizer’s Phases</h2><p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/19.png">  </p>
+<p>Now we know what we need to snapshot, let’s dive into Wizer’s implementation and figure out how it does the snapshotting.  </p>
+<p>There’re four main phases.</p>
+<h3 id="3-3-1-Instrument"><a href="#3-3-1-Instrument" class="headerlink" title="3.3.1. Instrument"></a>3.3.1. Instrument</h3><p>The first phase is instrumentation.  </p>
+<p>The goal here is to take all that internal state and export it, so that later on in the snapshot phase, we can read that state out.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/20.png">  </p>
+<p>Here we have a module that defines both a memory and a global, and Wizer adds 2 new exports, <code>__wizer_global_0</code> and <code>__wizer_memory_0</code>. If there was a second global, then there would also be <code>__wizer_global_1</code> export, etc.</p>
+<h3 id="3-3-2-Initialize"><a href="#3-3-2-Initialize" class="headerlink" title="3.3.2. Initialize"></a>3.3.2. Initialize</h3><p>The second phase is initialization. Wizer uses wasmtime to compile and instantiate the module. This is when we create any kind of dummy function imports that the module might require.  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/21.png">  </p>
+<p>And then we run the initialization function. By default, this is the function exported under the name <code>wizer.initialize</code>, but you can configure it to be anything you want.</p>
+<h3 id="3-3-3-Snapshot"><a href="#3-3-3-Snapshot" class="headerlink" title="3.3.3. Snapshot"></a>3.3.3. Snapshot</h3><p>The snapshot phase reads all those exports that we inserted earlier in the instrumentation phase to create the snapshot structure.  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/22.png">  </p>
+<p>The snapshot structure records what are the initialize values of each global, what are the new sizes of each memory after initialization, because they might’ve been grown during that initialization phase. And finally, which regions of memory have non-zero data. We record these as an offset into the memory, and then the raw Rust slice of that non-zero data.</p>
+<p>And that’s it. So snapshots can contain a lot of data, particularly many data segments or large data segments, but there are not that many different kinds of data. So ultimately, Wizer’s implementation is really quite simple.</p>
+<h3 id="3-3-4-Rewrite"><a href="#3-3-4-Rewrite" class="headerlink" title="3.3.4. Rewrite"></a>3.3.4. Rewrite</h3><p>The final phase here is the rewrite phase, where we take the initial wasm, and we take that snapshot we just recorded, and rewrite the initial wasm such that when you instantiate it, you get something that’s already initialized and doesn’t need to run initialization code again.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/23.png">  </p>
+<p>Right off the bat, we can remove the start section, because if the wasm module had a start function, we already ran it. So we don’t want to run it again because that could actually introduce bugs.</p>
+<p>And we update each memory’s minimum size to be the initialized size, because again it could have been grown during initialization:  </p>
+<figure class="highlight wasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">(</span><span class="keyword">memory</span> snapshot.memory_mins[i]<span class="punctuation">)</span></span><br></pre></td></tr></table></figure>
+<p>And if that newly grown region has non-zero regions of memory, when we try to initialize those with data segments, if we didn’t grow it then we would have a bug.</p>
+<p>Each global’s initialization expression is replaced with the associated value from the snapshot</p>
+<figure class="highlight wasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">(</span><span class="keyword">global</span> <span class="punctuation">(</span><span class="keyword">mut</span> <span class="type">i32</span><span class="punctuation">)</span> <span class="punctuation">(</span><span class="keyword">i32.const</span> snapshot.globals[j]<span class="punctuation">))</span></span><br></pre></td></tr></table></figure>
+
+<p>And then we remove all of the original data segments because we’re going to create a whole new batch from each region of non-zero memory that we got from the snapshot.</p>
+<figure class="highlight wasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">(</span><span class="keyword">data</span> <span class="punctuation">(</span><span class="keyword">i32.const</span> snapshot.data_segments[k].offset<span class="punctuation">)</span></span><br><span class="line">snapshot.data_segments[k].data<span class="punctuation">)</span></span><br></pre></td></tr></table></figure>
+
+<p>That’s it. That’s the whole rewrite phase.</p>
+<p>One final thing to notice about the rewrite phase, and kind of Wizer in general, is that we’re never mutating the code section. So dwarf debug info, which contains hard-coded offsets into the code section, it doesn’t get invalidated or it doesn’t break. This means that it’s just as easy to debug a wizened module as it is to debug the original unwizened module, which is a very nice property to have.</p>
+<h1 id="4-Space-Time-Trade-Off"><a href="#4-Space-Time-Trade-Off" class="headerlink" title="4. Space-Time Trade Off?"></a>4. Space-Time Trade Off?</h1><p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/24.png">  </p>
+<p>You might be thinking, isn’t this kind of just a classic space time trade-off? Because instead of doing this initialization computation at runtime, we’re doing it ahead of time, and then attaching the results to the wasm binary’s data segments, and these data segments can bloat the resulting wasm binary.</p>
+<p>And it’s true. The spelling corrector example from earlier, it grew by a factor of 10, from 300 kilobytes to 3 megabytes after wizening. But also keep in mind that it’s encoding a dictionary into a queryable data structure in memory. And without wizening, we would also need to ship this dictionary file alongside the wasm binary so it could be read during main executions.</p>
+<p>But it’s true that this extra space can hurt startup times in the web where we’re actually sending the wasm over the network. And this extra network transfer time might dwarf the time saved by being pre-initialized. </p>
+<p>And so my advice would be that if you’re targeting the web, you should be aware of this and should keep your eye on the wasm’s file size and try Wizer out and see if it helps. It’s easy to try out. If it does help, then you just got something for free. If it doesn’t, well, it didn’t cost you anything anyways.</p>
+<p>So it’s kind of true in this context, we do have a classic space time trade-off. However when it comes to memory usage, things get a little bit more subtle, because remember wasmtime’s pooling and <code>userfaultfd</code> instance allocation doesn’t actually initialize memory pages until they’re touched. So that means that data segments that are used during initialization that won’t ever be used again during main execution. They only take up virtual address space, which is really plentiful. And they are never committed or require backing by physical memory. </p>
+<p>So in this context, actually there is no space time trade-off. It’s just purely a win-win.  </p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/25.png">  </p>
+<p>Additionally, you can run a binary wasm-opt tool over the module after Wizer is done pre-initializing it. And this can actually remove functions that were only used during initialization and will never be used during main execution so they’re dead code. So you can actually shave off some code size this way as well.</p>
+<h1 id="5-Sneak-Peek-JavaScript-on-Wasm"><a href="#5-Sneak-Peek-JavaScript-on-Wasm" class="headerlink" title="5. Sneak Peek - JavaScript on Wasm"></a>5. Sneak Peek - JavaScript on Wasm</h1><p>There was some programs that weren’t previously viable because their startup time was simply too slow, and you wouldn’t really even consider doing things that way. But Wizer unlocks these new possibilities. So I want to give you a sneak peek at something that we’re kind of investigating at Fastly.</p>
+<p>What we’ve done is we’ve compiled the JavaScript engine to wasm and we’re experimenting with using Wizer to make it start up super fast.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/26.png">  </p>
+<p>Starting up a JavaScript engine can be slow, so it’s an obvious target for wizening, but we can actually do even better than that because after the JavaScript engine is initialized, there’s still a bunch more things that need to happen before the engine is ready to run, a particular JavaScript program. For example, the JavaScript source code needs to be parsed. And then it needs to be translated into the engine’s internal bytecode format. And the top of the script needs to be evaluated so that any event listeners are added and JavaScript global variables are initialized.</p>
+<p>We can actually do all of this stuff during Wizer’s pre-initialization time. We can even grab a reference to the JavaScript main function so we don’t have to do a global property lookup on the critical path during main execution. Main execution just calls the saved main JavaScript function.</p>
+<p>I benchmarked another Markdown rendering program, but this time it’s a Markdown renderer written in JavaScript, inside the JavaScript engine that we’ve then compiled to WebAssembly.</p>
+<p><img src="/../imgs/Wasm%20Snapshots%20for%20Fast%20Startup/27.png">  </p>
+<p>It takes about 25ms just to start up the JavaScript engine, and then another 5ms to parse this JavaScript bytecode and evaluate that top level. And that 5ms is specific to this relatively small JavaScript Markdown program. Larger JavaScript programs will take even longer to do these things.</p>
+<p>But because we can do all that stuff during pre-initialization, none of this stuff needs to happen at runtime. So we’re about 6 times faster with Wizer.</p>
+<p>Now maybe JavaScript isn’t your favorite language. The same pre-initialization with Wizer approach will work just as well with Python or Ruby or Lua, etc. There’s nothing special about JavaScript here.</p>
+<p>So I think this is really cool, and it shows off how Wizer opens up new possibilities to us that weren’t viable before.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Acosy
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://acosy.github.io/1673642252.html" title="Wasm Snapshots for Fast Startup">https://acosy.github.io/1673642252.html</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/WebAssembly/" rel="tag"># WebAssembly</a>
+              <a href="/tags/WASM/" rel="tag"># WASM</a>
+              <a href="/tags/Wizer/" rel="tag"># Wizer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/3844763587.html" rel="prev" title="什么是MCP？">
+                  <i class="fa fa-angle-left"></i> 什么是MCP？
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2019 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Acosy</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

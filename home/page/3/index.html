@@ -171,7 +171,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -182,7 +182,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -199,6 +199,354 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/2333270560.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/custom/avatar.png">
+      <meta itemprop="name" content="Acosy">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Acosy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Acosy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2333270560.html" class="post-title-link" itemprop="url">所有权（Ownership）</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-07-27 09:13:58" itemprop="dateCreated datePublished" datetime="2022-07-27T09:13:58-04:00">2022-07-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-05-12 21:58:20" itemprop="dateModified" datetime="2024-05-12T21:58:20-04:00">2024-05-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">语言</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/%E8%AF%AD%E8%A8%80/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><strong>本文大部分内容翻译自：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/stable/book/">The Rust Programming Language</a></strong></p>
+<p>所有权（Ownership）是Rust最独特的功能，对语言的其它部分有深刻的影响。它使Rust能够在不需要garbage collector的情况下提供内存安全保证，因此了解所有权的工作原理很重要。在本章中，我们将讨论所有权以及几个相关功能：借用、切片以及Rust如何在内存中放置数据。</p>
+<h1 id="1-什么是所有权（Ownership）"><a href="#1-什么是所有权（Ownership）" class="headerlink" title="1. 什么是所有权（Ownership）"></a>1. 什么是所有权（Ownership）</h1><p>所有权是一套规则，Rust程序用这套规则来管理内存。所有程序都必须管理它们在运行时使用计算机内存的方式。一些语言有垃圾回收机制（garbage collection），在程序运行时定期查找不再使用的内存；另一些语言中，程序员必须显式分配和释放内存。Rust使用第三种方法：内存通过所有权系统管理，这个系统定义了编译器会去检查的一组规则。如果违反任何规则，程序将不会编译。所有权的任何功能都不会使程序在运行时减慢速度。</p>
+<h2 id="1-2-Stack和Heap"><a href="#1-2-Stack和Heap" class="headerlink" title="1.2. Stack和Heap"></a>1.2. Stack和Heap</h2><h3 id="1-2-1-Stack：栈"><a href="#1-2-1-Stack：栈" class="headerlink" title="1.2.1. Stack：栈"></a>1.2.1. Stack：栈</h3><ul>
+<li>后进先出（last in, first out）</li>
+<li>所有存放在stack的数据必须有已知的、确定的大小</li>
+<li>数据存储：<ul>
+<li>push onto the stack</li>
+<li>方法：直接存放在栈顶</li>
+<li>比heap快，因为allocator不需要找存放的位置，每次都是存放在栈顶</li>
+</ul>
+</li>
+<li>数据访问：<ul>
+<li>比heap快</li>
+</ul>
+</li>
+<li>当调用函数时，传入函数的值（包括指向heap中数据的指针），和局部变量（local variables）会被压入栈中（push onto the stack）；当函数执行结束后，这些数据会被弹栈（pop off the stack）</li>
+</ul>
+<h3 id="1-2-2-Heap：堆"><a href="#1-2-2-Heap：堆" class="headerlink" title="1.2.2. Heap：堆"></a>1.2.2. Heap：堆</h3><ul>
+<li>先进先出（first in, first out）</li>
+<li>所有在编译时不能确定大小的数据，或者大小有可能改变的数据，必须存放在heap中</li>
+<li>数据存储：<ul>
+<li>allocate on the heap</li>
+<li>方法：<ul>
+<li>程序请求分配一定大小的空间</li>
+<li>memory allocator在heap中寻找足够大的闲置空间</li>
+<li>allocator将闲置空间标记为“in use”，通过指针（pointer）返回这段空间的地址</li>
+</ul>
+</li>
+<li>比stack慢，因为allocator先要寻找一块足够大的空间以便未来能容纳数据，还需要进行记录，为下次分配做准备</li>
+</ul>
+</li>
+<li>数据访问：<ul>
+<li>比stack慢，因为需要pointer才能找到指定地址</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-3-所有权解决的问题"><a href="#1-3-所有权解决的问题" class="headerlink" title="1.3. 所有权解决的问题"></a>1.3. 所有权解决的问题</h2><ul>
+<li>跟踪代码的哪些部分正在使用heap上的数据</li>
+<li>尽量减少heap上的重复数据</li>
+<li>清理heap上未使用的数据，以免占用空间</li>
+</ul>
+<h2 id="1-4-所有权的规则"><a href="#1-4-所有权的规则" class="headerlink" title="1.4. 所有权的规则"></a>1.4. 所有权的规则</h2><ul>
+<li>Rust中的每个值都有一个所有者（Owner）。</li>
+<li>一次只能有一个所有者。</li>
+<li>当所有者超出作用域时，该值将被删除。</li>
+</ul>
+<h2 id="1-5-变量作用域（Variable-Scope）"><a href="#1-5-变量作用域（Variable-Scope）" class="headerlink" title="1.5. 变量作用域（Variable Scope）"></a>1.5. 变量作用域（Variable Scope）</h2><p>作用域（Scope）是一个项（item）在程序中的有效范围。</p>
+<p>下面程序显示了变量<code>s</code>的作用域：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    &#123;                      <span class="comment">// s在此处无效，因为它还没有被声明</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;hello&quot;</span>;   <span class="comment">// s从这里开始有效</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// do stuff with s</span></span><br><span class="line">    &#125;                      <span class="comment">// 这里作用域结束，s不再有效</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>s</code>是字符串字面值，即，值（“hello”）被硬编码（hardcoded）到程序中的变量。  </p>
+<p>总的来说：</p>
+<ul>
+<li>当<code>s</code>进入作用域时，它是有效的。</li>
+<li><code>s</code>一直有效，直到它离开作用域为止。</li>
+</ul>
+<h2 id="1-6-String类型"><a href="#1-6-String类型" class="headerlink" title="1.6. String类型"></a>1.6. String类型</h2><p>String类型管理堆上分配的数据，因此能够存储我们在编译时不知道的文本。可以使用<code>from</code>函数，通过字符串字面值来创建String：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>字符串字面值不能被修改，但String类型的变量可以：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">s.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;, world!&quot;</span>); <span class="comment">// push_str() appends a literal to a String</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, s); <span class="comment">// This will print `hello, world!`</span></span><br></pre></td></tr></table></figure>
+<p>字符串字面值与String类型的内存分配和处理方式不同。</p>
+<h3 id="1-6-1-内存和分配"><a href="#1-6-1-内存和分配" class="headerlink" title="1.6.1. 内存和分配"></a>1.6.1. 内存和分配</h3><p>字符串字面值：</p>
+<ul>
+<li>在编译时就知道它的大小</li>
+</ul>
+<p>String类型：</p>
+<ul>
+<li>可被更改，大小可变，无法在编译时知道它的大小</li>
+<li>在运行时，memory allocator才会在<strong>heap</strong>上为它分配内存</li>
+<li><code>String::from</code>会请求分配它需要的内存</li>
+<li>Rust中，没有GC（garbage collector），也不需要手动释放内存，只要拥有一段内存的变量离开了它的作用域，它拥有的内存就会被释放<ul>
+<li>当变量离开它的作用域时，Rust会替我们调用<code>drop</code>函数来释放内存（在右花括号<code>}</code>处调用<code>drop</code>）</li>
+</ul>
+</li>
+</ul>
+<p>Unexpected behavior：</p>
+<ul>
+<li>这种释放内存的方法有时候可能会让我们的程序得到非预期的结果</li>
+<li>比如我们想让多个变量使用同一块存储在堆上的数据</li>
+</ul>
+<h3 id="1-6-2-变量和数据的交互方式：Move"><a href="#1-6-2-变量和数据的交互方式：Move" class="headerlink" title="1.6.2. 变量和数据的交互方式：Move"></a>1.6.2. 变量和数据的交互方式：Move</h3><p>如果想让多个变量使用同一块数据，可以这样做：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span> = x;</span><br></pre></td></tr></table></figure>
+<p>程序要做的事：<code>x</code>被赋值为5，<code>y</code>被赋值为<code>x</code>，所以<code>y</code>也是5。最后<code>x</code>和<code>y</code>都应该是5。<br>实际发生的事：<code>x</code>和<code>y</code>确实都是5。因为整数是已知的、有固定大小的简单数据，这两个<code>5</code>都被压入栈中。</p>
+<p>String的版本：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = s1;</span><br></pre></td></tr></table></figure>
+<p>与前面很相似：<code>s1</code>被赋值为String类型的“hello”，<code>s2</code>被赋值为<code>s1</code>，所以<code>s2</code>也是String类型的“hello”。最后<code>s1</code>和<code>s2</code>都应该是String类型的“hello”。  </p>
+<p>实际发生的事：<br><img src="/../imgs/%E6%89%80%E6%9C%89%E6%9D%83-Ownership/0018-String%20s1%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%83%85%E5%86%B5.png" alt="String s1内存分配情况">  </p>
+<p>如上图所示，在执行<code>let s1 = String::from(&quot;hello&quot;);</code>时，allocator在栈和堆上分别为<code>s1</code>及其指向的数据分配了空间：</p>
+<ul>
+<li>栈：图中左边显示的是栈中的情况。<code>String</code>类型包含3个部分：<ul>
+<li>pointer：指向堆中数据块存储的内存地址</li>
+<li>length：当前<code>s1</code>所指的内容使用了多少内存（单位为字节）</li>
+<li>capacity：allocator为<code>s1</code>所指的内容总共分配了多少内存（单位为字节）</li>
+</ul>
+</li>
+<li>堆：图中右边显示的是堆中的情况，是实际内容（“hello”）存储的地方。</li>
+</ul>
+<p>当执行<code>s2 = s1</code>时，存储在栈中的<code>String</code>被复制了一份：<br><img src="/../imgs/%E6%89%80%E6%9C%89%E6%9D%83-Ownership/0019-s2%E8%A2%AB%E8%B5%8B%E5%80%BC%E4%B8%BAs1.png" alt="s2被赋值为s1">  </p>
+<p>可以看到，我们只复制了指针、length、capacity，它们都存储在栈中，而真正的存储在堆上的数据（“hello”）没有被复制。如果数据也被复制了，会如下图所示：<br><img src="/../imgs/%E6%89%80%E6%9C%89%E6%9D%83-Ownership/0020-%E5%A0%86%E4%B8%AD%E6%95%B0%E6%8D%AE%E4%B9%9F%E8%A2%AB%E5%A4%8D%E5%88%B6.png" alt="堆中数据也被复制">  </p>
+<p>但<strong>上图并不是真正发生的事</strong>。因为如果Rust按照上图所示执行<code>let s2 = s1;</code>，在堆中的数据量很大的时候，运行时性能方面会非常昂贵。</p>
+<p>之前我们说当变量离开作用域时，Rust会自动调用<code>drop</code>函数来释放这个变量拥有的堆中空间。如果<code>s1</code>和<code>s2</code>都指向了同一块空间，那么在<code>s1</code>离开作用域时会释放掉它指向的堆空间，在<code>s2</code>离开作用域时又会再次释放同一块堆空间。这样就造成了一块空间被释放了两次，被称为“double free”，可能会造成内存损坏，导致安全漏洞。</p>
+<p>为了保证内存安全，在<code>let s2 = s1;</code>之后，Rust让<code>s1</code>失效，这样当<code>s1</code>离开作用域时Rust就不需要为它释放任何内存。可以尝试在<code>let s2 = s1;</code>之后使用<code>s1</code>，会发现编译错误：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s2</span> = s1;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, world!&quot;</span>, s1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="/../imgs/%E6%89%80%E6%9C%89%E6%9D%83-Ownership/0021-%E5%86%8D%E6%AC%A1%E4%BD%BF%E7%94%A8s1%E6%97%B6%E7%9A%84%E7%BC%96%E8%AF%91%E9%94%99%E8%AF%AF.png" alt="再次使用s1时的编译错误">  </p>
+<p>在其它语言中，可能有深拷贝（deep copy）和浅拷贝（shallow copy）的概念。这里我们只复制了指针、length、capacity，没有复制堆中的数据，看起来很像浅拷贝。但由于Rust还将前一个变量（<code>s1</code>）设置成无效，所以我们不把它叫做浅拷贝，而叫做“<strong>移动（move）</strong>”。</p>
+<p>真正发生的事如下图所示：<br><img src="/../imgs/%E6%89%80%E6%9C%89%E6%9D%83-Ownership/0022-String%E8%B5%8B%E5%80%BC%E8%BF%87%E7%A8%8B.png" alt="String赋值过程">  </p>
+<p>上面过程还隐含了一个意思：Rust永远不会自动为你做数据的深拷贝。因此，任何<em>自动的</em>拷贝对运行时性能的影响都比较小。  </p>
+<h3 id="1-6-3-变量和数据的交互方式：Clone"><a href="#1-6-3-变量和数据的交互方式：Clone" class="headerlink" title="1.6.3. 变量和数据的交互方式：Clone"></a>1.6.3. 变量和数据的交互方式：Clone</h3><p>如果我们想要深拷贝堆中的数据，而不仅仅是栈中的数据，那么需要用到一个常用的方法：<code>clone</code>。</p>
+<p>例如：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s2</span> = s1.<span class="title function_ invoke__">clone</span>();  <span class="comment">// heap data gets copied. may be expensive</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;s1 = &#123;&#125;, s2 = &#123;&#125;&quot;</span>, s1, s2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这次堆中的数据也会被复制一份，代码会正常运行。</p>
+<h3 id="1-6-4-只存储在栈上的数据：Copy"><a href="#1-6-4-只存储在栈上的数据：Copy" class="headerlink" title="1.6.4. 只存储在栈上的数据：Copy"></a>1.6.4. 只存储在栈上的数据：Copy</h3><p>对于下面这段代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = x;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;x = &#123;&#125;, y = &#123;&#125;&quot;</span>, x, y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们不需要调用<code>clone</code>就可以使它正常运行，<code>x</code>没有被移动（moved）到<code>y</code>。</p>
+<p>原因是像整数这种类型的变量在编译时就有一个确定的大小，所以它们被存储在栈中，数据的复制也非常快，因此在创建变量<code>y</code>之后不需要无效化<code>x</code>。对于这种变量，深拷贝和浅拷贝没有区别。Rust中有个特殊的注解（annotation）叫做<code>Copy</code> trait，我们可以把它用在存储在栈中的类型上，如整数类型。</p>
+<p>Rust不允许实现了<code>Drop</code> trait的类型被注上<code>Copy</code>，否则会有编译错误。</p>
+<p>一些能实现<code>Copy</code> trait的类型举例：</p>
+<ul>
+<li>所有整数类型，如<code>u32</code></li>
+<li>布尔类型<code>bool</code></li>
+<li>所有浮点类型，如<code>f64</code></li>
+<li>字符类型<code>char</code></li>
+<li>元组类型：如果它们只包含可实现<code>Copy</code>的类型，那么这个元组也可以实现<code>Copy</code></li>
+</ul>
+<h2 id="1-7-所有权和函数"><a href="#1-7-所有权和函数" class="headerlink" title="1.7. 所有权和函数"></a>1.7. 所有权和函数</h2><p>将值传递给函数的机制与将值赋值给变量时的机制相似。将变量传递给函数会移动（move）或克隆（clone），与赋值一样。如下例所示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);  <span class="comment">// s进入作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">takes_ownership</span>(s);             <span class="comment">// s的值移动（move）到函数里，</span></span><br><span class="line">                                    <span class="comment">// 所以到这里不再有效</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">5</span>;                      <span class="comment">// x进入作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">makes_copy</span>(x);                  <span class="comment">// x应该移动（move）到函数里，</span></span><br><span class="line">                                    <span class="comment">// 但 i32 是 Copy 的，所以在后面可继续使用 x</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// 这里, x先移出了作用域，然后是s。但因为s的值已被移走，</span></span><br><span class="line">  <span class="comment">// 所以不会有（释放堆空间的）特殊操作</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">takes_ownership</span>(some_string: <span class="type">String</span>) &#123; <span class="comment">// some_string进入作用域</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, some_string);</span><br><span class="line">&#125; <span class="comment">// 这里，some_string移出作用域并调用 `drop` 方法。</span></span><br><span class="line">  <span class="comment">// 占用的内存被释放</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">makes_copy</span>(some_integer: <span class="type">i32</span>) &#123; <span class="comment">// some_integer进入作用域</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, some_integer);</span><br><span class="line">&#125; <span class="comment">// 这里，some_integer 移出作用域。没有（释放堆空间的）特殊操作</span></span><br></pre></td></tr></table></figure>
+
+<p>如果在调用<code>takes_ownership</code>后使用<code>s</code>，就会出现编译错误。</p>
+<h2 id="1-8-返回值和作用域"><a href="#1-8-返回值和作用域" class="headerlink" title="1.8. 返回值和作用域"></a>1.8. 返回值和作用域</h2><p>返回值也可以转移所有权。如下例所示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="title function_ invoke__">gives_ownership</span>();         <span class="comment">// gives_ownership将返回值的所有权</span></span><br><span class="line">                                        <span class="comment">// 转移给s1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s2</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);     <span class="comment">// s2进入作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s3</span> = <span class="title function_ invoke__">takes_and_gives_back</span>(s2);  <span class="comment">// s2的所有权被移动到takes_and_gives_back中，</span></span><br><span class="line">                                        <span class="comment">// 这个函数又将返回值的所有权移动给s3</span></span><br><span class="line">&#125; <span class="comment">// 这里, s3被移出作用域并丢弃。s2也移出作用域，但已被移走，</span></span><br><span class="line">  <span class="comment">// 所以什么也不会发生。s1离开作用域并被丢弃</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">gives_ownership</span>() <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;             <span class="comment">// gives_ownership会将返回值移动给</span></span><br><span class="line">                                             <span class="comment">// 调用它的函数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">some_string</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;yours&quot;</span>); <span class="comment">// some_string进入作用域.</span></span><br><span class="line"></span><br><span class="line">    some_string                              <span class="comment">// 返回 some_string </span></span><br><span class="line">                                             <span class="comment">// 并将所有权移出给调用的函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// takes_and_gives_back 将传入字符串并返回该值</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">takes_and_gives_back</span>(a_string: <span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123; <span class="comment">// a_string 进入作用域 </span></span><br><span class="line"></span><br><span class="line">    a_string  <span class="comment">// 返回 a_string 并移出所有权给调用的函数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-9-不转移所有权地使用变量"><a href="#1-9-不转移所有权地使用变量" class="headerlink" title="1.9. 不转移所有权地使用变量"></a>1.9. 不转移所有权地使用变量</h2><p>可以用元组返回多个值：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> (s2, len) = <span class="title function_ invoke__">calculate_length</span>(s1);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The length of &#x27;&#123;&#125;&#x27; is &#123;&#125;.&quot;</span>, s2, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">calculate_length</span>(s: <span class="type">String</span>) <span class="punctuation">-&gt;</span> (<span class="type">String</span>, <span class="type">usize</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">length</span> = s.<span class="title function_ invoke__">len</span>(); <span class="comment">// len() returns the length of a String</span></span><br><span class="line"></span><br><span class="line">    (s, length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但这样做很繁琐。Rust有一个在不转让所有权的情况下使用变量的功能，称为引用（references）。</p>
+<h1 id="2-引用和借用"><a href="#2-引用和借用" class="headerlink" title="2. 引用和借用"></a>2. 引用和借用</h1><h2 id="2-1-引用（Reference）"><a href="#2-1-引用（Reference）" class="headerlink" title="2.1. 引用（Reference）"></a>2.1. 引用（Reference）</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span> = <span class="title function_ invoke__">calculate_length</span>(&amp;s1);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The length of &#x27;&#123;&#125;&#x27; is &#123;&#125;.&quot;</span>, s1, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">calculate_length</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;</span><br><span class="line">    s.<span class="title function_ invoke__">len</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Pass <code>&amp;s1</code> into <code>calculate_length</code> and, in its definition, we take <code>&amp;String</code> rather than <code>String</code>.</p>
+<p><img src="/../imgs/%E6%89%80%E6%9C%89%E6%9D%83-Ownership/0023-reference%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="reference示意图">  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span> = <span class="title function_ invoke__">calculate_length</span>(&amp;s1);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The length of &#x27;&#123;&#125;&#x27; is &#123;&#125;.&quot;</span>, s1, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">calculate_length</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;</span><br><span class="line">    s.<span class="title function_ invoke__">len</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The &amp;s1 syntax lets us create a reference that refers to the value of s1 but does not own it. Because it does not own it, the value it points to will not be dropped when the reference stops being used.</p>
+<p>Likewise, the signature of the function uses &amp; to indicate that the type of the parameter s is a reference. Let’s add some explanatory annotations:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">calculate_length</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123; <span class="comment">// s is a reference to a String</span></span><br><span class="line">    s.<span class="title function_ invoke__">len</span>()</span><br><span class="line">&#125; <span class="comment">// Here, s goes out of scope. But because it does not have ownership of what</span></span><br><span class="line">  <span class="comment">// it refers to, it is not dropped.</span></span><br></pre></td></tr></table></figure>
+
+<p>We call the action of creating a reference borrowing. As in real life, if a person owns something, you can borrow it from them. When you’re done, you have to give it back. You don’t own it.</p>
+<p>So what happens if we try to modify something we’re borrowing? Spoiler alert: it doesn’t work!</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">change</span>(&amp;s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">change</span>(some_string: &amp;<span class="type">String</span>) &#123;</span><br><span class="line">    some_string.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;, world&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Here’s the error:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling ownership v0.1.0 (file:///projects/ownership)</span><br><span class="line">error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference</span><br><span class="line"> --&gt; src/main.rs:8:5</span><br><span class="line">  |</span><br><span class="line">7 | fn change(some_string: &amp;String) &#123;</span><br><span class="line">  |                        ------- <span class="built_in">help</span>: consider changing this to be a mutable reference: `&amp;mut String`</span><br><span class="line">8 |     some_string.push_str(<span class="string">&quot;, world&quot;</span>);</span><br><span class="line">  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `some_string` is a `&amp;` reference, so the data it refers to cannot be borrowed as mutable</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0596`.</span><br><span class="line">error: could not compile `ownership` due to previous error</span><br></pre></td></tr></table></figure>
+
+<p><strong>Just as variables are immutable by default, so are references. We’re not allowed to modify something we have a reference to.</strong></p>
+<p>默认情况下，引用不可变（immutable）！</p>
+<h2 id="2-2-可变引用（Mutable-References）"><a href="#2-2-可变引用（Mutable-References）" class="headerlink" title="2.2. 可变引用（Mutable References）"></a>2.2. 可变引用（Mutable References）</h2><p>We can fix the code above to allow us to modify a borrowed value with just a few small tweaks that use, instead, a mutable reference:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">change</span>(&amp;<span class="keyword">mut</span> s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">change</span>(some_string: &amp;<span class="keyword">mut</span> <span class="type">String</span>) &#123;</span><br><span class="line">    some_string.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot;, world&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>change <code>s</code> to be <code>mut</code></li>
+<li>create a mutable reference with <code>&amp;mut s</code> where we call the change function</li>
+<li>update the function signature to accept a mutable reference with <code>some_string: &amp;mut String</code></li>
+</ul>
+<p>This makes it very clear that the change function will mutate the value it borrows.</p>
+<p>一个变量只能有一个可变引用！<br>Mutable references have one big restriction: <strong>if you have a mutable reference to a value, you can have no other references to that value</strong>. This code that attempts to create two mutable references to s will fail:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;<span class="keyword">mut</span> s;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;<span class="keyword">mut</span> s;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, r1, r2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Here’s the error:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling ownership v0.1.0 (file:///projects/ownership)</span><br><span class="line">error[E0499]: cannot borrow `s` as mutable more than once at a <span class="keyword">time</span></span><br><span class="line"> --&gt; src/main.rs:5:14</span><br><span class="line">  |</span><br><span class="line">4 |     <span class="built_in">let</span> r1 = &amp;mut s;</span><br><span class="line">  |              ------ first mutable borrow occurs here</span><br><span class="line">5 |     <span class="built_in">let</span> r2 = &amp;mut s;</span><br><span class="line">  |              ^^^^^^ second mutable borrow occurs here</span><br><span class="line">6 | </span><br><span class="line">7 |     println!(<span class="string">&quot;&#123;&#125;, &#123;&#125;&quot;</span>, r1, r2);</span><br><span class="line">  |                        -- first borrow later used here</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0499`.</span><br><span class="line">error: could not compile `ownership` due to previous error</span><br></pre></td></tr></table></figure>
+
+<p>这样做的原因：<br>The benefit of having this restriction is that Rust can <strong>prevent data races at compile time</strong>. A data race is similar to a race condition and happens when these three behaviors occur:</p>
+<ul>
+<li>Two or more pointers access the same data at the same time.</li>
+<li>At least one of the pointers is being used to write to the data.</li>
+<li>There’s no mechanism being used to synchronize access to the data.</li>
+</ul>
+<p>As always, we can use curly brackets to create a new scope, allowing for multiple mutable references, just not simultaneous ones:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">r1</span> = &amp;<span class="keyword">mut</span> s;</span><br><span class="line">    &#125; <span class="comment">// r1 goes out of scope here, so we can make a new reference with no problems.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;<span class="keyword">mut</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不能combine可变和不可变引用，否则编译错误。对于同一个变量，也不能同时拥有可变引用和不可变引用。<br>Rust enforces a similar rule for combining mutable and immutable references. This code results in an error:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;s; <span class="comment">// no problem</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;s; <span class="comment">// no problem</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r3</span> = &amp;<span class="keyword">mut</span> s; <span class="comment">// BIG PROBLEM</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;, &#123;&#125;, and &#123;&#125;&quot;</span>, r1, r2, r3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Here’s the error:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling ownership v0.1.0 (file:///projects/ownership)</span><br><span class="line">error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable</span><br><span class="line"> --&gt; src/main.rs:6:14</span><br><span class="line">  |</span><br><span class="line">4 |     <span class="built_in">let</span> r1 = &amp;s; // no problem</span><br><span class="line">  |              -- immutable borrow occurs here</span><br><span class="line">5 |     <span class="built_in">let</span> r2 = &amp;s; // no problem</span><br><span class="line">6 |     <span class="built_in">let</span> r3 = &amp;mut s; // BIG PROBLEM</span><br><span class="line">  |              ^^^^^^ mutable borrow occurs here</span><br><span class="line">7 | </span><br><span class="line">8 |     println!(<span class="string">&quot;&#123;&#125;, &#123;&#125;, and &#123;&#125;&quot;</span>, r1, r2, r3);</span><br><span class="line">  |                                -- immutable borrow later used here</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0502`.</span><br><span class="line">error: could not compile `ownership` due to previous error</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>r1</code>和<code>r2</code>都不会修改<code>s</code>的值，只是“借用”<code>s</code>现有的值来做一些事</li>
+<li>“mutable borrow”意味着我可能会用<code>r3</code>去修改<code>s</code>的值</li>
+</ul>
+<p>同一个变量不能同时拥有可变引用和不可变引用。但：<br>Note that a reference’s scope starts from where it is introduced and continues through <strong>the last time that reference is used</strong>. For instance, this code will compile because the last usage of the immutable references, the println!, occurs before the mutable reference is introduced:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r1</span> = &amp;s; <span class="comment">// no problem</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r2</span> = &amp;s; <span class="comment">// no problem</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; and &#123;&#125;&quot;</span>, r1, r2);</span><br><span class="line">    <span class="comment">// variables r1 and r2 will not be used after this point</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r3</span> = &amp;<span class="keyword">mut</span> s; <span class="comment">// no problem</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, r3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The scopes of the immutable references r1 and r2 end after the println! where they are last used, which is before the mutable reference r3 is created. These scopes don’t overlap, so this code is allowed. </p>
+<p>The ability of the compiler to tell that a reference is no longer being used at a point before the end of the scope is called Non-Lexical Lifetimes (NLL for short), and you can read more about it in <a target="_blank" rel="noopener" href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">The Edition Guide</a>.</p>
+<h2 id="2-3-Dangling-References"><a href="#2-3-Dangling-References" class="headerlink" title="2.3. Dangling References"></a>2.3. Dangling References</h2><p>In languages with pointers, it’s easy to erroneously create a dangling pointer–a pointer that references a location in memory that may have been given to someone else–by freeing some memory while preserving a pointer to that memory. In Rust, by contrast, the compiler guarantees that references will never be dangling references: if you have a reference to some data, the compiler will ensure that the data will not go out of scope before the reference to the data does.</p>
+<p>Let’s try to create a dangling reference to see how Rust prevents them with a compile-time error:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">reference_to_nothing</span> = <span class="title function_ invoke__">dangle</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">dangle</span>() <span class="punctuation">-&gt;</span> &amp;<span class="type">String</span> &#123; <span class="comment">// dangle returns a reference to a String</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>); <span class="comment">// s is a new String</span></span><br><span class="line"></span><br><span class="line">    &amp;s <span class="comment">// we return a reference to the String, s</span></span><br><span class="line">&#125; <span class="comment">// Here, s goes out of scope, and is dropped. Its memory goes away.</span></span><br><span class="line">  <span class="comment">// Danger!</span></span><br></pre></td></tr></table></figure>
+
+<p>Because s is created inside dangle, when the code of dangle is finished, s will be deallocated. But we tried to return a reference to it. That means this reference would be pointing to an invalid String. </p>
+<p>Here’s the error:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling ownership v0.1.0 (file:///projects/ownership)</span><br><span class="line">error[E0106]: missing lifetime specifier</span><br><span class="line"> --&gt; src/main.rs:5:16</span><br><span class="line">  |</span><br><span class="line">5 | fn dangle() -&gt; &amp;String &#123;</span><br><span class="line">  |                ^ expected named lifetime parameter</span><br><span class="line">  |</span><br><span class="line">  = <span class="built_in">help</span>: this <span class="keyword">function</span><span class="string">&#x27;s return type contains a borrowed value, but there is no value for it to be borrowed from</span></span><br><span class="line"><span class="string">help: consider using the `&#x27;</span>static` lifetime</span><br><span class="line">  |</span><br><span class="line">5 | fn dangle() -&gt; &amp;<span class="string">&#x27;static String &#123;</span></span><br><span class="line"><span class="string">  |                ~~~~~~~~</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">For more information about this error, try `rustc --explain E0106`.</span></span><br><span class="line"><span class="string">error: could not compile `ownership` due to previous error</span></span><br></pre></td></tr></table></figure>
+
+<p>This error message refers to a feature we haven’t covered yet: lifetimes. We’ll discuss lifetimes in detail in Chapter 10. But, if you disregard the parts about lifetimes, the message does contain the key to why this code is a problem:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">this <span class="keyword">function</span><span class="string">&#x27;s return type contains a borrowed value, but there is no value</span></span><br><span class="line"><span class="string">for it to be borrowed from</span></span><br></pre></td></tr></table></figure>
+
+<p>修改成如下代码：（直接return <code>String</code>）</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">string</span> = <span class="title function_ invoke__">no_dangle</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">no_dangle</span>() <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line">    s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This works without any problems. Ownership is moved out, and nothing is deallocated.</p>
+<h2 id="2-4-Rules-of-References"><a href="#2-4-Rules-of-References" class="headerlink" title="2.4. Rules of References"></a>2.4. Rules of References</h2><ul>
+<li>At any given time, you can have either one mutable reference or any number of immutable references.</li>
+<li>References must always be valid.</li>
+</ul>
+<h1 id="3-Slices"><a href="#3-Slices" class="headerlink" title="3. Slices"></a>3. Slices</h1><h2 id="3-1-为什么需要Slice？"><a href="#3-1-为什么需要Slice？" class="headerlink" title="3.1. 为什么需要Slice？"></a>3.1. 为什么需要Slice？</h2><p>Slice是一种reference，所以没有所有权。</p>
+<p>举例：找一个字符串中的第一个单词</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">usize</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> item == <span class="string">b&#x27; &#x27;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    s.<span class="title function_ invoke__">len</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>用<code>as_bytes</code>方法将<code>String</code>转换成字节数组：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>iter</code>方法创建一个数组的iterator：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>iter()</code>会返回集合（collection）中的每个元素。</li>
+<li><code>enumerate()</code>将<code>iter()</code>返回的结果打包成一个元组（tuple），将元组中的每个元素返回。<ul>
+<li>返回的第1个元素：下标（index）</li>
+<li>返回的第2个元素：元素的引用（reference）</li>
+</ul>
+</li>
+</ul>
+<p>但这样做返回的index与原String并没有绑定，所以在原String被改变的情况下，再用返回的index去获取String中的信息，就会出错。</p>
+<p>可以用string slices来解决这个问题。</p>
+<h2 id="3-2-String-Slices"><a href="#3-2-String-Slices" class="headerlink" title="3.2. String Slices"></a>3.2. String Slices</h2><p>“String slice”是<code>String</code>的一部分，如下所示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">hello</span> = &amp;s[<span class="number">0</span>..<span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">world</span> = &amp;s[<span class="number">6</span>..<span class="number">11</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>hello</code>指向的是<code>String</code>的一部分，而不是整个<code>String</code>。使用<code>[starting_index..ending_index]</code>存储slice。</p>
+<p>slice数据结构中会存储：</p>
+<ul>
+<li>starting_index</li>
+<li>slice长度：<code>ending_index - starting_index</code></li>
+</ul>
+<p>如果<code>starting_index</code>是0，可以省略；如果<code>ending_index</code>是整个<code>String</code>的长度，也可以省略：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[<span class="number">0</span>..<span class="number">2</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[..<span class="number">2</span>];  <span class="comment">// 和上面是一样的</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[<span class="number">3</span>..len];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[<span class="number">3</span>..];  <span class="comment">// 和上面是一样的</span></span><br></pre></td></tr></table></figure>
+<p>如果<code>starting_index</code>和<code>ending_index</code>都被省略，说明取的是整个<code>String</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">len</span> = s.<span class="title function_ invoke__">len</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[<span class="number">0</span>..len];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;s[..];</span><br></pre></td></tr></table></figure>
+
+<p>重写<code>first_word</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> item == <span class="string">b&#x27; &#x27;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;s[<span class="number">0</span>..i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &amp;s[..]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，如果在获得<code>first_word</code>的返回后，清空原来的<code>String</code>，会出现编译错误：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> item == <span class="string">b&#x27; &#x27;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;s[<span class="number">0</span>..i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &amp;s[..]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;s);</span><br><span class="line"></span><br><span class="line">    s.<span class="title function_ invoke__">clear</span>(); <span class="comment">// error!</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;the first word is: &#123;&#125;&quot;</span>, word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ cargo run</span><br><span class="line">   Compiling ownership v0.1.0 (file:///projects/ownership)</span><br><span class="line">error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable</span><br><span class="line">  --&gt; src/main.rs:18:5</span><br><span class="line">   |</span><br><span class="line">16 |     <span class="built_in">let</span> word = first_word(&amp;s);</span><br><span class="line">   |                           -- immutable borrow occurs here</span><br><span class="line">17 | </span><br><span class="line">18 |     s.clear(); // error!</span><br><span class="line">   |     ^^^^^^^^^ mutable borrow occurs here</span><br><span class="line">19 | </span><br><span class="line">20 |     println!(<span class="string">&quot;the first word is: &#123;&#125;&quot;</span>, word);</span><br><span class="line">   |                                       ---- immutable borrow later used here</span><br><span class="line"></span><br><span class="line">For more information about this error, try `rustc --explain E0502`.</span><br><span class="line">error: could not compile `ownership` due to previous error</span><br></pre></td></tr></table></figure>
+<p>一个变量不能同时有可变和不可变的引用。</p>
+<h2 id="3-3-字符串字面值（String-Literals）"><a href="#3-3-字符串字面值（String-Literals）" class="headerlink" title="3.3. 字符串字面值（String Literals）"></a>3.3. 字符串字面值（String Literals）</h2><p>字符串字面值是slice。</p>
+<h2 id="3-4-String-Slice用作参数"><a href="#3-4-String-Slice用作参数" class="headerlink" title="3.4. String Slice用作参数"></a>3.4. String Slice用作参数</h2><p>举例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">first_word</span>(s: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">bytes</span> = s.<span class="title function_ invoke__">as_bytes</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i, &amp;item) <span class="keyword">in</span> bytes.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> item == <span class="string">b&#x27; &#x27;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;s[<span class="number">0</span>..i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &amp;s[..]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">my_string</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// `first_word` works on slices of `String`s, whether partial or whole</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;my_string[<span class="number">0</span>..<span class="number">6</span>]);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;my_string[..]);</span><br><span class="line">    <span class="comment">// `first_word` also works on references to `String`s, which are equivalent</span></span><br><span class="line">    <span class="comment">// to whole slices of `String`s</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;my_string);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">my_string_literal</span> = <span class="string">&quot;hello world&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// `first_word` works on slices of string literals, whether partial or whole</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;my_string_literal[<span class="number">0</span>..<span class="number">6</span>]);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(&amp;my_string_literal[..]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Because string literals *are* string slices already,</span></span><br><span class="line">    <span class="comment">// this works too, without the slice syntax!</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">word</span> = <span class="title function_ invoke__">first_word</span>(my_string_literal);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-Refer-to-part-of-an-array"><a href="#3-5-Refer-to-part-of-an-array" class="headerlink" title="3.5. Refer to part of an array"></a>3.5. Refer to part of an array</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">slice</span> = &amp;a[<span class="number">1</span>..<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">assert_eq!</span>(slice, &amp;[<span class="number">2</span>, <span class="number">3</span>]);</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] 理解所有权：<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/stable/book/ch04-00-understanding-ownership.html">https://doc.rust-lang.org/stable/book/ch04-00-understanding-ownership.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -2548,189 +2896,6 @@ WebAssembly：由源代码编译出同一份 binary，不同平台运行的 bina
 <p>This is just the beginning, so if you have ideas for how to solve these problems, join us!</p>
 </blockquote>
 <h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WASI 前瞻：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/105902805">https://zhuanlan.zhihu.com/p/105902805</a><br>[2] Mozilla 发布 WASI 计划，可在所有设备上运行 WebAssembly：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/rkcuswctom5wc5*kowac">https://www.infoq.cn/article/rkcuswctom5wc5*kowac</a><br>[3] 上面文章英文原文：<a target="_blank" rel="noopener" href="https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/">https://www.infoq.com/news/2019/04/wasi-wasm-system-interface/</a><br>[4] Standardizing WASI: A system interface to run WebAssembly outside the web：<a target="_blank" rel="noopener" href="https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/">https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/</a><br>[5] 系统调用（维基百科）：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">https://zh.wikipedia.org/wiki/系统调用</a><br>[6] 系统调用：<a target="_blank" rel="noopener" href="https://hackmd.io/@combo-tw/BJPoAcqQS">https://hackmd.io/@combo-tw/BJPoAcqQS</a>  </p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://acosy.github.io/1659502486.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/custom/avatar.png">
-      <meta itemprop="name" content="Acosy">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Acosy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Acosy">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/1659502486.html" class="post-title-link" itemprop="url">WebAssembly资料</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-07-14 23:31:02" itemprop="dateCreated datePublished" datetime="2022-07-14T23:31:02-04:00">2022-07-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-04-23 10:26:09" itemprop="dateModified" datetime="2026-04-23T10:26:09-04:00">2026-04-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/WebAssembly/" itemprop="url" rel="index"><span itemprop="name">WebAssembly</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>本文不含原创，只是知识的搬运工。</strong></p>
-<h2 id="1-WebAssembly起源"><a href="#1-WebAssembly起源" class="headerlink" title="1 WebAssembly起源"></a>1 WebAssembly起源</h2><h3 id="1-1-What-is-WebAssembly"><a href="#1-1-What-is-WebAssembly" class="headerlink" title="1.1. What is WebAssembly?"></a>1.1. What is WebAssembly?</h3><p>来源：<a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a><br>WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a <strong>portable compilation target</strong> for programming languages, enabling deployment on the web for client and server applications.  </p>
-<p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a><br>WebAssembly 或者 wasm 是一个可移植、体积小、加载快并且兼容 Web 的全新格式。  </p>
-<p>当然，我知道，即使你看了定义也不知道WebAssembly到底是什么东西。废话不多说，我们通过一个简单的例子来看看WebAssembly到底是什么。  </p>
-<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/001-WebAssembly%E4%BE%8B%E5%AD%90.png" alt="WebAssembly例子">  </p>
-<p>上图的左侧是用C++实现的求递归的函数，中间是十六进制的Binary Code，右侧是指令文本。而中间的十六进制的Binary Code就是WebAssembly。  </p>
-<p>大家可以看到，其可写性和可读性差到无法想象。那是因为WebAssembly不是用来给各位用手一行一行撸的代码，WebAssembly是一个<strong>编译目标</strong>。什么是编译目标？当我们写TypeScript的时候，Webpack最后打包生成的JavaScript文件就是编译目标。可能大家已经猜到了，上图的Binary就是左侧的C++代码经过编译器编译之后的结果。  </p>
-<h3 id="1-2-由来"><a href="#1-2-由来" class="headerlink" title="1.2. 由来"></a>1.2. 由来</h3><p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a></p>
-<h4 id="1-2-1-性能瓶颈"><a href="#1-2-1-性能瓶颈" class="headerlink" title="1.2.1. 性能瓶颈"></a>1.2.1. 性能瓶颈</h4><p>在业务需求越来越复杂的现在，前端的开发逻辑越来越复杂，相应的代码量随之变的越来越多。相应的，整个项目的起步的时间越来越长。在性能不好的电脑上，启动一个前端的项目甚至要花上十多秒。这些其实还好，说明前端越来越受到重视，越来越多的人开始进行前端的开发。  </p>
-<p>但是除了逻辑复杂、代码量大，还有另一个原因是JavaScript这门语言本身的缺陷，JavaScript没有静态变量类型。这门解释型编程语言的作者Brendan Eich，仓促的创造了这门被广泛使用的语言，以至于JavaScript的发展史甚至在某种层面上变成了填坑史。为什么说没有静态类型会降低效率，这会涉及到一些JavaScript引擎的知识。  </p>
-<h4 id="1-2-2-静态变量类型所带来的问题"><a href="#1-2-2-静态变量类型所带来的问题" class="headerlink" title="1.2.2. 静态变量类型所带来的问题"></a>1.2.2. 静态变量类型所带来的问题</h4><p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/002-ChakraCore%E5%BC%95%E6%93%8E%E7%BB%93%E6%9E%84.png" alt="ChakraCore引擎结构">  </p>
-<p>这是Microsoft Edge浏览器的JavaScript引擎ChakraCore的结构。我们来看一看我们的JavaScript代码在引擎中会经历什么。  </p>
-<ul>
-<li><p>JavaScript文件会被下载下来。</p>
-</li>
-<li><p>然后进入Parser，Parser会把代码转化成AST（抽象语法树）。</p>
-</li>
-<li><p>然后根据抽象语法树，Bytecode Compiler字节码编译器会生成引擎能够直接阅读、执行的字节码。</p>
-</li>
-<li><p>字节码进入翻译器，将字节码一行一行的翻译成效率十分高的Machine Code.  </p>
-<div class="inline-comment">
-根据 Google V8 引擎的资料，V8 的 Interpreter Ignition 可以直接执行字节码，不需要转换成机器码再执行。
-
-<p>参考链接：<br>[1] 一个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=p-iiEDtpy6I">介绍Google V8 Engine的视频</a><br>[2] 另一个<a target="_blank" rel="noopener" href="https://www.thenodebook.com/node-arch/v8-engine-intro#the-myth-that-v8-is-just-an-interpreter">关于Google V8 Engine的说明（包含引擎工作的流程图）</a><br>[3] StackOverflow 上的问题 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/69253616/does-the-bytecode-interpreter-convert-the-bytecode-to-machine-code-and-then-exe">Does the ByteCode interpreter, convert the bytecode to machine code and then execute it in V8 engine?</a></p>
-<p>存在与本文同样说法的还有：<br>[1] 知乎文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">WebAssembly完全入门——了解wasm的前世今身</a><br>[2] Bytecode Alliance 的 Lin Clark 的文章：<a target="_blank" rel="noopener" href="https://bytecodealliance.org/articles/making-javascript-run-fast-on-webassembly">Making JavaScript run fast on WebAssembly</a><br>[3] 本站的文章：<a href="https://acosy.github.io/1733033214.html">JavaScript代码是如何被执行的</a><br>[4] 本站的文章：<a href="https://acosy.github.io/346707650.html">WebAssembly和WASI介绍</a><br>其中，本文和[4]应该都来源于[1]所示的知乎文章。</p>
-<div class="inline-comment-date">Date: 2026-04-23</div>
-</div></li>
-</ul>
-<p>在项目运行的过程中，引擎会对执行次数较多的function记性优化，引擎将其代码编译成Machine Code后打包送到顶部的Just-In-Time(JIT) Compiler，下次再执行这个function，就会直接执行编译好的Machine Code。但是由于JavaScript的动态变量，上一秒可能是Array，下一秒就变成了Object。那么上一次引擎所做的优化，就失去了作用，此时又要再一次进行优化。  </p>
-<div class="inline-comment">
-这里的“引擎将其代码编译成Machine Code后打包送到顶部的Just-In-Time(JIT) Compiler”说法存疑。应该是JIT Compiler将它编译成Machine Code的吧？流程为：字节码被标记为热点代码后，由JIT Compiler将其编译成Machine Code、保存下来（如上面图片中显示的，将Machine Code通过蓝色粗箭头向下传送到Profiling Interpreter旁边、主线程中）、等下次遇到同样的热代码时，主线程就可以直接运行之前保存的Machine Code。
-
-<div class="inline-comment-date">Date: 2026-04-23</div>
-</div>
-
-<h4 id="1-2-3-asm-js出现"><a href="#1-2-3-asm-js出现" class="headerlink" title="1.2.3. asm.js出现"></a>1.2.3. asm.js出现</h4><p>所以为了解决这个问题，WebAssembly的前身，asm.js诞生了。asm.js是一个JavaScript的严格子集，合理合法的asm.js代码一定是合理合法的JavaScript代码，但是反之就不成立。同WebAssembly一样，asm.js不是用来给各位用手一行一行撸的代码，asm.js是一个<strong>编译目标</strong>。它的可读性、可写性虽然比WebAssembly好，但是对于开发者来说，仍然是无法接受的。  </p>
-<p>asm.js强制静态类型，举个例子。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">asmJs</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="string">&#x27;use asm&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myInt = <span class="number">0</span> | <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> myDouble = +<span class="number">1.1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为什么asm.js会有静态类型呢？因为像<code>0 | 0</code>这样的，代表这是一个Int的数据，而<code>+1.1</code>则代表这是一个Double的数据。</p>
-<h4 id="1-2-4-asm-js不能解决所有的问题"><a href="#1-2-4-asm-js不能解决所有的问题" class="headerlink" title="1.2.4. asm.js不能解决所有的问题"></a>1.2.4. asm.js不能解决所有的问题</h4><p>可能有人有疑问，这问题不是解决了吗？那为什么会有WebAssembly？WebAssembly又解决了什么问题？大家可以再看一下上面的ChakraCore的引擎结构。即便asm.js对静态类型的问题做的再好，它始终**逃不过要经过Parser，要经过ByteCode Compiler，而这两步是JavaScript代码在引擎执行过程当中消耗时间最多的两步。**而WebAssembly不用经过这两步。这就是WebAssembly比asm.js更快的原因。  </p>
-<h4 id="1-2-5-WebAssembly横空出世"><a href="#1-2-5-WebAssembly横空出世" class="headerlink" title="1.2.5. WebAssembly横空出世"></a>1.2.5. WebAssembly横空出世</h4><p>所以在2015年，我们迎来了WebAssembly。WebAssembly是经过编译器编译之后的代码，体积小、起步快。在语法上完全脱离JavaScript，同时具有<strong>沙盒化的执行环境</strong>。WebAssembly同样的强制静态类型，<strong>是C&#x2F;C++&#x2F;Rust的编译目标</strong>。</p>
-<h2 id="2-WebAssembly的优势"><a href="#2-WebAssembly的优势" class="headerlink" title="2. WebAssembly的优势"></a>2. WebAssembly的优势</h2><p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a></p>
-<h3 id="2-1-WebAssembly和asm-js性能对比"><a href="#2-1-WebAssembly和asm-js性能对比" class="headerlink" title="2.1. WebAssembly和asm.js性能对比"></a>2.1. WebAssembly和asm.js性能对比</h3><p>下面的图是Unity WebGL使用和不使用WebAssembly的起步时间对比的一个BenchMark，给大家当作一个参考。  </p>
-<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/003-Measured%20on%20Windows.png" alt="Measured on Windows">  </p>
-<p>可以看到，在FireFox中，WebAssembly和asm.js的性能差异达到了2倍，在Chrome中达到了3倍，在Edge中甚至达到了6倍。通过这些对比也可以从侧面看出，目前所有的主流浏览器都已经支持WebAssembly V1（Node &gt;&#x3D; 8.0.0）。  </p>
-<h3 id="2-2-与JavaScript做对比"><a href="#2-2-与JavaScript做对比" class="headerlink" title="2.2. 与JavaScript做对比"></a>2.2. 与JavaScript做对比</h3><p>我自己在一个用create-react-app新建的项目中，分别对比了WebAssembly版本和原生JavaScript版本的递归无优化的Fibonacci函数，下图是这两个函数在值是45、48、50的时候的性能对比。</p>
-<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/004-Fibonacci%E5%87%BD%E6%95%B0%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%EF%BC%9AWebAssembly%20vs%20JavaScript.png" alt="Fibonacci函数性能对比：WebAssembly vs JavaScript">  </p>
-<p>看图说话，这就是WebAssembly与JavaScript很实际的一个性能对比，几乎稳定地是JavaScript的两倍。 </p>
-<h2 id="3-WebAssembly在大型项目中的应用"><a href="#3-WebAssembly在大型项目中的应用" class="headerlink" title="3. WebAssembly在大型项目中的应用"></a>3. WebAssembly在大型项目中的应用</h2><p>来源：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a>  </p>
-<p>在这里能够举的例子还是很多，比如AutoCAD、GoogleEarth、Unity、Unreal、PSPDKit、WebPack等等。拿其中几个来简单说一下。  </p>
-<h3 id="3-1-AutoCAD"><a href="#3-1-AutoCAD" class="headerlink" title="3.1. AutoCAD"></a>3.1. AutoCAD</h3><p>这是一个用于画图的软件，在很长的一段时间是没有Web的版本的，原因有两个，其一，是Web的性能的确不能满足他们的需求。其二，在WebAssembly没有面世之前，AutoCAD是用C++实现的，要将其搬到Web上，就意味着要重写他们所有的代码，这代价十分的巨大。  </p>
-<p>而在WebAssembly面世之后，AutoCAD得以利用编译器，将其沉淀了30多年的代码直接编译成WebAssembly，同时性能基于之前的普通Web应用得到了很大的提升。正是这些原因，得以让AutoCAD将其应用从Desktop搬到Web中。</p>
-<h3 id="3-2-Google-Earth"><a href="#3-2-Google-Earth" class="headerlink" title="3.2. Google Earth"></a>3.2. Google Earth</h3><p>Google Earth也就是谷歌地球，因为需要展示很多3D的图像，对性能要求十分高，所以采取了一些Native的技术。最初的时候就连Google Chrome浏览器都不支持Web的版本，需要单独下载Google Earth的Destop应用。而在WebAssembly之后呢，谷歌地球推出了Web的版本。而据说下一个可以运行谷歌地球的浏览器是FireFox。  </p>
-<h3 id="3-3-Unity和Unreal游戏引擎"><a href="#3-3-Unity和Unreal游戏引擎" class="headerlink" title="3.3. Unity和Unreal游戏引擎"></a>3.3. Unity和Unreal游戏引擎</h3><p>这里给两个油管的链接自己体验一下，大家注意科学上网。</p>
-<ul>
-<li>Unity WebGL的戳<a target="_blank" rel="noopener" href="https://youtu.be/rIyIlATjNcE">这里</a>  </li>
-<li>Unreal引擎的戳<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TwuIRcpeUWE">这里</a></li>
-</ul>
-<h2 id="4-WebAssembly要取代JavaScript？"><a href="#4-WebAssembly要取代JavaScript？" class="headerlink" title="4. WebAssembly要取代JavaScript？"></a>4. WebAssembly要取代JavaScript？</h2><h3 id="4-1-WebAssembly要取代JavaScript？"><a href="#4-1-WebAssembly要取代JavaScript？" class="headerlink" title="4.1. WebAssembly要取代JavaScript？"></a>4.1. WebAssembly要取代JavaScript？</h3><p>答案是否定的，请看下图。  </p>
-<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/005-WebAssembly%E4%B8%8EJavaScript%E7%9A%84%E5%8D%8F%E4%BD%9C%E5%85%B3%E7%B3%BB.png" alt="WebAssembly与JavaScript的协作关系"></p>
-<p>大家可以看到这是一个协作关系。<strong>WebAssembly是被设计成JavaScript的一个完善、补充</strong>，而不是一个替代品。WebAssembly将很多编程语言带到了Web中，但是JavaScript因其不可思议的能力，仍然将保留现有的地位。  </p>
-<p>在我的个人理解上，WebAssembly并没有要替代JavaScript，一统天下的意思。我总结下来就两个点：  </p>
-<ul>
-<li>给了Web更好的性能</li>
-<li>给了Web更多的可能</li>
-</ul>
-<p>关于WebAssembly的性能问题，之前也花了很大的篇幅讲过了。而更多的可能，随着WebAssembly的技术越来越成熟，势必会有更多的应用从Desktop被搬到Web上，这会使本来已经十分强大的Web更加丰富和强大。  </p>
-<h3 id="4-2-什么时候使用WebAssembly？"><a href="#4-2-什么时候使用WebAssembly？" class="headerlink" title="4.2. 什么时候使用WebAssembly？"></a>4.2. 什么时候使用WebAssembly？</h3><p>说了这么多，我到底什么时候该使用它呢？总结下来，大部分情况分两个点：  </p>
-<ul>
-<li>对<strong>性能有很高要求</strong>的App&#x2F;Module&#x2F;游戏 </li>
-<li>在<strong>Web中</strong>使用C&#x2F;C++&#x2F;Rust&#x2F;Go的库</li>
-</ul>
-<p>举个简单的例子。如果你要实现的是Web版本的Ins或者Facebook，你想要提高效率，那么就可以把其中对图片进行压缩、解压缩、处理的工具，用C++实现，然后再编译回WebAssembly。  </p>
-<h2 id="5-WebAssembly的几个开发工具"><a href="#5-WebAssembly的几个开发工具" class="headerlink" title="5. WebAssembly的几个开发工具"></a>5. WebAssembly的几个开发工具</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/AssemblyScript/assemblyscript">AssemblyScript</a>。支持直接<strong>将TypeScript编译成WebAssembly</strong>。这对于很多前端同学来说，入门的门槛还是很低的。</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/kripken/emscripten">Emscripten</a>。可以说是WebAssembly的灵魂工具不为过，上面说了很多编译，这个就是那个编译器。<strong>将其他的高级语言编译成WebAssembly</strong>。</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/WebAssembly/wabt">WABT</a>。是个将WebAssembly在<strong>字节码和文本格式相互转换</strong>的一个工具，方便开发者去理解这个wasm到底是在做什么事。</li>
-</ul>
-<h2 id="6-Language-Support"><a href="#6-Language-Support" class="headerlink" title="6. Language Support"></a>6. Language Support</h2><p>（截止至2022-07-13）来源：<a target="_blank" rel="noopener" href="https://webassembly.org/getting-started/developers-guide/">https://webassembly.org/getting-started/developers-guide/</a></p>
-<p><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/006-LanguageSupport.png" alt="Language Support">  </p>
-<p>其它语言（C#，F#，Kotlin，Pascal，Zig，Grain）的介绍可以在上面的链接中找到。  </p>
-<p>其它来源的总结：<a target="_blank" rel="noopener" href="https://www.fermyon.com/wasm-languages/webassembly-language-support">https://www.fermyon.com/wasm-languages/webassembly-language-support</a>  </p>
-<p>总结了top 20 languages能够在被编译成Wasm后，运行在browser、非browser环境和WASI环境：<br><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/007-LanuageSupport2.png" alt="Language Support 2">  </p>
-<h2 id="7-Roadmap"><a href="#7-Roadmap" class="headerlink" title="7. Roadmap"></a>7. Roadmap</h2><p>来源：<a target="_blank" rel="noopener" href="https://webassembly.org/roadmap/">https://webassembly.org/roadmap/</a>  </p>
-<p>In November 2017, WebAssembly CG members representing four browsers, Chrome, Edge, Firefox, and WebKit, reached consensus that the design of the initial (MVP) WebAssembly API and binary format is complete to the extent that no further design work is possible without implementation experience and significant usage.  </p>
-<blockquote>
-<p><strong>MVP &#x3D; Minimum Viable Product</strong><br>来源1：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a></p>
-<p>A minimum viable product (MVP) is a version of a product with just enough features to be usable by early customers who can then provide feedback for future product development.</p>
-<p>来源2：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/37254490/answer/71546119">https://www.zhihu.com/question/37254490/answer/71546119</a><br>MVP（minimum viable product，最小化可行产品）概念最早由埃里克·莱斯提出，刊载于哈弗商业评论，并有出版物《精益创业》。  </p>
-<p>和常规产品不同，MVP更侧重于<strong>对未知市场的勘测</strong>，用最小的代价来验证你的商业可行性。举个例子，如果你希望做一个图片分享网站，那么作为产品原型，MVP<strong>仅仅包含最基础的功能</strong>，形态或许就是一个提交图片的按钮以及图片的展示。借助MVP，经过一系列实践，产品的设计思路将被一次次整改，最终完成正式版的开发。  </p>
-<p>MVP的目的——<strong>更快地接触客户</strong><br>按照常规的开发方式，从调研、到设计、到开发再到推向市场，会是一个漫长的过程，而且很难有人会保证成功率。但当换一种方式，以MVP进行小样调研，快速进入市场、接触客户并得到反馈，透过反馈不断修改原型，并进行不断的迭代开发，极大减少了试错成本。</p>
-</blockquote>
-<p>After the initial release, WebAssembly has been gaining new features through the standardization process. For the complete list of current proposals and their respective stages, check out the <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/proposals">WebAssembly&#x2F;proposals repo</a>.  </p>
-<p>The table below aims to track implemented features in popular engines:<br><img src="/../imgs/WebAssembly%E8%B5%84%E6%96%99/008-Implemented%20Features%20in%20Popular%20Engines.png" alt="Implemented Features in Popular Engines">  </p>
-<h2 id="全文摘自"><a href="#全文摘自" class="headerlink" title="全文摘自"></a>全文摘自</h2><p>[1] WebAssembly官网：<a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a><br>[2] WebAssembly完全入门——了解wasm的前世今身：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68048524">https://zhuanlan.zhihu.com/p/68048524</a><br>[3] WebAssembly Language Support Matric：<a target="_blank" rel="noopener" href="https://www.fermyon.com/wasm-languages/webassembly-language-support">https://www.fermyon.com/wasm-languages/webassembly-language-support</a><br>[4] Minimum viable product：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a><br>[5] 什么是营销中的「最小化可行产品」（MVP）？：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/37254490/answer/71546119">https://www.zhihu.com/question/37254490/answer/71546119</a>  </p>
 
       
     </div>
